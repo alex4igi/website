@@ -10,35 +10,43 @@ const trustBadges = [
   { value: '3', label: 'locații în Iași' },
 ]
 
+const YT_VIDEO_ID = 'r80uCmXEdqk'
+const YT_START = 16
+
 export default function HeroSection() {
   return (
     <section
       id="hero"
       className="relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#231f20]"
     >
-      {/* Background video */}
-      <video
-        className="absolute inset-0 w-full h-full object-cover opacity-60"
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster="https://images.unsplash.com/photo-1547153760-18fc86324498?w=1920&q=80"
+      {/* YouTube iframe background — covers the full viewport on all devices */}
+      <div
+        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
-        {/* Video src would be replaced with real Quasar footage */}
-        <source src="" type="video/mp4" />
-      </video>
-
-      {/* Fallback image when video is unavailable */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1547153760-18fc86324498?w=1920&q=80')",
-        }}
-        aria-hidden="true"
-      />
+        {/*
+          The iframe needs to be oversized so the 16:9 video fully covers any
+          viewport aspect ratio. We position it centred and scale it with a
+          min-width / min-height trick identical to the classic "video cover"
+          technique.  The wrapper clips everything that spills outside.
+        */}
+        <div
+          className="absolute top-1/2 left-1/2"
+          style={{
+            width: 'max(100vw, 177.78vh)',   /* 177.78vh = 100vh * (16/9) */
+            height: 'max(56.25vw, 100vh)',   /* 56.25vw = 100vw * (9/16) */
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          <iframe
+            src={`https://www.youtube.com/embed/${YT_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${YT_VIDEO_ID}&start=${YT_START}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=0&iv_load_policy=3&disablekb=1&fs=0&cc_load_policy=0`}
+            allow="autoplay; fullscreen"
+            title="Quasar Dance background video"
+            className="w-full h-full border-0"
+            style={{ opacity: 0.65 }}
+          />
+        </div>
+      </div>
 
       {/* Overlay */}
       <div className="video-overlay absolute inset-0" aria-hidden="true" />
