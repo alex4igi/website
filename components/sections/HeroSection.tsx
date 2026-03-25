@@ -41,7 +41,7 @@ export default function HeroSection() {
         {!mounted && (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
+            style={{ backgroundImage: "url('/images/quasar-team.jpg')" }}
           />
         )}
 
