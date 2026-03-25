@@ -24,10 +24,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#231f20]/95 backdrop-blur-md shadow-lg py-3'
-          : 'bg-transparent py-5'
+          ? 'bg-[#231f20]/95 backdrop-blur-md shadow-xl py-3'
+          : 'bg-transparent py-4'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between">
@@ -91,7 +91,7 @@ export default function Navbar() {
       <div
         className={`md:hidden overflow-hidden transition-all duration-300 ${
           open ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-        } bg-[#231f20]`}
+        } bg-[#231f20]/97 backdrop-blur-md`}
       >
         <ul className="flex flex-col px-5 py-4 gap-1">
           {navLinks.map((link) => (

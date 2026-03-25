@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 
@@ -13,134 +14,151 @@ const trustBadges = [
 const YT_VIDEO_ID = 'r80uCmXEdqk'
 const YT_START = 16
 
-// Build the embed URL once — no YT IFrame API, no transient src="" mutations
 const YT_EMBED_SRC =
   `https://www.youtube.com/embed/${YT_VIDEO_ID}` +
   `?autoplay=1&mute=1&loop=1&playlist=${YT_VIDEO_ID}` +
   `&start=${YT_START}&controls=0&showinfo=0&rel=0` +
   `&modestbranding=1&playsinline=1&iv_load_policy=3` +
-  `&disablekb=1&fs=0&cc_load_policy=0&origin=${
-    typeof window !== 'undefined' ? window.location.origin : ''
-  }`
+  `&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=0`
 
 export default function HeroSection() {
+  // Mount flag: only set the iframe src after client hydration to prevent
+  // the React SSR/hydration mismatch that triggers the src="" warning.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
   return (
+    /*
+      The section is position:relative and sits at the top of the document
+      (page.tsx has no padding-top on <main>). The fixed Navbar overlays it
+      from z-50. The iframe cover fills the full viewport including behind
+      the navbar.
+    */
     <section
       id="hero"
-      className="relative w-full overflow-hidden bg-[#231f20]"
+      className="relative w-full bg-[#231f20]"
       style={{ minHeight: '100svh' }}
     >
-      {/* ── YouTube iframe background ── */}
+      {/* ── Full-viewport iframe cover ──────────────────────────────────
+          We size the iframe wrapper to cover the section regardless of
+          aspect ratio using the classic "cover" math:
+            width  ≥ 100vw  AND  width  ≥ 177.78vh  (16:9 → need w = h × 16/9)
+            height ≥ 100vh  AND  height ≥ 56.25vw   (16:9 → need h = w × 9/16)
+          Centered at 50%/50% with translate(-50%,-50%).
+          pointer-events:none so clicks pass through to content.
+      ──────────────────────────────────────────────────────────────── */}
       <div
-        className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
+        className="absolute inset-0 overflow-hidden pointer-events-none"
       >
-        {/*
-          Classic "cover" technique for 16:9 video in any viewport:
-            width  = max(100vw, 177.78vh)   [177.78 = 100 × 16/9]
-            height = max(56.25vw, 100vh)    [56.25  = 100 × 9/16]
-          Centered with translate(-50%, -50%).
-        */}
         <div
+          aria-hidden="true"
           style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
+            /* 177.78vh = 100vh × (16/9) */
             width: 'max(100vw, 177.78vh)',
+            /* 56.25vw = 100vw × (9/16) */
             height: 'max(56.25vw, 100vh)',
             transform: 'translate(-50%, -50%)',
           }}
         >
+          {/* src is only set after client mount to avoid the React SSR
+              hydration mismatch that produces the src="" warning. */}
           <iframe
-            src={YT_EMBED_SRC}
-            title="Quasar Dance background video"
+            src={mounted ? YT_EMBED_SRC : undefined}
+            title="Quasar Dance — background video"
             allow="autoplay; fullscreen"
-            className="w-full h-full border-0"
-            style={{ opacity: 0.72 }}
+            style={{
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              opacity: 0.75,
+            }}
           />
         </div>
       </div>
 
-      {/* ── Gradient overlay — bottom-heavy for text legibility ── */}
+      {/* ── Gradient overlay — top dark band for nav legibility ─────── */}
       <div
-        className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            'linear-gradient(to bottom, rgba(35,31,32,0.55) 0%, rgba(35,31,32,0.30) 40%, rgba(35,31,32,0.75) 80%, rgba(35,31,32,0.95) 100%)',
+          background: [
+            /* top band — keeps nav readable even when video is bright */
+            'linear-gradient(to bottom,',
+            '  rgba(35,31,32,0.70) 0%,',
+            '  rgba(35,31,32,0.35) 25%,',
+            '  rgba(35,31,32,0.20) 50%,',
+            '  rgba(35,31,32,0.65) 75%,',
+            '  rgba(35,31,32,0.96) 100%)',
+          ].join(' '),
         }}
       />
 
-      {/* ── Hero content ──
-          pt-24 md:pt-28 clears the fixed navbar (~80px mobile / ~88px desktop).
-          justify-end pushes content to the bottom of the full-screen section.
-      */}
+      {/* ── Hero content ────────────────────────────────────────────────
+          height: 100svh + flex + justify-end puts the copy at the bottom
+          of the screen (like a film title card).
+          pt-20 md:pt-24 ensures nothing is hidden behind the fixed navbar
+          on small screens where the content might reach the top.
+      ──────────────────────────────────────────────────────────────── */}
       <div
         className="relative z-10 flex flex-col justify-end"
         style={{ minHeight: '100svh' }}
       >
-        <div className="max-w-7xl mx-auto w-full px-5 md:px-8 pt-24 md:pt-28 pb-10 md:pb-20">
+        <div className="max-w-7xl mx-auto w-full px-5 md:px-10 pb-12 md:pb-24 pt-24 md:pt-20">
           <div className="max-w-3xl">
             {/* Label pill */}
-            <div className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 md:mb-7">
+            <div className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 md:mb-6">
               Școală de Dans · Iași · din 1981
             </div>
 
             {/* Headline */}
-            <h1
-              className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] text-balance mb-5 md:mb-7"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+            <h1 className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.05] text-balance mb-5 md:mb-6 font-sans">
               De la primul pas,
               <br />
               <span className="text-[#f8ef21]">direct pe scenă.</span>
             </h1>
 
             {/* Sub-headline */}
-            <p className="text-white/80 text-base md:text-xl leading-relaxed max-w-2xl mb-8 md:mb-10">
+            <p className="text-white/80 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mb-8 md:mb-10">
               Mai mult decât cursuri de dans. O experiență completă: spectacole, concursuri,
               flashmob-uri și progres real — pentru copii, studenți și adulți.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap gap-3 mb-8 md:mb-12">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8 md:mb-12">
               <Link
                 href="#inscriere"
-                className="bg-[#f8ef21] text-[#231f20] font-bold text-base px-7 py-3.5 rounded-full hover:bg-white transition-all duration-200 shadow-lg shadow-[#f8ef21]/20"
-                style={{ fontFamily: 'var(--font-display)' }}
+                className="inline-flex items-center justify-center bg-[#f8ef21] text-[#231f20] font-bold text-base px-8 py-3.5 rounded-full hover:bg-white transition-all duration-200 shadow-lg shadow-[#f8ef21]/20 font-sans"
               >
                 Înscrie-te acum
               </Link>
               <Link
                 href="#cursuri"
-                className="border-2 border-white/40 text-white font-semibold text-base px-7 py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-all duration-200"
-                style={{ fontFamily: 'var(--font-display)' }}
+                className="inline-flex items-center justify-center border-2 border-white/40 text-white font-semibold text-base px-8 py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-all duration-200 font-sans"
               >
                 Vezi cursurile
               </Link>
               <Link
                 href="#quiz"
-                className="hidden sm:inline-flex items-center text-white/60 font-medium text-sm underline decoration-white/30 hover:text-[#f8ef21] hover:decoration-[#f8ef21] transition-colors duration-200 self-center"
-                style={{ fontFamily: 'var(--font-display)' }}
+                className="hidden sm:inline-flex items-center text-white/60 font-medium text-sm underline decoration-white/30 hover:text-[#f8ef21] hover:decoration-[#f8ef21] transition-colors duration-200 self-center ml-1 font-sans"
               >
                 Găsește cursul potrivit pentru tine &rarr;
               </Link>
             </div>
 
             {/* Trust badges */}
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
               {trustBadges.map((badge) => (
                 <div
                   key={badge.value}
                   className="flex flex-col gap-0.5 border border-white/20 rounded-xl px-4 py-3 bg-white/5 backdrop-blur-sm"
                 >
-                  <span
-                    className="text-[#f8ef21] text-xl font-extrabold leading-none"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
+                  <span className="text-[#f8ef21] text-xl font-extrabold leading-none font-sans">
                     {badge.value}
                   </span>
-                  <span className="text-white/60 text-xs font-medium uppercase tracking-wider">
+                  <span className="text-white/60 text-[10px] font-medium uppercase tracking-wider">
                     {badge.label}
                   </span>
                 </div>
@@ -151,14 +169,11 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll cue */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/40 animate-bounce">
-        <span
-          className="text-xs font-medium tracking-widest uppercase"
-          style={{ fontFamily: 'var(--font-display)' }}
-        >
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/40 animate-bounce pointer-events-none">
+        <span className="text-[10px] font-semibold tracking-widest uppercase font-sans">
           Scroll
         </span>
-        <ChevronDown size={16} />
+        <ChevronDown size={14} />
       </div>
     </section>
   )
