@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 
@@ -248,13 +247,13 @@ export default function SchedulePreviewSection() {
               <p className="text-[#6b6b6b] text-xs">
                 Acesta este un preview. Programul complet conține 30+ cursuri săptămânale.
               </p>
-              <Link
+              <a
                 href="#program-complet"
                 className="inline-flex items-center gap-1 text-[#231f20] text-sm font-bold hover:text-[#231f20]/70 transition-colors"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Program complet <ArrowRight size={14} />
-              </Link>
+              </a>
             </div>
           </div>
         )}
@@ -326,7 +325,7 @@ export default function SchedulePreviewSection() {
                   ))}
                 </ul>
 
-                <Link
+                <a
                   href="#inscriere"
                   className={`mt-2 text-center font-bold text-sm px-5 py-3 rounded-full transition-all duration-200 ${
                     plan.highlight
@@ -336,7 +335,7 @@ export default function SchedulePreviewSection() {
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
                   Înscrie-te acum
-                </Link>
+                </a>
               </div>
             ))}
           </div>
