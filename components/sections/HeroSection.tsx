@@ -41,7 +41,7 @@ export default function HeroSection() {
         {!mounted && (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
+            style={{ backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/4.%20Diferentiatori%2C%20Buddha%20stretch-BJ9Io5QRXgYilRApXJiDrZhDPxaraO.jpg')" }}
           />
         )}
 
