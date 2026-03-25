@@ -1,0 +1,167 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #231f20;
+  --card: #ffffff;
+  --card-foreground: #231f20;
+  --popover: #ffffff;
+  --popover-foreground: #231f20;
+  --primary: #231f20;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #231f20;
+  --muted: #f5f5f5;
+  --muted-foreground: #6b6b6b;
+  --accent: #f8ef21;
+  --accent-foreground: #231f20;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #f8ef21;
+  --radius: 0.5rem;
+
+  /* Quasar brand tokens */
+  --qblack: #231f20;
+  --qyellow: #f8ef21;
+  --qwhite: #ffffff;
+  --qgray: #6b6b6b;
+  --qgray-light: #f5f5f5;
+  --qgray-dark: #3a3637;
+}
+
+@theme inline {
+  --font-sans: 'Inter', 'Inter Fallback', system-ui, sans-serif;
+  --font-display: 'Sora', 'Sora Fallback', system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-qblack: var(--qblack);
+  --color-qyellow: var(--qyellow);
+  --color-qwhite: var(--qwhite);
+  --color-qgray: var(--qgray);
+  --color-qgray-light: var(--qgray-light);
+  --color-qgray-dark: var(--qgray-dark);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in-up  { animation: fadeInUp 0.65s ease both; }
+.animate-fade-in     { animation: fadeIn 0.65s ease both; }
+.animate-scale-in    { animation: scaleIn 0.55s ease both; }
+
+/* Stagger delays */
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 80ms; }
+.stagger > *:nth-child(3) { animation-delay: 160ms; }
+.stagger > *:nth-child(4) { animation-delay: 240ms; }
+.stagger > *:nth-child(5) { animation-delay: 320ms; }
+.stagger > *:nth-child(6) { animation-delay: 400ms; }
+
+/* Video hero overlay */
+.video-overlay {
+  background: linear-gradient(
+    160deg,
+    rgba(35,31,32,0.70) 0%,
+    rgba(35,31,32,0.40) 55%,
+    rgba(35,31,32,0.75) 100%
+  );
+}
+
+/* Section label pill */
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--qblack);
+  background: var(--qyellow);
+  padding: 3px 11px;
+  border-radius: 999px;
+}
+
+/* Card hover lift */
+.card-lift {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+.card-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 50px rgba(35,31,32,0.13);
+}
+
+/* Yellow bar accent */
+.bar-yellow {
+  display: inline-block;
+  width: 36px;
+  height: 3px;
+  background: var(--qyellow);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Embla */
+.embla { overflow: hidden; }
+.embla__container { display: flex; }
+.embla__slide { flex: 0 0 auto; min-width: 0; }

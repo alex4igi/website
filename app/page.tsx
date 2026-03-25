@@ -1,0 +1,70 @@
+import Navbar from '@/components/sections/Navbar'
+import HeroSection from '@/components/sections/HeroSection'
+import PathsSection from '@/components/sections/PathsSection'
+import WhyParentsSection from '@/components/sections/WhyParentsSection'
+import JourneySection from '@/components/sections/JourneySection'
+import CoursesGridSection from '@/components/sections/CoursesGridSection'
+import AgeGroupsSection from '@/components/sections/AgeGroupsSection'
+import DifferentiatorsSection from '@/components/sections/DifferentiatorsSection'
+import StatsSection from '@/components/sections/StatsSection'
+import SchedulePreviewSection from '@/components/sections/SchedulePreviewSection'
+import InstructorsSection from '@/components/sections/InstructorsSection'
+import TestimonialsSection from '@/components/sections/TestimonialsSection'
+import LocationsSection from '@/components/sections/LocationsSection'
+import QuizCtaSection from '@/components/sections/QuizCtaSection'
+import LeadFormSection from '@/components/sections/LeadFormSection'
+import Footer from '@/components/sections/Footer'
+
+export default function HomePage() {
+  return (
+    <main>
+      {/* Sticky nav — sits above everything */}
+      <Navbar />
+
+      {/* 1. Hero — full-screen cinematic */}
+      <HeroSection />
+
+      {/* 2. Choose your path — 4 course categories */}
+      <PathsSection />
+
+      {/* 3. Why parents choose Quasar — trust & emotion */}
+      <WhyParentsSection />
+
+      {/* 4. Journey / Growth system — beginner → pro */}
+      <JourneySection />
+
+      {/* 5. Courses preview grid — 4 highlighted courses */}
+      <CoursesGridSection />
+
+      {/* 6. Age groups — who is it for */}
+      <AgeGroupsSection />
+
+      {/* 7. Differentiators — why Quasar is different */}
+      <DifferentiatorsSection />
+
+      {/* 8. Stats / Impact / Social proof */}
+      <StatsSection />
+
+      {/* 9. Schedule + Pricing preview (tabbed) */}
+      <SchedulePreviewSection />
+
+      {/* 10. Instructors preview — 3 cards */}
+      <InstructorsSection />
+
+      {/* 11. Testimonials — carousel */}
+      <TestimonialsSection />
+
+      {/* 12. Locations — 3 location cards */}
+      <LocationsSection />
+
+      {/* 13. Quiz CTA — help undecided users */}
+      <QuizCtaSection />
+
+      {/* 14. Lead capture form — demo session */}
+      <LeadFormSection />
+
+      {/* 15. Footer */}
+      <Footer />
+    </main>
+  )
+}
