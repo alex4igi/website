@@ -109,57 +109,87 @@ export default function HeroSection() {
       >
         <div className="max-w-7xl mx-auto w-full px-5 md:px-10 pb-12 md:pb-24 pt-24 md:pt-20">
           <div className="max-w-3xl">
-            {/* Label pill */}
-            <div className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 md:mb-6">
+            {/* Label pill — fades in first */}
+            <div
+              className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-black uppercase tracking-[0.18em] px-4 py-1.5 rounded-full mb-5 md:mb-6 animate-fade-in"
+              style={{ fontFamily: 'var(--font-display)', animationDelay: '200ms' }}
+            >
               Școală de Dans · Iași · din 1981
             </div>
 
-            {/* Headline */}
-            <h1 className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.05] text-balance mb-5 md:mb-6 font-sans">
-              De la primul pas,
-              <br />
-              <span className="text-[#f8ef21]">direct pe scenă.</span>
+            {/* Headline — line 1 then line 2 staggered */}
+            <h1
+              className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.05] text-balance mb-5 md:mb-6"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              <span
+                className="block animate-fade-in-up"
+                style={{ animationDelay: '350ms' }}
+              >
+                De la primul pas,
+              </span>
+              <span
+                className="block text-[#f8ef21] animate-fade-in-up"
+                style={{ animationDelay: '500ms' }}
+              >
+                direct pe scenă.
+              </span>
             </h1>
 
             {/* Sub-headline */}
-            <p className="text-white/80 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mb-8 md:mb-10">
+            <p
+              className="text-white/75 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mb-8 md:mb-10 animate-fade-in-up"
+              style={{ animationDelay: '650ms' }}
+            >
               Mai mult decât cursuri de dans. O experiență completă: spectacole, concursuri,
               flashmob-uri și progres real — pentru copii, studenți și adulți.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8 md:mb-12">
+            <div
+              className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8 md:mb-12 animate-fade-in-up"
+              style={{ animationDelay: '780ms' }}
+            >
               <Link
                 href="#inscriere"
-                className="inline-flex items-center justify-center bg-[#f8ef21] text-[#231f20] font-bold text-base px-8 py-3.5 rounded-full hover:bg-white transition-all duration-200 shadow-lg shadow-[#f8ef21]/20 font-sans"
+                className="btn-yellow inline-flex items-center justify-center text-[#231f20] font-black text-base px-8 py-3.5"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 Înscrie-te acum
               </Link>
               <Link
                 href="#cursuri"
-                className="inline-flex items-center justify-center border-2 border-white/40 text-white font-semibold text-base px-8 py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-all duration-200 font-sans"
+                className="inline-flex items-center justify-center border-2 border-white/30 text-white font-bold text-base px-8 py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-all duration-300"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
                 Vezi cursurile
               </Link>
               <Link
                 href="#quiz"
-                className="hidden sm:inline-flex items-center text-white/60 font-medium text-sm underline decoration-white/30 hover:text-[#f8ef21] hover:decoration-[#f8ef21] transition-colors duration-200 self-center ml-1 font-sans"
+                className="hidden sm:inline-flex items-center text-white/50 font-medium text-sm hover:text-[#f8ef21] transition-colors duration-200 self-center ml-2 gap-1"
+                style={{ fontFamily: 'var(--font-display)' }}
               >
-                Găsește cursul potrivit pentru tine &rarr;
+                Găsește cursul potrivit &rarr;
               </Link>
             </div>
 
             {/* Trust badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+            <div
+              className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 animate-fade-in-up"
+              style={{ animationDelay: '900ms' }}
+            >
               {trustBadges.map((badge) => (
                 <div
                   key={badge.value}
-                  className="flex flex-col gap-0.5 border border-white/20 rounded-xl px-4 py-3 bg-white/5 backdrop-blur-sm"
+                  className="flex flex-col gap-0.5 border border-white/15 rounded-2xl px-4 py-3.5 bg-white/5 backdrop-blur-sm hover:border-[#f8ef21]/40 hover:bg-white/8 transition-all duration-300"
                 >
-                  <span className="text-[#f8ef21] text-xl font-extrabold leading-none font-sans">
+                  <span
+                    className="text-[#f8ef21] text-2xl font-black leading-none"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
                     {badge.value}
                   </span>
-                  <span className="text-white/60 text-[10px] font-medium uppercase tracking-wider">
+                  <span className="text-white/55 text-[10px] font-semibold uppercase tracking-widest mt-1">
                     {badge.label}
                   </span>
                 </div>

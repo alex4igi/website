@@ -85,73 +85,163 @@
   }
 }
 
-/* Scroll */
-html {
-  scroll-behavior: smooth;
-}
+/* ─── Scroll ──────────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
 
-/* Animations */
+/* ─── Core keyframes ──────────────────────────────────────────────── */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
+  from { opacity: 0; transform: translateY(36px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.92); }
+  from { opacity: 0; transform: scale(0.90); }
   to   { opacity: 1; transform: scale(1); }
 }
-
-.animate-fade-in-up  { animation: fadeInUp 0.65s ease both; }
-.animate-fade-in     { animation: fadeIn 0.65s ease both; }
-.animate-scale-in    { animation: scaleIn 0.55s ease both; }
-
-/* Stagger delays */
-.stagger > *:nth-child(1) { animation-delay: 0ms; }
-.stagger > *:nth-child(2) { animation-delay: 80ms; }
-.stagger > *:nth-child(3) { animation-delay: 160ms; }
-.stagger > *:nth-child(4) { animation-delay: 240ms; }
-.stagger > *:nth-child(5) { animation-delay: 320ms; }
-.stagger > *:nth-child(6) { animation-delay: 400ms; }
-
-/* Video hero overlay */
-.video-overlay {
-  background: linear-gradient(
-    160deg,
-    rgba(35,31,32,0.70) 0%,
-    rgba(35,31,32,0.40) 55%,
-    rgba(35,31,32,0.75) 100%
-  );
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Marquee: duplicated content scrolls left in ~28s */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+/* Number counter pulse on enter */
+@keyframes counterPop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+/* Yellow glow shimmer on CTA hover */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+/* Slide in from bottom for hero text lines */
+@keyframes slideReveal {
+  from { clip-path: inset(0 0 100% 0); opacity: 0; transform: translateY(20px); }
+  to   { clip-path: inset(0 0 0% 0);   opacity: 1; transform: translateY(0); }
 }
 
-/* Section label pill */
+/* ─── Utility animation classes ───────────────────────────────────── */
+.animate-fade-in-up   { animation: fadeInUp   0.7s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-fade-in-left { animation: fadeInLeft 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-fade-in      { animation: fadeIn     0.6s ease both; }
+.animate-scale-in     { animation: scaleIn    0.6s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-counter-pop  { animation: counterPop 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-reveal-up    { animation: revealUp   0.65s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* In-view trigger: elements start invisible, JS adds .in-view to start animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+              transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-28px);
+  transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+              transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+              transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-scale.in-view {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger: apply to parent, children get delays */
+.stagger > *:nth-child(1) { transition-delay: 0ms;   animation-delay: 0ms; }
+.stagger > *:nth-child(2) { transition-delay: 90ms;  animation-delay: 90ms; }
+.stagger > *:nth-child(3) { transition-delay: 180ms; animation-delay: 180ms; }
+.stagger > *:nth-child(4) { transition-delay: 270ms; animation-delay: 270ms; }
+.stagger > *:nth-child(5) { transition-delay: 360ms; animation-delay: 360ms; }
+.stagger > *:nth-child(6) { transition-delay: 450ms; animation-delay: 450ms; }
+
+/* ─── Marquee ticker ──────────────────────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ─── Section label ───────────────────────────────────────────────── */
 .section-label {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-family: var(--font-display);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--qblack);
   background: var(--qyellow);
-  padding: 3px 11px;
+  padding: 3px 12px;
   border-radius: 999px;
 }
 
-/* Card hover lift */
+/* ─── Card hover lift ─────────────────────────────────────────────── */
 .card-lift {
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  transition: transform 0.32s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.32s cubic-bezier(0.22,1,0.36,1);
 }
 .card-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 18px 50px rgba(35,31,32,0.13);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 24px 60px rgba(35,31,32,0.18);
 }
 
-/* Yellow bar accent */
+/* ─── Yellow shimmer CTA ──────────────────────────────────────────── */
+.btn-yellow {
+  position: relative;
+  overflow: hidden;
+  background: var(--qyellow);
+  color: var(--qblack);
+  font-weight: 800;
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-yellow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255,255,255,0.55) 50%,
+    transparent 65%
+  );
+  background-size: 200% auto;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.btn-yellow:hover { transform: scale(1.04); box-shadow: 0 8px 30px rgba(248,239,33,0.35); }
+.btn-yellow:hover::after { opacity: 1; animation: shimmer 0.6s linear; }
+
+/* ─── Yellow bar accent ───────────────────────────────────────────── */
 .bar-yellow {
   display: inline-block;
   width: 36px;
@@ -161,7 +251,12 @@ html {
   flex-shrink: 0;
 }
 
-/* Embla */
+/* ─── Diagonal clip on dark cards ────────────────────────────────── */
+.clip-card {
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 94% 100%, 0 100%);
+}
+
+/* ─── Embla carousel ──────────────────────────────────────────────── */
 .embla { overflow: hidden; }
 .embla__container { display: flex; }
 .embla__slide { flex: 0 0 auto; min-width: 0; }

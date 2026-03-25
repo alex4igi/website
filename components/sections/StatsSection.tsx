@@ -1,41 +1,51 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from '@/hooks/use-in-view'
+
 const stats = [
-  {
-    value: '11.000+',
-    label: 'tineri introduși la dans',
-    desc: 'De-a lungul istoriei Quasar',
-  },
-  {
-    value: '600+',
-    label: 'membri activi',
-    desc: 'În acest moment, în cele 3 locații',
-  },
-  {
-    value: '200+',
-    label: 'trofee & premii',
-    desc: 'La concursuri naționale și internaționale',
-  },
-  {
-    value: '50+',
-    label: 'spectacole Quasar',
-    desc: 'Producții complete, pe scene mari din Iași',
-  },
+  { raw: 11000, display: '11.000+', label: 'tineri introduși la dans', desc: 'De-a lungul istoriei Quasar' },
+  { raw: 600,   display: '600+',    label: 'membri activi',            desc: 'În cele 3 locații Quasar' },
+  { raw: 200,   display: '200+',    label: 'trofee & premii',          desc: 'Național și internațional' },
+  { raw: 50,    display: '50+',     label: 'spectacole Quasar',        desc: 'Pe scene mari din Iași' },
 ]
 
 const highlights = [
   'Dansatorii Quasar au reprezentat România la competiții internaționale',
-  'Quasar deține recordul național pentru cel mai mare flashmob simultân',
+  'Quasar deține recordul național pentru cel mai mare flashmob simultan',
   'Cea mai veche școală de street dance din Moldova',
   'Instructori formați timp de zeci de ani în sistemul Quasar',
 ]
 
+function AnimatedNumber({ target, started }: { target: number; started: boolean }) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!started) return
+    const duration = 1400
+    const steps = 60
+    const increment = target / steps
+    let current = 0
+    const timer = setInterval(() => {
+      current += increment
+      if (current >= target) { setValue(target); clearInterval(timer) }
+      else setValue(Math.floor(current))
+    }, duration / steps)
+    return () => clearInterval(timer)
+  }, [started, target])
+  return <>{value.toLocaleString('ro-RO')}</>
+}
+
 export default function StatsSection() {
+  const [sectionRef, inView] = useInView<HTMLElement>({ threshold: 0.2 })
+
   return (
-    <section className="bg-[#f8ef21] py-20 md:py-28">
+    <section ref={sectionRef} className="bg-[#f8ef21] py-20 md:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-5 md:px-8">
+
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className={`text-center max-w-2xl mx-auto mb-14 reveal ${inView ? 'in-view' : ''}`}>
           <div
-            className="inline-flex items-center gap-2 text-[#231f20] bg-[#231f20]/10 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-4"
+            className="inline-flex items-center gap-2 text-[#231f20] bg-[#231f20]/10 px-3 py-1 rounded-full text-xs font-black uppercase tracking-[0.16em] mb-4"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Impactul nostru
@@ -52,24 +62,25 @@ export default function StatsSection() {
 
         {/* Stats grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12 stagger">
-          {stats.map((stat) => (
+          {stats.map((stat, i) => (
             <div
-              key={stat.value}
-              className="flex flex-col gap-2 bg-[#231f20] rounded-2xl p-7 card-lift"
+              key={stat.label}
+              className={`flex flex-col gap-2 bg-[#231f20] rounded-2xl p-6 md:p-8 card-lift reveal ${inView ? 'in-view' : ''}`}
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
               <span
-                className="text-[#f8ef21] text-4xl md:text-5xl font-extrabold leading-none"
+                className="text-[#f8ef21] text-4xl md:text-5xl font-extrabold leading-none tabular-nums"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                {stat.value}
+                <AnimatedNumber target={stat.raw} started={inView} />+
               </span>
               <span
-                className="text-white text-sm font-semibold leading-snug"
+                className="text-white text-sm font-bold leading-snug mt-1"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 {stat.label}
               </span>
-              <span className="text-white/50 text-xs leading-relaxed">{stat.desc}</span>
+              <span className="text-white/45 text-xs leading-relaxed">{stat.desc}</span>
             </div>
           ))}
         </div>
@@ -79,12 +90,16 @@ export default function StatsSection() {
           {highlights.map((h, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 bg-[#231f20]/10 rounded-xl px-5 py-4"
+              className={`flex items-start gap-4 bg-[#231f20]/10 hover:bg-[#231f20]/18 rounded-xl px-5 py-4 transition-colors duration-200 reveal ${inView ? 'in-view' : ''}`}
+              style={{ transitionDelay: `${400 + i * 80}ms` }}
             >
               <span
-                className="w-2 h-2 rounded-full bg-[#231f20] flex-shrink-0 mt-1.5"
+                className="w-6 h-6 flex-shrink-0 flex items-center justify-center rounded-full bg-[#231f20] text-[#f8ef21] text-[10px] font-black mt-0.5"
                 aria-hidden="true"
-              />
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <p
                 className="text-[#231f20] text-sm font-semibold leading-relaxed"
                 style={{ fontFamily: 'var(--font-display)' }}
