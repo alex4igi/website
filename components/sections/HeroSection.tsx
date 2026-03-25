@@ -138,7 +138,7 @@ export default function HeroSection() {
                 className="hidden sm:inline-flex items-center text-white/50 font-medium text-sm hover:text-[#f8ef21] transition-colors duration-200 self-center ml-2"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                Găsește cursul potrivit &rarr;
+                Vezi ce ți se potrivește &rarr;
               </Link>
             </div>
 
