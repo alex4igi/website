@@ -1,6 +1,5 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 
@@ -14,73 +13,33 @@ const trustBadges = [
 const YT_VIDEO_ID = 'r80uCmXEdqk'
 const YT_START = 16
 
+// Build the embed URL once — no YT IFrame API, no transient src="" mutations
+const YT_EMBED_SRC =
+  `https://www.youtube.com/embed/${YT_VIDEO_ID}` +
+  `?autoplay=1&mute=1&loop=1&playlist=${YT_VIDEO_ID}` +
+  `&start=${YT_START}&controls=0&showinfo=0&rel=0` +
+  `&modestbranding=1&playsinline=1&iv_load_policy=3` +
+  `&disablekb=1&fs=0&cc_load_policy=0&origin=${
+    typeof window !== 'undefined' ? window.location.origin : ''
+  }`
+
 export default function HeroSection() {
-  const playerRef = useRef<HTMLDivElement>(null)
-  const [videoReady, setVideoReady] = useState(false)
-
-  useEffect(() => {
-    // Load the YouTube IFrame API script once
-    if (document.getElementById('yt-iframe-api')) {
-      initPlayer()
-      return
-    }
-    const script = document.createElement('script')
-    script.id = 'yt-iframe-api'
-    script.src = 'https://www.youtube.com/iframe_api'
-    document.head.appendChild(script)
-    ;(window as any).onYouTubeIframeAPIReady = initPlayer
-  }, [])
-
-  function initPlayer() {
-    if (!playerRef.current) return
-    new (window as any).YT.Player(playerRef.current, {
-      videoId: YT_VIDEO_ID,
-      playerVars: {
-        autoplay: 1,
-        mute: 1,
-        loop: 1,
-        playlist: YT_VIDEO_ID,
-        start: YT_START,
-        controls: 0,
-        showinfo: 0,
-        rel: 0,
-        modestbranding: 1,
-        playsinline: 1,
-        iv_load_policy: 3,
-        disablekb: 1,
-        fs: 0,
-        cc_load_policy: 0,
-      },
-      events: {
-        onReady: (e: any) => {
-          e.target.mute()
-          e.target.playVideo()
-          setVideoReady(true)
-        },
-        onStateChange: (e: any) => {
-          // Keep looping: if ended (0) restart
-          if (e.data === 0) e.target.seekTo(YT_START, true)
-        },
-      },
-    })
-  }
-
   return (
     <section
       id="hero"
       className="relative w-full overflow-hidden bg-[#231f20]"
-      style={{ height: '100svh', minHeight: '600px' }}
+      style={{ minHeight: '100svh' }}
     >
-      {/* ── YouTube video background ── */}
+      {/* ── YouTube iframe background ── */}
       <div
         className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
         aria-hidden="true"
       >
         {/*
           Classic "cover" technique for 16:9 video in any viewport:
-          Width  = max(100vw, 177.78vh)  [177.78 = 100 * 16/9]
-          Height = max(56.25vw, 100%)    [56.25  = 100 * 9/16]
-          Centred with translate(-50%, -50%).
+            width  = max(100vw, 177.78vh)   [177.78 = 100 × 16/9]
+            height = max(56.25vw, 100vh)    [56.25  = 100 × 9/16]
+          Centered with translate(-50%, -50%).
         */}
         <div
           style={{
@@ -90,22 +49,19 @@ export default function HeroSection() {
             width: 'max(100vw, 177.78vh)',
             height: 'max(56.25vw, 100vh)',
             transform: 'translate(-50%, -50%)',
-            opacity: videoReady ? 0.72 : 0,
-            transition: 'opacity 1s ease',
           }}
         >
-          {/* YT Player mounts here */}
-          <div ref={playerRef} className="w-full h-full" />
+          <iframe
+            src={YT_EMBED_SRC}
+            title="Quasar Dance background video"
+            allow="autoplay; fullscreen"
+            className="w-full h-full border-0"
+            style={{ opacity: 0.72 }}
+          />
         </div>
-
-        {/* Dark fallback while video loads */}
-        <div
-          className="absolute inset-0 bg-[#231f20] transition-opacity duration-1000"
-          style={{ opacity: videoReady ? 0 : 1 }}
-        />
       </div>
 
-      {/* ── Gradient overlay — bottom-heavy so text stays readable ── */}
+      {/* ── Gradient overlay — bottom-heavy for text legibility ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
@@ -115,9 +71,15 @@ export default function HeroSection() {
         }}
       />
 
-      {/* ── Hero content ── */}
-      <div className="relative z-10 flex flex-col justify-end h-full">
-        <div className="max-w-7xl mx-auto w-full px-5 md:px-8 pb-10 md:pb-20">
+      {/* ── Hero content ──
+          pt-24 md:pt-28 clears the fixed navbar (~80px mobile / ~88px desktop).
+          justify-end pushes content to the bottom of the full-screen section.
+      */}
+      <div
+        className="relative z-10 flex flex-col justify-end"
+        style={{ minHeight: '100svh' }}
+      >
+        <div className="max-w-7xl mx-auto w-full px-5 md:px-8 pt-24 md:pt-28 pb-10 md:pb-20">
           <div className="max-w-3xl">
             {/* Label pill */}
             <div className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5 md:mb-7">
@@ -190,7 +152,10 @@ export default function HeroSection() {
 
       {/* Scroll cue */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/40 animate-bounce">
-        <span className="text-xs font-medium tracking-widest uppercase" style={{ fontFamily: 'var(--font-display)' }}>
+        <span
+          className="text-xs font-medium tracking-widest uppercase"
+          style={{ fontFamily: 'var(--font-display)' }}
+        >
           Scroll
         </span>
         <ChevronDown size={16} />
