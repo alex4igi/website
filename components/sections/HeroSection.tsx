@@ -38,17 +38,26 @@ export default function HeroSection() {
       className="relative w-full bg-[#231f20]"
       style={{ minHeight: '100svh' }}
     >
-      {/* ── Full-viewport iframe cover ──────────────────────────────────
-          We size the iframe wrapper to cover the section regardless of
-          aspect ratio using the classic "cover" math:
-            width  ≥ 100vw  AND  width  ≥ 177.78vh  (16:9 → need w = h × 16/9)
-            height ≥ 100vh  AND  height ≥ 56.25vw   (16:9 → need h = w × 9/16)
-          Centered at 50%/50% with translate(-50%,-50%).
-          pointer-events:none so clicks pass through to content.
+      {/* ── Background layer ────────────────────────────────────────────
+          DESKTOP (md+): YouTube iframe scaled to cover the viewport using
+            the 16:9 "cover" math — width ≥ max(100vw, 177.78vh),
+            height ≥ max(56.25vw, 100vh), centred.
+          MOBILE (<md): YouTube autoplay is blocked by iOS/Android without
+            a user gesture, so we fall back to a full-bleed poster image.
+            The iframe wrapper is hidden with `hidden md:block`.
       ──────────────────────────────────────────────────────────────── */}
+
+      {/* Mobile poster — visible only below md breakpoint */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 overflow-hidden pointer-events-none"
+        className="absolute inset-0 md:hidden bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
+      />
+
+      {/* Desktop iframe cover — hidden on mobile */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block"
       >
         <div
           aria-hidden="true"
@@ -56,26 +65,25 @@ export default function HeroSection() {
             position: 'absolute',
             top: '50%',
             left: '50%',
-            /* 177.78vh = 100vh × (16/9) */
             width: 'max(100vw, 177.78vh)',
-            /* 56.25vw = 100vw × (9/16) */
             height: 'max(56.25vw, 100vh)',
             transform: 'translate(-50%, -50%)',
           }}
         >
-          {/* src is only set after client mount to avoid the React SSR
-              hydration mismatch that produces the src="" warning. */}
-          <iframe
-            src={mounted ? YT_EMBED_SRC : undefined}
-            title="Quasar Dance — background video"
-            allow="autoplay; fullscreen"
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
-              opacity: 0.75,
-            }}
-          />
+          {/* Only render the iframe after client mount — never with src="" or src={undefined} */}
+          {mounted && (
+            <iframe
+              src={YT_EMBED_SRC}
+              title="Quasar Dance — background video"
+              allow="autoplay; fullscreen"
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                opacity: 0.75,
+              }}
+            />
+          )}
         </div>
       </div>
 
