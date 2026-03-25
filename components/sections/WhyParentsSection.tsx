@@ -1,6 +1,7 @@
 'use client'
 
 import { useInView } from '@/hooks/use-in-view'
+import SprayLabel from '@/components/ui/spray-label'
 
 const benefits = [
   {
@@ -38,7 +39,7 @@ export default function WhyParentsSection() {
 
         {/* Header */}
         <div className={`max-w-2xl mb-14 reveal ${inView ? 'in-view' : ''}`}>
-          <div className="section-label mb-4">De ce părinții aleg Quasar</div>
+          <div className="mb-4"><SprayLabel>De ce părinții aleg Quasar</SprayLabel></div>
           <h2
             className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
             style={{ fontFamily: 'var(--font-display)' }}

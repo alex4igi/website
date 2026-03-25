@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { CheckCircle } from 'lucide-react'
+import SprayLabel from '@/components/ui/spray-label'
 
 const ageGroups = ['4–6 ani', '7–10 ani', '11–14 ani', '15–18 ani', '19–25 ani', '25+ ani']
 const interestTypes = ['Street Dance', 'Gimnastică', 'KPOP', 'Dans Studenți', 'Adulți', 'Nu știu încă']
@@ -36,7 +37,7 @@ export default function LeadFormSection() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Left: copy */}
           <div className="md:pt-4">
-            <div className="section-label mb-6">Ședință demo gratuită</div>
+            <div className="mb-6"><SprayLabel>Ședință demo gratuită</SprayLabel></div>
             <h2
               className="text-white text-3xl md:text-5xl font-extrabold leading-tight text-balance mb-6"
               style={{ fontFamily: 'var(--font-display)' }}

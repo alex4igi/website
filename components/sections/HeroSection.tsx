@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
+import SprayLabel from '@/components/ui/spray-label'
 
 const trustBadges = [
   { value: '600+', label: 'membri activi' },
@@ -87,11 +88,8 @@ export default function HeroSection() {
           <div className="max-w-3xl">
 
             {/* Label */}
-            <div
-              className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-black uppercase tracking-[0.18em] px-4 py-1.5 rounded-full mb-5 md:mb-6 animate-fade-in"
-              style={{ fontFamily: 'var(--font-display)', animationDelay: '200ms' }}
-            >
-              Școală de Dans · Iași · din 1981
+            <div className="mb-5 md:mb-6 animate-fade-in" style={{ animationDelay: '200ms' }}>
+              <SprayLabel delay={200}>Școală de Dans · Iași · din 1981</SprayLabel>
             </div>
 
             {/* Headline */}

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { MapPin, Clock, Users } from 'lucide-react'
+import SprayLabel from '@/components/ui/spray-label'
 
 const locations = [
   {
@@ -40,7 +41,7 @@ export default function LocationsSection() {
       <div className="max-w-7xl mx-auto px-5 md:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="section-label mb-4">Locațiile noastre</div>
+          <div className="mb-4"><SprayLabel>Locațiile noastre</SprayLabel></div>
           <h2
             className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
             style={{ fontFamily: 'var(--font-display)' }}
@@ -63,12 +64,9 @@ export default function LocationsSection() {
               }`}
             >
               {loc.highlight && (
-                <span
-                  className="section-label self-start"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  Sediu principal
-                </span>
+                <div className="self-start">
+                  <SprayLabel>Sediu principal</SprayLabel>
+                </div>
               )}
 
               <div>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
+import SprayLabel from '@/components/ui/spray-label'
 
 type Tab = 'schedule' | 'pricing'
 
@@ -96,7 +97,7 @@ export default function SchedulePreviewSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
-            <div className="section-label mb-4">Program & Prețuri</div>
+            <div className="mb-4"><SprayLabel>Program & Prețuri</SprayLabel></div>
             <h2
               className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
               style={{ fontFamily: 'var(--font-display)' }}
@@ -271,12 +272,9 @@ export default function SchedulePreviewSection() {
                 }`}
               >
                 {plan.highlight && (
-                  <span
-                    className="section-label self-start"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    Cel mai ales
-                  </span>
+                  <div className="self-start">
+                    <SprayLabel>Cel mai ales</SprayLabel>
+                  </div>
                 )}
                 <div>
                   <div

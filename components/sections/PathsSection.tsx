@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useInView } from '@/hooks/use-in-view'
+import SprayLabel from '@/components/ui/spray-label'
 
 const paths = [
   {
@@ -60,7 +61,7 @@ export default function PathsSection() {
         {/* Header */}
         <div className={`flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 reveal ${inView ? 'in-view' : ''}`}>
           <div>
-            <div className="section-label mb-4">Alege drumul tău</div>
+            <div className="mb-4"><SprayLabel>Alege drumul tău</SprayLabel></div>
             <h2
               className="text-white text-3xl md:text-5xl font-extrabold leading-tight text-balance"
               style={{ fontFamily: 'var(--font-display)' }}

@@ -55,13 +55,15 @@ const groups = [
   },
 ]
 
+import SprayLabel from '@/components/ui/spray-label'
+
 export default function AgeGroupsSection() {
   return (
     <section className="bg-[#231f20] py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-5 md:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="section-label mb-4">Grupele de vârstă</div>
+          <div className="mb-4"><SprayLabel>Grupele de vârstă</SprayLabel></div>
           <h2
             className="text-white text-3xl md:text-5xl font-extrabold leading-tight text-balance"
             style={{ fontFamily: 'var(--font-display)' }}

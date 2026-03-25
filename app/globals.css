@@ -188,21 +188,7 @@ html { scroll-behavior: smooth; }
 }
 .marquee-track:hover { animation-play-state: paused; }
 
-/* ─── Section label ───────────────────────────────────────────────── */
-.section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-display);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--qblack);
-  background: var(--qyellow);
-  padding: 3px 12px;
-  border-radius: 999px;
-}
+/* ─── Section label — replaced by <SprayLabel> component ─────────── */
 
 /* ─── Card hover lift ─────────────────────────────────────────────── */
 .card-lift {

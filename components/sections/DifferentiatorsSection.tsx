@@ -31,6 +31,8 @@ const items = [
   },
 ]
 
+import SprayLabel from '@/components/ui/spray-label'
+
 export default function DifferentiatorsSection() {
   return (
     <section className="bg-white py-20 md:py-28">
@@ -38,7 +40,7 @@ export default function DifferentiatorsSection() {
         {/* Header */}
         <div className="grid md:grid-cols-2 gap-12 items-start mb-16">
           <div>
-            <div className="section-label mb-4">De ce Quasar?</div>
+            <div className="mb-4"><SprayLabel>De ce Quasar?</SprayLabel></div>
             <h2
               className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
               style={{ fontFamily: 'var(--font-display)' }}

@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import SprayLabel from '@/components/ui/spray-label'
 
 const testimonials = [
   {
@@ -83,7 +84,7 @@ export default function TestimonialsSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
-            <div className="section-label mb-4">Ce spun membrii</div>
+            <div className="mb-4"><SprayLabel>Ce spun membrii</SprayLabel></div>
             <h2
               className="text-white text-3xl md:text-5xl font-extrabold leading-tight text-balance"
               style={{ fontFamily: 'var(--font-display)' }}
