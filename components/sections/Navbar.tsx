@@ -123,31 +123,34 @@ export default function Navbar() {
           triggering router actions before Next.js initialisation */}
       {mounted && (
       <div
-        className="md:hidden fixed inset-0 z-[55] pointer-events-none"
+        className="fixed inset-0 z-[55]"
+        style={{ pointerEvents: open ? 'auto' : 'none' }}
         aria-hidden={!open}
       >
-        {/* Dark backdrop */}
+        {/* Dark backdrop — expands via clip-path circle from hamburger corner */}
         <div
-          className="absolute inset-0 bg-[#231f20] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          className="absolute inset-0 bg-[#231f20]"
           style={{
             clipPath: open
-              ? 'circle(200% at calc(100% - 36px) 36px)'
-              : 'circle(0% at calc(100% - 36px) 36px)',
+              ? 'circle(200% at calc(100% - 44px) 44px)'
+              : 'circle(0% at calc(100% - 44px) 44px)',
+            transition: 'clip-path 0.55s cubic-bezier(0.22,1,0.36,1)',
           }}
         />
 
-        {/* Background photo — subtle, dark-tinted */}
+        {/* Background photo — subtle tint */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-10 transition-opacity duration-700"
+          className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: "url('/images/quasar-team.jpg')",
-            opacity: open ? 0.1 : 0,
+            opacity: open ? 0.08 : 0,
+            transition: 'opacity 0.5s ease 0.2s',
           }}
         />
 
         {/* Nav content */}
         <div
-          className="absolute inset-0 flex flex-col justify-between px-7 pt-28 pb-10 pointer-events-auto"
+          className="absolute inset-0 flex flex-col justify-between px-7 pt-28 pb-10"
           style={{
             opacity: open ? 1 : 0,
             transition: 'opacity 0.3s ease 0.2s',
