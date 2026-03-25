@@ -1,6 +1,5 @@
 import Navbar from '@/components/sections/Navbar'
 import HeroSection from '@/components/sections/HeroSection'
-import MarqueeTicker from '@/components/sections/MarqueeTicker'
 import PathsSection from '@/components/sections/PathsSection'
 import WhyParentsSection from '@/components/sections/WhyParentsSection'
 import JourneySection from '@/components/sections/JourneySection'
@@ -24,9 +23,6 @@ export default function HomePage() {
 
       {/* 1. Hero — full-screen cinematic */}
       <HeroSection />
-
-      {/* Marquee ticker — seamless scroll of course/brand names */}
-      <MarqueeTicker />
 
       {/* 2. Choose your path — 4 course categories */}
       <PathsSection />
