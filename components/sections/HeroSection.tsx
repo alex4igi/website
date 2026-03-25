@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 
@@ -119,27 +118,27 @@ export default function HeroSection() {
               className="flex flex-col sm:flex-row flex-wrap gap-3 mb-8 md:mb-12 animate-fade-in-up"
               style={{ animationDelay: '780ms' }}
             >
-              <Link
+              <a
                 href="#inscriere"
                 className="btn-yellow inline-flex items-center justify-center text-[#231f20] font-black text-base px-8 py-3.5"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Înscrie-te acum
-              </Link>
-              <Link
+              </a>
+              <a
                 href="#cursuri"
                 className="inline-flex items-center justify-center border-2 border-white/30 text-white font-bold text-base px-8 py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-all duration-300"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Vezi cursurile
-              </Link>
-              <Link
+              </a>
+              <a
                 href="#quiz"
                 className="hidden sm:inline-flex items-center text-white/50 font-medium text-sm hover:text-[#f8ef21] transition-colors duration-200 self-center ml-2"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Găsește cursul potrivit &rarr;
-              </Link>
+              </a>
             </div>
 
             {/* Trust badges */}

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { MapPin, Clock, Users } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 
@@ -123,7 +122,7 @@ export default function LocationsSection() {
 
               {/* CTA */}
               <div className="flex gap-3 mt-auto pt-2">
-                <Link
+                <a
                   href={loc.mapLink}
                   className={`flex-1 text-center text-xs font-bold py-2.5 rounded-full transition-all duration-200 border ${
                     loc.highlight
@@ -133,8 +132,8 @@ export default function LocationsSection() {
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
                   Hartă
-                </Link>
-                <Link
+                </a>
+                <a
                   href="#inscriere"
                   className={`flex-1 text-center text-xs font-bold py-2.5 rounded-full transition-all duration-200 ${
                     loc.highlight
@@ -144,7 +143,7 @@ export default function LocationsSection() {
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
                   Înscrie-te
-                </Link>
+                </a>
               </div>
             </div>
           ))}

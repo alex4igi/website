@@ -112,12 +112,12 @@ export default function Footer() {
               <ul className="flex flex-col gap-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link
+                    <a
                       href={link.href}
                       className="text-white/50 hover:text-white text-sm transition-colors duration-200"
                     >
                       {link.label}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -134,13 +134,13 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-5">
             {['Politică de confidențialitate', 'Termeni & condiții', 'GDPR'].map((item) => (
-              <Link
+              <a
                 key={item}
                 href="#"
                 className="text-white/30 hover:text-white/60 text-xs transition-colors"
               >
                 {item}
-              </Link>
+              </a>
             ))}
           </div>
         </div>

@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useInView } from '@/hooks/use-in-view'
 import SprayLabel from '@/components/ui/spray-label'
 
@@ -13,7 +12,7 @@ const paths = [
     age: '4 – 14 ani',
     accent: '#f8ef21',
     accentText: '#231f20',
-    image: 'https://images.unsplash.com/photo-1544717305-996b815c338c?w=600&q=80',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2148169349-ZC3rzFu9PcjgYnky1R8QTixywntVwU.jpg',
     href: '#copii',
   },
   {
@@ -70,19 +69,19 @@ export default function PathsSection() {
               <span className="text-[#f8ef21]"> fiecare</span>
             </h2>
           </div>
-          <Link
+          <a
             href="#cursuri-all"
             className="inline-flex items-center gap-2 text-white/40 hover:text-[#f8ef21] text-sm font-bold transition-colors duration-200"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Toate cursurile &rarr;
-          </Link>
+          </a>
         </div>
 
         {/* Cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {paths.map((path, i) => (
-            <Link
+            <a
               key={path.id}
               href={path.href}
               className={`group relative flex flex-col overflow-hidden rounded-2xl cursor-pointer min-h-[360px] reveal ${inView ? 'in-view' : ''}`}
@@ -143,7 +142,7 @@ export default function PathsSection() {
                   Descoperă &rarr;
                 </span>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>

@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 
@@ -43,13 +42,13 @@ export default function InstructorsSection() {
               <span className="text-[#231f20]/40">Suntem mentori.</span>
             </h2>
           </div>
-          <Link
+          <a
             href="#echipa"
             className="inline-flex items-center gap-2 text-[#231f20]/50 hover:text-[#231f20] text-sm font-semibold transition-colors self-start md:self-auto"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Vezi echipa completă <ArrowRight size={14} />
-          </Link>
+          </a>
         </div>
 
         {/* Cards */}

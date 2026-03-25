@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 const courses = [
@@ -59,13 +58,13 @@ export default function CoursesGridSection() {
               Ce predăm la Quasar
             </h2>
           </div>
-          <Link
+          <a
             href="#program"
             className="inline-flex items-center gap-2 text-[#231f20]/50 hover:text-[#231f20] text-sm font-semibold transition-colors"
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Vezi programul complet <ArrowRight size={14} />
-          </Link>
+          </a>
         </div>
 
         {/* Grid */}
@@ -123,13 +122,13 @@ export default function CoursesGridSection() {
                 </div>
 
                 {/* CTA */}
-                <Link
+                <a
                   href={course.href}
                   className="mt-2 inline-flex items-center gap-1 text-[#231f20] font-semibold text-sm hover:text-[#f8ef21] hover:bg-[#231f20] bg-[#f8ef21] px-4 py-2 rounded-full transition-all duration-200 self-start"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
                   Detalii curs <ArrowRight size={12} />
-                </Link>
+                </a>
               </div>
             </div>
           ))}
