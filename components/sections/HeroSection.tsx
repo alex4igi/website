@@ -39,52 +39,45 @@ export default function HeroSection() {
       style={{ minHeight: '100svh' }}
     >
       {/* ── Background layer ────────────────────────────────────────────
-          DESKTOP (md+): YouTube iframe scaled to cover the viewport using
-            the 16:9 "cover" math — width ≥ max(100vw, 177.78vh),
-            height ≥ max(56.25vw, 100vh), centred.
-          MOBILE (<md): YouTube autoplay is blocked by iOS/Android without
-            a user gesture, so we fall back to a full-bleed poster image.
-            The iframe wrapper is hidden with `hidden md:block`.
+          YouTube iframe cover — all screen sizes including mobile.
+          muted=1 + playsinline=1 + allow="autoplay" are the three
+          requirements for autoplay on iOS Safari and Android Chrome.
+          The poster image is shown as a background on the section
+          so there is never a flash of plain black while the iframe loads.
+          16:9 cover math:
+            width  = max(100vw, 177.78vh)   (= 100vh × 16/9)
+            height = max(56.25vw, 100vh)    (= 100vw × 9/16)
       ──────────────────────────────────────────────────────────────── */}
-
-      {/* Mobile poster — visible only below md breakpoint */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 md:hidden bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
-      />
-
-      {/* Desktop iframe cover — hidden on mobile */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block"
+        className="absolute inset-0 overflow-hidden pointer-events-none"
       >
+        {/* Poster shown immediately while iframe loads */}
         <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: 'max(100vw, 177.78vh)',
-            height: 'max(56.25vw, 100vh)',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          {/* Only render the iframe after client mount — never with src="" or src={undefined} */}
-          {mounted && (
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
+        />
+
+        {/* iframe rendered only after client mount to avoid src="" SSR warning */}
+        {mounted && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: 'max(100vw, 177.78vh)',
+              height: 'max(56.25vw, 100vh)',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
             <iframe
               src={YT_EMBED_SRC}
               title="Quasar Dance — background video"
               allow="autoplay; fullscreen"
-              style={{
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                opacity: 0.75,
-              }}
+              className="w-full h-full border-0 opacity-75"
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* ── Gradient overlay — top dark band for nav legibility ─────── */}
