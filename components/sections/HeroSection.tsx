@@ -22,49 +22,34 @@ const YT_EMBED_SRC =
   `&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=0`
 
 export default function HeroSection() {
-  // Mount flag: only set the iframe src after client hydration to prevent
-  // the React SSR/hydration mismatch that triggers the src="" warning.
   const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => setMounted(true), [])
+
   return (
-    /*
-      The section is position:relative and sits at the top of the document
-      (page.tsx has no padding-top on <main>). The fixed Navbar overlays it
-      from z-50. The iframe cover fills the full viewport including behind
-      the navbar.
-    */
     <section
       id="hero"
       className="relative w-full bg-[#231f20]"
       style={{ minHeight: '100svh' }}
     >
-      {/* ── Background layer ────────────────────────────────────────────
-          YouTube iframe cover — all screen sizes including mobile.
-          muted=1 + playsinline=1 + allow="autoplay" are the three
-          requirements for autoplay on iOS Safari and Android Chrome.
-          The poster image is shown as a background on the section
-          so there is never a flash of plain black while the iframe loads.
-          16:9 cover math:
-            width  = max(100vw, 177.78vh)   (= 100vh × 16/9)
-            height = max(56.25vw, 100vh)    (= 100vw × 9/16)
-      ──────────────────────────────────────────────────────────────── */}
+      {/* ── Background ─────────────────────────────────────────────── */}
       <div
         aria-hidden="true"
         className="absolute inset-0 overflow-hidden pointer-events-none"
       >
-        {/* Poster shown immediately while iframe loads */}
+        {/* Poster — always visible, fades behind iframe once loaded */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
         />
 
-        {/* iframe rendered only after client mount to avoid src="" SSR warning */}
+        {/* iframe — only injected client-side, never touches SSR HTML */}
         {mounted && (
           <div
             style={{
               position: 'absolute',
               top: '50%',
               left: '50%',
+              /* 16:9 cover math */
               width: 'max(100vw, 177.78vh)',
               height: 'max(56.25vw, 100vh)',
               transform: 'translate(-50%, -50%)',
@@ -74,42 +59,32 @@ export default function HeroSection() {
               src={YT_EMBED_SRC}
               title="Quasar Dance — background video"
               allow="autoplay; fullscreen"
-              className="w-full h-full border-0 opacity-75"
+              allowFullScreen
+              style={{ width: '100%', height: '100%', border: 'none', opacity: 0.72 }}
             />
           </div>
         )}
       </div>
 
-      {/* ── Gradient overlay — top dark band for nav legibility ─────── */}
+      {/* ── Gradient overlay ───────────────────────────────────────── */}
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: [
-            /* top band — keeps nav readable even when video is bright */
-            'linear-gradient(to bottom,',
-            '  rgba(35,31,32,0.70) 0%,',
-            '  rgba(35,31,32,0.35) 25%,',
-            '  rgba(35,31,32,0.20) 50%,',
-            '  rgba(35,31,32,0.65) 75%,',
-            '  rgba(35,31,32,0.96) 100%)',
-          ].join(' '),
+          background:
+            'linear-gradient(to bottom, rgba(35,31,32,0.72) 0%, rgba(35,31,32,0.28) 30%, rgba(35,31,32,0.18) 55%, rgba(35,31,32,0.70) 80%, rgba(35,31,32,0.97) 100%)',
         }}
       />
 
-      {/* ── Hero content ────────────────────────────────────────────────
-          height: 100svh + flex + justify-end puts the copy at the bottom
-          of the screen (like a film title card).
-          pt-20 md:pt-24 ensures nothing is hidden behind the fixed navbar
-          on small screens where the content might reach the top.
-      ──────────────────────────────────────────────────────────────── */}
+      {/* ── Content ────────────────────────────────────────────────── */}
       <div
         className="relative z-10 flex flex-col justify-end"
         style={{ minHeight: '100svh' }}
       >
         <div className="max-w-7xl mx-auto w-full px-5 md:px-10 pb-12 md:pb-24 pt-24 md:pt-20">
           <div className="max-w-3xl">
-            {/* Label pill — fades in first */}
+
+            {/* Label */}
             <div
               className="inline-block bg-[#f8ef21] text-[#231f20] text-xs font-black uppercase tracking-[0.18em] px-4 py-1.5 rounded-full mb-5 md:mb-6 animate-fade-in"
               style={{ fontFamily: 'var(--font-display)', animationDelay: '200ms' }}
@@ -117,26 +92,20 @@ export default function HeroSection() {
               Școală de Dans · Iași · din 1981
             </div>
 
-            {/* Headline — line 1 then line 2 staggered */}
+            {/* Headline */}
             <h1
               className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-extrabold leading-[1.05] text-balance mb-5 md:mb-6"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              <span
-                className="block animate-fade-in-up"
-                style={{ animationDelay: '350ms' }}
-              >
+              <span className="block animate-fade-in-up" style={{ animationDelay: '350ms' }}>
                 De la primul pas,
               </span>
-              <span
-                className="block text-[#f8ef21] animate-fade-in-up"
-                style={{ animationDelay: '500ms' }}
-              >
+              <span className="block text-[#f8ef21] animate-fade-in-up" style={{ animationDelay: '500ms' }}>
                 direct pe scenă.
               </span>
             </h1>
 
-            {/* Sub-headline */}
+            {/* Sub */}
             <p
               className="text-white/75 text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mb-8 md:mb-10 animate-fade-in-up"
               style={{ animationDelay: '650ms' }}
@@ -166,7 +135,7 @@ export default function HeroSection() {
               </Link>
               <Link
                 href="#quiz"
-                className="hidden sm:inline-flex items-center text-white/50 font-medium text-sm hover:text-[#f8ef21] transition-colors duration-200 self-center ml-2 gap-1"
+                className="hidden sm:inline-flex items-center text-white/50 font-medium text-sm hover:text-[#f8ef21] transition-colors duration-200 self-center ml-2"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 Găsește cursul potrivit &rarr;
@@ -181,7 +150,7 @@ export default function HeroSection() {
               {trustBadges.map((badge) => (
                 <div
                   key={badge.value}
-                  className="flex flex-col gap-0.5 border border-white/15 rounded-2xl px-4 py-3.5 bg-white/5 backdrop-blur-sm hover:border-[#f8ef21]/40 hover:bg-white/8 transition-all duration-300"
+                  className="flex flex-col gap-0.5 border border-white/15 rounded-2xl px-4 py-3.5 bg-white/5 backdrop-blur-sm hover:border-[#f8ef21]/40 transition-all duration-300"
                 >
                   <span
                     className="text-[#f8ef21] text-2xl font-black leading-none"
@@ -200,10 +169,8 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll cue */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/40 animate-bounce pointer-events-none">
-        <span className="text-[10px] font-semibold tracking-widest uppercase font-sans">
-          Scroll
-        </span>
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/40 animate-bounce pointer-events-none" aria-hidden="true">
+        <span className="text-[10px] font-semibold tracking-widest uppercase">Scroll</span>
         <ChevronDown size={14} />
       </div>
     </section>
