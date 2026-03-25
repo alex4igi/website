@@ -12,11 +12,12 @@ const trustBadges = [
 ]
 
 const YT_VIDEO_ID = 'OxbQBMHyYXM'
+const YT_START = 16
 
 const YT_EMBED_SRC =
   `https://www.youtube.com/embed/${YT_VIDEO_ID}` +
   `?autoplay=1&mute=1&loop=1&playlist=${YT_VIDEO_ID}` +
-  `&controls=0&showinfo=0&rel=0` +
+  `&start=${YT_START}&controls=0&showinfo=0&rel=0` +
   `&modestbranding=1&playsinline=1&iv_load_policy=3` +
   `&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=0`
 
