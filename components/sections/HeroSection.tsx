@@ -41,7 +41,7 @@ export default function HeroSection() {
         {!mounted && (
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/4.%20Diferentiatori%2C%20Buddha%20stretch-BJ9Io5QRXgYilRApXJiDrZhDPxaraO.jpg')" }}
+            style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
           />
         )}
 
@@ -138,7 +138,7 @@ export default function HeroSection() {
                 className="hidden sm:inline-flex items-center text-white/50 font-medium text-sm hover:text-[#f8ef21] transition-colors duration-200 self-center ml-2"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                Vezi ce ți se potrivește &rarr;
+                Găsește cursul potrivit &rarr;
               </Link>
             </div>
 
