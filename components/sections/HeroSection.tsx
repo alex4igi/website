@@ -11,13 +11,12 @@ const trustBadges = [
   { value: '3', label: 'locații în Iași' },
 ]
 
-const YT_VIDEO_ID = 'r80uCmXEdqk'
-const YT_START = 16
+const YT_VIDEO_ID = 'OxbQBMHyYXM'
 
 const YT_EMBED_SRC =
   `https://www.youtube.com/embed/${YT_VIDEO_ID}` +
   `?autoplay=1&mute=1&loop=1&playlist=${YT_VIDEO_ID}` +
-  `&start=${YT_START}&controls=0&showinfo=0&rel=0` +
+  `&controls=0&showinfo=0&rel=0` +
   `&modestbranding=1&playsinline=1&iv_load_policy=3` +
   `&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=0`
 
@@ -36,11 +35,13 @@ export default function HeroSection() {
         aria-hidden="true"
         className="absolute inset-0 overflow-hidden pointer-events-none"
       >
-        {/* Poster — always visible, fades behind iframe once loaded */}
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
-        />
+        {/* Poster — shown only before iframe mounts to prevent flash of black */}
+        {!mounted && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
+          />
+        )}
 
         {/* iframe — only injected client-side, never touches SSR HTML */}
         {mounted && (
