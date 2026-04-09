@@ -42,7 +42,7 @@ const instructors = [
     name: 'Bianca',
     role: 'Instructor Copii & Adolescenți',
     specialization: 'Kids Dance · Choreography · Trupe',
-    bio: 'Bianca sau instructorul preferat al copiilor, cum ne mai place nouă să o numim, este dansatoare, coregraf și fondatoare atât a trupei de copii, MiniQ's, cat și a trupei de adolescenți, TheQoolKids. Pe Bianca o întâlniți la cursurile pentru copii și adolescenți, unde alege cele mai energice piese, astfel încât le este imposibil copiilor să se plictisească!',
+    bio: 'Bianca sau instructorul preferat al copiilor, cum ne mai place nouă să o numim, este dansatoare, coregraf și fondatoare atât a trupei de copii, MiniQ\'s, cat și a trupei de adolescenți, TheQoolKids. Pe Bianca o întâlniți la cursurile pentru copii și adolescenți, unde alege cele mai energice piese, astfel încât le este imposibil copiilor să se plictisească!',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Bianca-3pOfsgUQDTKnBAeRaTWK7yWGRc2XqY.jpg',
     years: '8+ ani',
     color: '#ec4899',
