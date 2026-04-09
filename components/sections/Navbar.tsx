@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 const navLinks = [
   { href: '#cursuri', label: 'Cursuri', num: '01' },
-  { href: '#instructori', label: 'Instructori', num: '02' },
+  { href: '/despre-noi', label: 'Despre noi', num: '02' },
   { href: '#program', label: 'Program & Prețuri', num: '03' },
   { href: '#locatii', label: 'Locații', num: '04' },
   { href: '#contact', label: 'Contact', num: '05' },
