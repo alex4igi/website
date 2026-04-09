@@ -1,7 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { ArrowRight, Award } from 'lucide-react'
+import { ArrowRight, Award, X } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 export const instructorsData = [
   {
@@ -99,6 +105,8 @@ export default function InstructorDeckCarousel({
   const [activeIndex, setActiveIndex] = useState(0)
   const [touchStart, setTouchStart] = useState(0)
   const [touchEnd, setTouchEnd] = useState(0)
+  const [selectedInstructor, setSelectedInstructor] = useState<typeof instructorsData[0] | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? instructors.length - 1 : prev - 1))
   const handleNext = () => setActiveIndex((prev) => (prev === instructors.length - 1 ? 0 : prev + 1))
@@ -191,9 +199,25 @@ export default function InstructorDeckCarousel({
                     <p className="text-white/90 text-sm leading-relaxed line-clamp-3">
                       {instructor.bio}
                     </p>
-                    <div className="mt-3 flex items-center gap-2 text-[#f8ef21] text-xs font-bold">
-                      <Award size={14} />
-                      {instructor.years} experiență
+                    <div className="mt-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-[#f8ef21] text-xs font-bold">
+                        <Award size={14} />
+                        {instructor.years} experiență
+                      </div>
+                      {isActive && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setSelectedInstructor(instructor)
+                            setIsDialogOpen(true)
+                          }}
+                          className="text-[#f8ef21] text-xs font-bold hover:text-white transition-colors flex items-center gap-1"
+                          style={{ fontFamily: 'var(--font-display)' }}
+                        >
+                          Vezi detalii
+                          <ArrowRight size={12} />
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -239,6 +263,60 @@ export default function InstructorDeckCarousel({
           {activeIndex + 1} / {instructors.length}
         </span>
       </div>
+
+      {/* Instructor Detail Modal */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white">
+          {selectedInstructor && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="sr-only">{selectedInstructor.name}</DialogTitle>
+              </DialogHeader>
+              
+              <div className="flex flex-col gap-6">
+                {/* Instructor Image & Name */}
+                <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
+                  <div className="w-32 h-32 sm:w-40 sm:h-40 flex-shrink-0 rounded-2xl overflow-hidden border-4 border-[#231f20] shadow-lg">
+                    <div
+                      className="w-full h-full bg-cover bg-center"
+                      style={{ backgroundImage: `url('${selectedInstructor.image}')` }}
+                    />
+                  </div>
+                  
+                  <div className="flex-1 text-center sm:text-left">
+                    <h2
+                      className="text-[#231f20] text-3xl md:text-4xl font-black mb-2"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {selectedInstructor.name}
+                    </h2>
+                    <div
+                      className="inline-block bg-[#f8ef21] text-[#231f20] text-sm font-bold px-4 py-2 rounded-full mb-2"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {selectedInstructor.role}
+                    </div>
+                    <div className="text-[#6b6b6b] text-sm mb-3">
+                      {selectedInstructor.specialization}
+                    </div>
+                    <div className="flex items-center justify-center sm:justify-start gap-2 text-[#231f20] text-sm font-bold">
+                      <Award size={16} />
+                      {selectedInstructor.years} experiență
+                    </div>
+                  </div>
+                </div>
+
+                {/* Full Bio */}
+                <div className="prose prose-sm max-w-none">
+                  <p className="text-[#231f20] leading-relaxed text-base">
+                    {selectedInstructor.bio}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
