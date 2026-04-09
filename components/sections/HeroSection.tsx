@@ -11,8 +11,8 @@ const trustBadges = [
   { value: '3', label: 'locații în Iași' },
 ]
 
-const YT_VIDEO_ID = 'OxbQBMHyYXM'
-const YT_START = 16
+const YT_VIDEO_ID = 'lwf4otx_QDg'
+const YT_START = 0
 
 const YT_EMBED_SRC =
   `https://www.youtube.com/embed/${YT_VIDEO_ID}` +
