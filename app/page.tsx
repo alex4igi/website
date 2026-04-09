@@ -9,7 +9,7 @@ import AgeGroupsSection from '@/components/sections/AgeGroupsSection'
 import DifferentiatorsSection from '@/components/sections/DifferentiatorsSection'
 import StatsSection from '@/components/sections/StatsSection'
 import SchedulePreviewSection from '@/components/sections/SchedulePreviewSection'
-import DespreNoiSection from '@/components/sections/DespreNoiSection'
+import InstructorsSection from '@/components/sections/InstructorsSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import LocationsSection from '@/components/sections/LocationsSection'
 import QuizCtaSection from '@/components/sections/QuizCtaSection'
@@ -52,8 +52,8 @@ export default function HomePage() {
       {/* 9. Schedule + Pricing preview (tabbed) */}
       <SchedulePreviewSection />
 
-      {/* 10. Despre noi — story, history, team */}
-      <DespreNoiSection />
+      {/* 10. Instructors preview — 3 cards */}
+      <InstructorsSection />
 
       {/* 11. Testimonials — carousel */}
       <TestimonialsSection />
