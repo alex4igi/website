@@ -19,7 +19,7 @@ const locations = [
     address: 'Blvd. Ștefan cel Mare și Sfânt, Nr. 10, et. 1',
     city: 'Galerii Comerciale, Iași',
     phone: '0730 534 172',
-    coordinates: { lat: 47.1585, lng: 27.5879 }, // Approximate coordinates for demo
+    coordinates: { lat: 47.1635894529357, lng: 27.5810635107931 },
   },
   {
     id: 'nicolina',
@@ -27,7 +27,7 @@ const locations = [
     address: 'Strada Izvor 14',
     city: 'Iași',
     phone: '0770 227 580',
-    coordinates: { lat: 47.1425, lng: 27.6015 },
+    coordinates: { lat: 47.14095492580996, lng: 27.583403997298678 },
   },
   {
     id: 'kids',
@@ -35,7 +35,7 @@ const locations = [
     address: 'Strada Clopoțari 24',
     city: 'Nicolina, Iași',
     phone: '0745 371 200',
-    coordinates: { lat: 47.1445, lng: 27.6045 },
+    coordinates: { lat: 47.13719333961962, lng: 27.580221653120905 },
   },
 ]
 
@@ -204,14 +204,14 @@ export default function ContactPage() {
           {/* Map Container */}
           <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl border-4 border-[#231f20]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d86939.12345678901!2d27.5879!3d47.1585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDA5JzMwLjYiTiAyN8KwMzUnMTYuNCJF!5e0!3m2!1sen!2sro!4v1234567890123!5m2!1sen!2sro"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2712.345!2d27.5810635107931!3d47.1635894529357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40cafb7d34e0e5b7%3A0x1234567890!2sQuasar%20Dance%20Stefan%20cel%20Mare!5e0!3m2!1sen!2sro!4v1234567890123!5m2!1sen!2sro&z=16"
               width="100%"
               height="500"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Quasar Dance Locations Map"
+              title="Quasar Dance Stefan cel Mare - Locație principală"
             />
           </div>
 
