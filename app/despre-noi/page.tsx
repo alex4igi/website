@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Users, Heart, Target, TrendingUp, Star, MapPin } from 'lucide-react'
+import { ArrowRight, Users, Heart, Target, TrendingUp, Star, MapPin, Award } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
