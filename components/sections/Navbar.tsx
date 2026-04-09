@@ -8,7 +8,7 @@ const navLinks = [
   { href: '/despre-noi', label: 'Despre noi', num: '02' },
   { href: '#program', label: 'Program & Prețuri', num: '03' },
   { href: '#locatii', label: 'Locații', num: '04' },
-  { href: '#contact', label: 'Contact', num: '05' },
+  { href: '/contact', label: 'Contact', num: '05' },
 ]
 
 export default function Navbar() {

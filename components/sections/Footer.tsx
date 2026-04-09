@@ -19,7 +19,7 @@ const navCols = [
       { label: 'Echipa noastră', href: '/despre-noi#echipa' },
       { label: 'Program & Prețuri', href: '#program' },
       { label: 'Locații', href: '#locatii' },
-      { label: 'Contact', href: '#inscriere' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
