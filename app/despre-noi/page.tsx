@@ -1,11 +1,12 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Users, Heart, Target, Award, TrendingUp, Star, MapPin } from 'lucide-react'
+import { ArrowRight, Users, Heart, Target, TrendingUp, Star, MapPin } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
+import InstructorDeckCarousel, { instructorsData } from '@/components/InstructorDeckCarousel'
 
 // Timeline data
 const timelineEvents = [
@@ -26,98 +27,8 @@ const values = [
 ]
 
 // Instructors data with real photos and bios
-const instructors = [
-  {
-    slug: 'andrei',
-    name: 'Andrei',
-    role: 'Instructor Adolescenți & Studenți',
-    specialization: 'Hip-Hop · Street Dance · Urban',
-    bio: 'Fă cunoștință cu Andrei, instructorul tău de dans pe care îl poți găsi la cursurile dedicate adolescenților sau studenților. Andrei are o experiență de peste 5 ani în dans, fiind student la Universitatea George Enescu. Are o energie molipsitoare și este de departe cel mai energic membru al echipei Quasar Dance!',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Andrei-PXdPdsp6SFs2eVUesKfeO47s8DPxxo.jpg',
-    years: '5+ ani',
-    color: '#3b82f6',
-  },
-  {
-    slug: 'bianca',
-    name: 'Bianca',
-    role: 'Instructor Copii & Adolescenți',
-    specialization: 'Kids Dance · Choreography · Trupe',
-    bio: 'Bianca sau instructorul preferat al copiilor, cum ne mai place nouă să o numim, este dansatoare, coregraf și fondatoare atât a trupei de copii, MiniQ\'s, cat și a trupei de adolescenți, TheQoolKids. Pe Bianca o întâlniți la cursurile pentru copii și adolescenți, unde alege cele mai energice piese, astfel încât le este imposibil copiilor să se plictisească!',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Bianca-3pOfsgUQDTKnBAeRaTWK7yWGRc2XqY.jpg',
-    years: '8+ ani',
-    color: '#ec4899',
-  },
-  {
-    slug: 'eva',
-    name: 'Eva',
-    role: 'Instructor Pop Dance',
-    specialization: 'Pop · Commercial · Choreography',
-    bio: 'Fă cunoștință cu Eva, instructorul tău de dans! Dacă îți dorești să dansezi pe cele mai populare și mai cool refrene pop, aici este locul potrivit pentru tine!',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Eva-IIkBssUfQtT7G1uSLRF13mljPe0gTa.jpg',
-    years: '6+ ani',
-    color: '#06b6d4',
-  },
-  {
-    slug: 'ioana',
-    name: 'Ioana',
-    role: 'Instructor Copii · Trupa RockOnQ',
-    specialization: 'Kids Dance · Street · Performance',
-    bio: 'Ioana are 22 de ani și un mega lipici la copii. Dansul nu este doar o activitate pentru ea; este parte din viața ei, un mod de a se exprima și de a inspira. Este membră a trupei RockOnQ.',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ioana-WvaR3IMrq1hEswy1rawgFZGntm4Y5u.jpg',
-    years: '4+ ani',
-    color: '#8b5cf6',
-  },
-  {
-    slug: 'ana',
-    name: 'Ana',
-    role: 'Instructor · Trupa RockOnQ',
-    specialization: 'Copii · Adolescenți · Street',
-    bio: 'Ana este membră a trupei RockOnQ și un instructor extraordinar atât pentru copii, cât și pentru adolescenți. Pe Ana o veți întâlni la sala Quasar Dance din Nicolina.',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ana-T9q0FBI0ly5P22wdrFFoWuXJEnb8iB.jpg',
-    years: '5+ ani',
-    color: '#f97316',
-  },
-  {
-    slug: 'mara',
-    name: 'Mara',
-    role: 'Instructor · Trupa RockOnQ',
-    specialization: 'Copii · Adolescenți · Urban',
-    bio: 'Mara este o persoană foarte energică, mereu cu zâmbetul pe buze, gata să se distreze împreună cu cei mici, dar și cu cei mari. Mara este membră a trupei RockOnQ și o veți întâlni la sala Quasar Dance din Nicolina.',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mara-csKNoHPfic8ThWuLdoOsgHvd4o0UV3.jpg',
-    years: '5+ ani',
-    color: '#10b981',
-  },
-  {
-    slug: 'igi',
-    name: 'Igi',
-    role: 'Fondator Quasar Dance',
-    specialization: 'Street Dance · Hip-Hop · Breaking',
-    bio: 'Alex sau Igi, cum îi zic prietenii este fondatorul Quasar Dance și instructorul de dans care te va plimba prin toate bazele dansului, istoria și cultura acestuia. Mereu zâmbăreț și carismatic, te va face inevitabil să te îndrăgostești de tot ce înseamnă dans și îți va oferi mereu un sfat sau îndrumare în drumul tău spre a deveni dansator.',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Igi-Ky2f9IvmGM6865GMiA5ya9qyutPEqK.jpg',
-    years: '15+ ani',
-    color: '#f8ef21',
-  },
-  {
-    slug: 'roxana',
-    name: 'Roxana',
-    role: 'Quasar for Kids',
-    specialization: 'Copii mici · Activități creative',
-    bio: 'Pe Roxana o veți întâlni la spațiul nostru dedicat copiilor un pic mai micuți, la Quasar for Kids! Este în continuă căutare de activități creative pentru a oferi copiilor, dar și părinților experiențe inedite și autentice. Dacă îți dorești timp de calitate alături de copilul tău, ea este persoana potrivită pe care să o întrebi.',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Roxana-LGLGA2B2CDwnsm9JaCICQ1AZFQBwCH.jpg',
-    years: '7+ ani',
-    color: '#ef4444',
-  },
-  {
-    slug: 'alin',
-    name: 'Alin',
-    role: 'Instructor Gimnastică & Acrobatică',
-    specialization: 'Gimnastică · Acrobație · Performance',
-    bio: 'Fă cunoștință cu Alin, instructorul tău de gimnastică & acrobatică! Pe Alin îl vei întâlni la sala Quasar Dance din Nicolina, unde coordonează inclusiv trupa de gimnastică ce reprezintă Quasar Dance. Alin este sportiv de performanță, iar alături de el poți dezvolta abilități pe care nu credeai vreodată că le dobândești.',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Alin-FneSXWpD1hwq3Nroa8YXV9Hmv4ys46.jpg',
-    years: '10+ ani',
-    color: '#14b8a6',
-  },
-]
+// Using instructors data from shared component
+const instructors = instructorsData
 
 // Impact stats
 const impactStats = [
@@ -146,156 +57,7 @@ function useInView() {
   return [ref, inView] as const
 }
 
-// Card Deck Carousel inspired by anime character cards / trading cards
-function InstructorDeckCarousel({ instructors, inView }: { instructors: typeof instructors; inView: boolean }) {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
 
-  const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? instructors.length - 1 : prev - 1))
-  const handleNext = () => setActiveIndex((prev) => (prev === instructors.length - 1 ? 0 : prev + 1))
-
-  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.targetTouches[0].clientX)
-  const handleTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) handleNext()
-    if (touchStart - touchEnd < -75) handlePrev()
-  }
-
-  const activeInstructor = instructors[activeIndex]
-
-  return (
-    <div className="relative">
-      {/* Card deck container */}
-      <div 
-        className="relative mx-auto max-w-4xl"
-        style={{ height: '600px' }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {/* Background stacked cards - fanned out when in view */}
-        {instructors.map((instructor, i) => {
-          const offset = i - activeIndex
-          const isActive = i === activeIndex
-          const isBehind = offset < 0
-          const isAhead = offset > 0
-          
-          // Calculate fan-out position
-          let transform = ''
-          let zIndex = 0
-          let opacity = 0
-          
-          if (isActive) {
-            transform = 'translateX(0) translateY(0) scale(1) rotate(0deg)'
-            zIndex = 10
-            opacity = 1
-          } else if (isBehind) {
-            // Cards behind (already shown) - fan to the left
-            const fanOffset = Math.min(Math.abs(offset), 3)
-            transform = `translateX(${-80 * fanOffset}%) translateY(${20 * fanOffset}px) scale(${1 - fanOffset * 0.1}) rotate(${-8 * fanOffset}deg)`
-            zIndex = 10 - Math.abs(offset)
-            opacity = inView ? 0.4 : 0
-          } else if (isAhead) {
-            // Cards ahead - fan to the right
-            const fanOffset = Math.min(offset, 3)
-            transform = `translateX(${80 * fanOffset}%) translateY(${20 * fanOffset}px) scale(${1 - fanOffset * 0.1}) rotate(${8 * fanOffset}deg)`
-            zIndex = 10 - offset
-            opacity = inView ? 0.4 : 0
-          }
-
-          return (
-            <div
-              key={instructor.slug}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm transition-all duration-700 ease-out cursor-pointer"
-              style={{
-                transform,
-                zIndex,
-                opacity,
-                transitionDelay: inView ? `${Math.abs(offset) * 60}ms` : '0ms',
-              }}
-              onClick={() => !isActive && setActiveIndex(i)}
-            >
-              <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-[#231f20] shadow-2xl bg-white">
-                {/* Image */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url('${instructor.image}')` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#231f20] via-transparent to-transparent" />
-                
-                {/* Content overlay */}
-                <div className="absolute inset-0 flex flex-col justify-between p-6">
-                  {/* Top: Name badge */}
-                  <div>
-                    <div
-                      className="inline-block bg-[#f8ef21] text-[#231f20] font-black text-xl md:text-2xl px-4 py-2 rounded-xl shadow-lg"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {instructor.name}
-                    </div>
-                  </div>
-
-                  {/* Bottom: Bio card */}
-                  <div className="bg-[#231f20]/95 backdrop-blur-md rounded-2xl p-4 border-2 border-[#f8ef21]/20">
-                    <div className="text-[#f8ef21] text-sm font-bold mb-1 uppercase tracking-wide" style={{ fontFamily: 'var(--font-display)' }}>
-                      {instructor.role}
-                    </div>
-                    <div className="text-white/60 text-xs mb-3">{instructor.specialization}</div>
-                    <p className="text-white/90 text-sm leading-relaxed line-clamp-3">
-                      {instructor.bio}
-                    </p>
-                    <div className="mt-3 flex items-center gap-2 text-[#f8ef21] text-xs font-bold">
-                      <Award size={14} />
-                      {instructor.years} experiență
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-
-      {/* Navigation arrows */}
-      <button
-        onClick={handlePrev}
-        className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-[#231f20] text-[#f8ef21] p-3 md:p-4 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-all duration-200 shadow-xl"
-        aria-label="Instructor anterior"
-      >
-        <ArrowRight size={24} className="rotate-180" />
-      </button>
-      <button
-        onClick={handleNext}
-        className="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-20 bg-[#231f20] text-[#f8ef21] p-3 md:p-4 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-all duration-200 shadow-xl"
-        aria-label="Instructor următor"
-      >
-        <ArrowRight size={24} />
-      </button>
-
-      {/* Dots indicator */}
-      <div className="flex justify-center gap-2 mt-8">
-        {instructors.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveIndex(i)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              i === activeIndex ? 'bg-[#f8ef21] w-8' : 'bg-[#231f20]/20'
-            }`}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
-      </div>
-
-      {/* Card counter */}
-      <div className="text-center mt-4">
-        <span className="text-[#231f20] font-bold text-sm" style={{ fontFamily: 'var(--font-display)' }}>
-          {activeIndex + 1} / {instructors.length}
-        </span>
-      </div>
-    </div>
-  )
-}
 
 export default function DespreNoiPage() {
   const [heroRef, heroInView] = useInView()
