@@ -146,86 +146,152 @@ function useInView() {
   return [ref, inView] as const
 }
 
-// Anime-style card flip component
-function InstructorCard({ instructor, index }: { instructor: typeof instructors[0]; index: number }) {
-  const [isFlipped, setIsFlipped] = useState(false)
-  const [cardRef, cardInView] = useInView()
+// Card Deck Carousel inspired by anime character cards / trading cards
+function InstructorDeckCarousel({ instructors, inView }: { instructors: typeof instructors; inView: boolean }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [touchStart, setTouchStart] = useState(0)
+  const [touchEnd, setTouchEnd] = useState(0)
+
+  const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? instructors.length - 1 : prev - 1))
+  const handleNext = () => setActiveIndex((prev) => (prev === instructors.length - 1 ? 0 : prev + 1))
+
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.targetTouches[0].clientX)
+  const handleTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) handleNext()
+    if (touchStart - touchEnd < -75) handlePrev()
+  }
+
+  const activeInstructor = instructors[activeIndex]
 
   return (
-    <div
-      ref={cardRef}
-      className={`instructor-card-wrapper reveal ${cardInView ? 'in-view' : ''}`}
-      style={{ transitionDelay: `${index * 80}ms` }}
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
-    >
-      <div className={`instructor-card ${isFlipped ? 'flipped' : ''}`}>
-        {/* Front */}
-        <div className="card-face card-front">
-          <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-[#231f20] shadow-2xl">
+    <div className="relative">
+      {/* Card deck container */}
+      <div 
+        className="relative mx-auto max-w-4xl"
+        style={{ height: '600px' }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Background stacked cards - fanned out when in view */}
+        {instructors.map((instructor, i) => {
+          const offset = i - activeIndex
+          const isActive = i === activeIndex
+          const isBehind = offset < 0
+          const isAhead = offset > 0
+          
+          // Calculate fan-out position
+          let transform = ''
+          let zIndex = 0
+          let opacity = 0
+          
+          if (isActive) {
+            transform = 'translateX(0) translateY(0) scale(1) rotate(0deg)'
+            zIndex = 10
+            opacity = 1
+          } else if (isBehind) {
+            // Cards behind (already shown) - fan to the left
+            const fanOffset = Math.min(Math.abs(offset), 3)
+            transform = `translateX(${-80 * fanOffset}%) translateY(${20 * fanOffset}px) scale(${1 - fanOffset * 0.1}) rotate(${-8 * fanOffset}deg)`
+            zIndex = 10 - Math.abs(offset)
+            opacity = inView ? 0.4 : 0
+          } else if (isAhead) {
+            // Cards ahead - fan to the right
+            const fanOffset = Math.min(offset, 3)
+            transform = `translateX(${80 * fanOffset}%) translateY(${20 * fanOffset}px) scale(${1 - fanOffset * 0.1}) rotate(${8 * fanOffset}deg)`
+            zIndex = 10 - offset
+            opacity = inView ? 0.4 : 0
+          }
+
+          return (
             <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url('${instructor.image}')` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#231f20] via-[#231f20]/40 to-transparent" />
-            
-            {/* Name badge - top */}
-            <div className="absolute top-4 left-4 right-4">
-              <div
-                className="bg-[#f8ef21] text-[#231f20] font-black text-lg px-4 py-2 rounded-xl shadow-lg"
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
-                {instructor.name}
-              </div>
-            </div>
-
-            {/* Stats badge - bottom */}
-            <div className="absolute bottom-4 left-4 right-4">
-              <div className="bg-[#231f20]/90 backdrop-blur-sm rounded-xl p-3 border border-[#f8ef21]/20">
-                <div className="text-[#f8ef21] text-xs font-bold mb-1" style={{ fontFamily: 'var(--font-display)' }}>
-                  {instructor.role}
-                </div>
-                <div className="text-white/60 text-xs">{instructor.years} experiență</div>
-              </div>
-            </div>
-
-            {/* Hover indicator */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="bg-[#f8ef21] text-[#231f20] rounded-full p-3 animate-pulse">
-                <ArrowRight size={24} className="rotate-90" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Back */}
-        <div className="card-face card-back">
-          <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-[#231f20] shadow-2xl bg-[#231f20] p-6 flex flex-col">
-            <div className="mb-3">
-              <div
-                className="text-[#f8ef21] text-xl font-black mb-1"
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
-                {instructor.name}
-              </div>
-              <div className="text-white/60 text-xs font-bold uppercase tracking-wider">
-                {instructor.specialization}
-              </div>
-            </div>
-
-            <p className="text-white/80 text-sm leading-relaxed mb-4 flex-grow overflow-y-auto">
-              {instructor.bio}
-            </p>
-
-            <Link
-              href={`/despre-noi/${instructor.slug}`}
-              className="inline-flex items-center justify-center gap-2 bg-[#f8ef21] text-[#231f20] font-bold text-sm px-4 py-2.5 rounded-full hover:bg-white transition-colors duration-200"
-              style={{ fontFamily: 'var(--font-display)' }}
+              key={instructor.slug}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm transition-all duration-700 ease-out cursor-pointer"
+              style={{
+                transform,
+                zIndex,
+                opacity,
+                transitionDelay: inView ? `${Math.abs(offset) * 60}ms` : '0ms',
+              }}
+              onClick={() => !isActive && setActiveIndex(i)}
             >
-              Vezi profil <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
+              <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border-4 border-[#231f20] shadow-2xl bg-white">
+                {/* Image */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${instructor.image}')` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#231f20] via-transparent to-transparent" />
+                
+                {/* Content overlay */}
+                <div className="absolute inset-0 flex flex-col justify-between p-6">
+                  {/* Top: Name badge */}
+                  <div>
+                    <div
+                      className="inline-block bg-[#f8ef21] text-[#231f20] font-black text-xl md:text-2xl px-4 py-2 rounded-xl shadow-lg"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {instructor.name}
+                    </div>
+                  </div>
+
+                  {/* Bottom: Bio card */}
+                  <div className="bg-[#231f20]/95 backdrop-blur-md rounded-2xl p-4 border-2 border-[#f8ef21]/20">
+                    <div className="text-[#f8ef21] text-sm font-bold mb-1 uppercase tracking-wide" style={{ fontFamily: 'var(--font-display)' }}>
+                      {instructor.role}
+                    </div>
+                    <div className="text-white/60 text-xs mb-3">{instructor.specialization}</div>
+                    <p className="text-white/90 text-sm leading-relaxed line-clamp-3">
+                      {instructor.bio}
+                    </p>
+                    <div className="mt-3 flex items-center gap-2 text-[#f8ef21] text-xs font-bold">
+                      <Award size={14} />
+                      {instructor.years} experiență
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Navigation arrows */}
+      <button
+        onClick={handlePrev}
+        className="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-20 bg-[#231f20] text-[#f8ef21] p-3 md:p-4 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-all duration-200 shadow-xl"
+        aria-label="Instructor anterior"
+      >
+        <ArrowRight size={24} className="rotate-180" />
+      </button>
+      <button
+        onClick={handleNext}
+        className="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-20 bg-[#231f20] text-[#f8ef21] p-3 md:p-4 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-all duration-200 shadow-xl"
+        aria-label="Instructor următor"
+      >
+        <ArrowRight size={24} />
+      </button>
+
+      {/* Dots indicator */}
+      <div className="flex justify-center gap-2 mt-8">
+        {instructors.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              i === activeIndex ? 'bg-[#f8ef21] w-8' : 'bg-[#231f20]/20'
+            }`}
+            aria-label={`Slide ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Card counter */}
+      <div className="text-center mt-4">
+        <span className="text-[#231f20] font-bold text-sm" style={{ fontFamily: 'var(--font-display)' }}>
+          {activeIndex + 1} / {instructors.length}
+        </span>
       </div>
     </div>
   )
@@ -489,11 +555,11 @@ export default function DespreNoiPage() {
         </div>
       </section>
 
-      {/* Team Section - Anime Cards */}
-      <section id="echipa" ref={teamRef} className="py-20 md:py-28 bg-white">
+      {/* Team Section - Card Deck Carousel */}
+      <section id="echipa" ref={teamRef} className="py-20 md:py-32 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
-          <div className="mb-12">
-            <div className="mb-4"><SprayLabel>Echipa Quasar</SprayLabel></div>
+          <div className="mb-12 text-center">
+            <div className="mb-4 flex justify-center"><SprayLabel>Echipa Quasar</SprayLabel></div>
             <h2
               className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
               style={{ fontFamily: 'var(--font-display)' }}
@@ -502,17 +568,12 @@ export default function DespreNoiPage() {
               <br />
               <span className="text-[#231f20]/40">Mentorii tăi.</span>
             </h2>
-            <p className="text-[#6b6b6b] mt-4 max-w-2xl">
-              Fiecare membru al echipei Quasar aduce pasiune, experiență și personalitate unică. 
-              Treci cu mouse-ul peste carduri pentru a afla mai multe.
+            <p className="text-[#6b6b6b] mt-4 max-w-2xl mx-auto">
+              Swipe sau folosește săgețile pentru a descoperi întreaga echipă Quasar.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {instructors.map((instructor, i) => (
-              <InstructorCard key={instructor.slug} instructor={instructor} index={i} />
-            ))}
-          </div>
+          <InstructorDeckCarousel instructors={instructors} inView={teamInView} />
         </div>
       </section>
 
@@ -614,11 +675,7 @@ export default function DespreNoiPage() {
           opacity: 1;
         }
 
-        /* Anime card flip styles */
-        .instructor-card-wrapper {
-          perspective: 1000px;
-          height: 480px;
-        }
+
 
         .instructor-card {
           position: relative;
