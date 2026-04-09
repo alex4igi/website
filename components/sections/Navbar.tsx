@@ -156,6 +156,34 @@ export default function Navbar() {
             transition: 'opacity 0.3s ease 0.2s',
           }}
         >
+          {/* Close button */}
+          <button
+            className="absolute top-6 right-6 z-[60] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#f8ef21] transition-all duration-200 group"
+            onClick={() => setOpen(false)}
+            aria-label="Închide meniu"
+            style={{
+              opacity: open ? 1 : 0,
+              transform: open ? 'scale(1)' : 'scale(0.8)',
+              transition: 'opacity 0.3s ease 0.3s, transform 0.3s ease 0.3s',
+            }}
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              className="text-white group-hover:text-[#231f20] transition-colors duration-200"
+            >
+              <path
+                d="M15 5L5 15M5 5L15 15"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+
           {/* Nav items */}
           <ul className="flex flex-col gap-1">
             {navLinks.map((link, i) => (
