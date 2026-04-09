@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, Users, Heart, Target, TrendingUp, Star, MapPin, Award } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
