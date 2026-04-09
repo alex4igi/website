@@ -204,14 +204,14 @@ export default function ContactPage() {
           {/* Map Container */}
           <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl border-4 border-[#231f20]">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2712.345!2d27.5810635107931!3d47.1635894529357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40cafb7d34e0e5b7%3A0x1234567890!2sQuasar%20Dance%20Stefan%20cel%20Mare!5e0!3m2!1sen!2sro!4v1234567890123!5m2!1sen!2sro&z=16"
+              src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=Quasar+Dance+Stefan+cel+Mare+-+Cursuri+de+dans,Iași&center=47.16364780982625,27.581117154970727&zoom=17"
               width="100%"
               height="500"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Quasar Dance Stefan cel Mare - Locație principală"
+              title="Quasar Dance Stefan cel Mare - Cursuri de dans"
             />
           </div>
 
