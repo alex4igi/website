@@ -9,6 +9,7 @@ import AgeGroupsSection from '@/components/sections/AgeGroupsSection'
 import DifferentiatorsSection from '@/components/sections/DifferentiatorsSection'
 import StatsSection from '@/components/sections/StatsSection'
 import SchedulePreviewSection from '@/components/sections/SchedulePreviewSection'
+import PricingSection from '@/components/sections/PricingSection'
 import InstructorsSection from '@/components/sections/InstructorsSection'
 import TestimonialsSection from '@/components/sections/TestimonialsSection'
 import LocationsSection from '@/components/sections/LocationsSection'
@@ -49,10 +50,13 @@ export default function HomePage() {
       {/* 8. Stats / Impact / Social proof */}
       <StatsSection />
 
-      {/* 9. Schedule + Pricing preview (tabbed) */}
+      {/* 9. Schedule preview */}
       <SchedulePreviewSection />
 
-      {/* 10. Instructors preview — 3 cards */}
+      {/* 10. Pricing plans */}
+      <PricingSection />
+
+      {/* 11. Instructors preview — 3 cards */}
       <InstructorsSection />
 
       {/* 11. Testimonials — carousel */}

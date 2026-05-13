@@ -217,16 +217,11 @@ export default function ContactPage() {
 
           {/* Location Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {locations.map((location, i) => (
+            {locations.map((location) => (
               <div
                 key={location.id}
                 className="bg-white rounded-2xl p-6 border-2 border-[#e5e5e5] hover:border-[#f8ef21] transition-all duration-300 hover:shadow-xl"
               >
-                {i === 0 && (
-                  <div className="mb-4">
-                    <SprayLabel>Sediu principal</SprayLabel>
-                  </div>
-                )}
                 <h3
                   className="text-[#231f20] text-xl font-bold mb-4"
                   style={{ fontFamily: 'var(--font-display)' }}

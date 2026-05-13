@@ -62,12 +62,6 @@ export default function LocationsSection() {
                   : 'bg-white border-[#e5e5e5]'
               }`}
             >
-              {loc.highlight && (
-                <div className="self-start">
-                  <SprayLabel>Sediu principal</SprayLabel>
-                </div>
-              )}
-
               <div>
                 <h3
                   className={`text-xl font-bold mb-1 ${loc.highlight ? 'text-white' : 'text-[#231f20]'}`}

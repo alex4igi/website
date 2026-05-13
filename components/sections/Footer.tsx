@@ -17,7 +17,8 @@ const navCols = [
     links: [
       { label: 'Despre noi', href: '/despre-noi' },
       { label: 'Echipa noastră', href: '/despre-noi#echipa' },
-      { label: 'Program & Prețuri', href: '#program' },
+      { label: 'Program', href: '#program' },
+      { label: 'Prețuri', href: '#preturi' },
       { label: 'Locații', href: '#locatii' },
       { label: 'Contact', href: '/contact' },
     ],

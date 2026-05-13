@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { ArrowRight, Award, X } from 'lucide-react'
 import {
   Dialog,
@@ -103,19 +103,29 @@ export default function InstructorDeckCarousel({
   inView = true 
 }: InstructorDeckCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [touchStart, setTouchStart] = useState(0)
-  const [touchEnd, setTouchEnd] = useState(0)
+  const touchStartX = useRef(0)
+  const touchEndX = useRef(0)
+  const touchMoved = useRef(false)
   const [selectedInstructor, setSelectedInstructor] = useState<typeof instructorsData[0] | null>(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handlePrev = () => setActiveIndex((prev) => (prev === 0 ? instructors.length - 1 : prev - 1))
   const handleNext = () => setActiveIndex((prev) => (prev === instructors.length - 1 ? 0 : prev + 1))
 
-  const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.targetTouches[0].clientX)
-  const handleTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX
+    touchEndX.current = e.targetTouches[0].clientX
+    touchMoved.current = false
+  }
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX
+    touchMoved.current = true
+  }
   const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) handleNext()
-    if (touchStart - touchEnd < -75) handlePrev()
+    if (!touchMoved.current) return
+    const delta = touchStartX.current - touchEndX.current
+    if (delta > 75) handleNext()
+    else if (delta < -75) handlePrev()
   }
 
   return (
