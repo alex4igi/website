@@ -1,64 +1,68 @@
-'use client'
-
-import { useState } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { unstable_cache } from 'next/cache'
+import { CalendarDays, PartyPopper, Trophy } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
+import { getCalendar } from '@/lib/db'
+import { defaultCalendarData } from '@/lib/db/defaults'
+import type { CalendarData } from '@/lib/db/types'
 
-const scheduleItems = [
-  {
-    day: 'Luni',
-    course: 'Street Dance Kids',
-    time: '16:00 – 17:30',
-    location: 'Centru',
-    age: '6–10 ani',
-    level: 'Începător',
+const fetchCalendar = unstable_cache(
+  async (): Promise<CalendarData> => {
+    try {
+      return await getCalendar()
+    } catch {
+      return defaultCalendarData
+    }
   },
-  {
-    day: 'Marți',
-    course: 'Gimnastică artistică',
-    time: '15:30 – 17:00',
-    location: 'Quasar for Kids',
-    age: '4–8 ani',
-    level: 'Toate nivelele',
-  },
-  {
-    day: 'Miercuri',
-    course: 'KPOP Dance',
-    time: '18:00 – 19:30',
-    location: 'Nicolina',
-    age: '11–18 ani',
-    level: 'Intermediar',
-  },
-  {
-    day: 'Joi',
-    course: 'Dans Studenți',
-    time: '19:30 – 21:00',
-    location: 'Centru',
-    age: '19–25 ani',
-    level: 'Toate nivelele',
-  },
-  {
-    day: 'Vineri',
-    course: 'Street Dance Varsity',
-    time: '17:00 – 18:30',
-    location: 'Centru',
-    age: '11–14 ani',
-    level: 'Intermediar',
-  },
-]
+  ['calendar'],
+  { tags: ['calendar'] },
+)
 
-const locationChips = ['Toate', 'Centru', 'Nicolina', 'Quasar for Kids']
-const ageChips = ['Toate vârstele', '4–10 ani', '11–18 ani', '19+ ani']
+function formatRange(start: string, end: string) {
+  if (!start || !end) return ''
+  const s = new Date(start)
+  const e = new Date(end)
+  const sameMonth = s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear()
+  const fmt = (d: Date, opts: Intl.DateTimeFormatOptions) => d.toLocaleDateString('ro-RO', opts)
+  if (sameMonth) {
+    return `${s.getDate()} – ${fmt(e, { day: 'numeric', month: 'long', year: 'numeric' })}`
+  }
+  return `${fmt(s, { day: 'numeric', month: 'short' })} – ${fmt(e, { day: 'numeric', month: 'short', year: 'numeric' })}`
+}
 
-export default function SchedulePreviewSection() {
-  const [activeLocation, setActiveLocation] = useState('Toate')
-  const [activeAge, setActiveAge] = useState('Toate vârstele')
+function formatDate(iso: string) {
+  if (!iso) return ''
+  return new Date(iso).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
+}
 
-  const filteredSchedule = scheduleItems.filter((item) => {
-    const locMatch = activeLocation === 'Toate' || item.location === activeLocation
-    const ageMatch = activeAge === 'Toate vârstele' || true // simplified
-    return locMatch && ageMatch
-  })
+const eventIcons = {
+  spectacol: PartyPopper,
+  concurs: Trophy,
+  special: CalendarDays,
+} as const
+
+const eventColors = {
+  spectacol: 'bg-[#f8ef21] text-[#231f20]',
+  concurs: 'bg-[#231f20] text-[#f8ef21]',
+  special: 'bg-[#3a3637] text-white',
+} as const
+
+const eventLabels = {
+  spectacol: 'Spectacol',
+  concurs: 'Concurs',
+  special: 'Special',
+} as const
+
+export default async function SchedulePreviewSection() {
+  const data = await fetchCalendar()
+  const sortedModules = [...data.modules].sort(
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+  )
+  const sortedEvents = [...data.events].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+  )
+  const sortedVacations = [...data.vacations].sort(
+    (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+  )
 
   return (
     <section id="program" className="bg-[#f5f5f5] py-20 md:py-28">
@@ -70,137 +74,135 @@ export default function SchedulePreviewSection() {
             className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            Găsește cursul
+            Calendar cursuri
             <br />
-            potrivit pentru tine
+            <span className="text-[#231f20]/40">{data.yearLabel}</span>
           </h2>
+          <p className="text-[#6b6b6b] mt-4 max-w-2xl">
+            Începem pe <strong className="text-[#231f20]">{formatDate(data.startDate)}</strong> și terminăm pe{' '}
+            <strong className="text-[#231f20]">{formatDate(data.endDate)}</strong>. {sortedModules.length} module, cu pauze și evenimente.
+          </p>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-3 mb-6">
-          <div className="flex flex-wrap gap-2">
-            {locationChips.map((chip) => (
-              <button
-                key={chip}
-                onClick={() => setActiveLocation(chip)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
-                  activeLocation === chip
-                    ? 'bg-[#231f20] text-[#f8ef21] border-[#231f20]'
-                    : 'bg-white text-[#231f20] border-[#e5e5e5] hover:border-[#231f20]'
-                }`}
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
-                {chip}
-              </button>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {ageChips.map((chip) => (
-              <button
-                key={chip}
-                onClick={() => setActiveAge(chip)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
-                  activeAge === chip
-                    ? 'bg-[#231f20] text-[#f8ef21] border-[#231f20]'
-                    : 'bg-white text-[#231f20] border-[#e5e5e5] hover:border-[#231f20]'
-                }`}
-                style={{ fontFamily: 'var(--font-display)' }}
-              >
-                {chip}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Schedule table */}
-        <div className="bg-white rounded-2xl overflow-hidden border border-[#e5e5e5]">
-          {/* Desktop table */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-[#e5e5e5] bg-[#f5f5f5]">
-                  {['Zi', 'Curs', 'Orar', 'Locație', 'Vârstă', 'Nivel'].map((h) => (
-                    <th
-                      key={h}
-                      className="text-left px-5 py-3 text-[#231f20] text-xs font-bold uppercase tracking-wider"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSchedule.map((item, i) => (
-                  <tr
-                    key={i}
-                    className="border-b border-[#e5e5e5] last:border-0 hover:bg-[#f5f5f5] transition-colors"
-                  >
-                    <td
-                      className="px-5 py-4 font-semibold text-[#231f20]"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {item.day}
-                    </td>
-                    <td
-                      className="px-5 py-4 font-semibold text-[#231f20]"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {item.course}
-                    </td>
-                    <td className="px-5 py-4 text-[#6b6b6b]">{item.time}</td>
-                    <td className="px-5 py-4">
-                      <span className="section-label text-[10px]">{item.location}</span>
-                    </td>
-                    <td className="px-5 py-4 text-[#6b6b6b]">{item.age}</td>
-                    <td className="px-5 py-4">
-                      <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#f5f5f5] text-[#6b6b6b]">
-                        {item.level}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile cards */}
-          <div className="md:hidden flex flex-col divide-y divide-[#e5e5e5]">
-            {filteredSchedule.map((item, i) => (
-              <div key={i} className="p-5 flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-[#231f20] font-bold"
+        {/* Modules */}
+        {sortedModules.length > 0 && (
+          <div className="mb-10">
+            <h3
+              className="text-[#231f20] text-lg font-bold uppercase tracking-wider mb-4"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              Modulele anului
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              {sortedModules.map((m) => (
+                <div
+                  key={m.id}
+                  className="bg-white rounded-2xl border border-[#e5e5e5] p-5 flex flex-col gap-2"
+                >
+                  <div
+                    className="text-xs font-bold uppercase tracking-wider text-[#6b6b6b]"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    {item.course}
-                  </span>
-                  <span className="section-label text-[10px]">{item.location}</span>
+                    Modul {m.number}
+                  </div>
+                  <div
+                    className="text-[#231f20] text-base font-bold"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {m.label}
+                  </div>
+                  <div className="text-[#6b6b6b] text-xs">{formatRange(m.startDate, m.endDate)}</div>
+                  <div className="text-[#231f20]/50 text-xs font-semibold mt-auto pt-2">
+                    {m.weeks} {m.weeks === 1 ? 'săptămână' : 'săptămâni'}
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-[#6b6b6b]">
-                  <span>{item.day}</span>
-                  <span>·</span>
-                  <span>{item.time}</span>
-                  <span>·</span>
-                  <span>{item.age}</span>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Preview note */}
-        <div className="mt-4 flex items-center justify-between">
-          <p className="text-[#6b6b6b] text-xs">
-            Acesta este un preview. Programul complet conține 30+ cursuri săptămânale.
-          </p>
-          <a
-            href="#program-complet"
-            className="inline-flex items-center gap-1 text-[#231f20] text-sm font-bold hover:text-[#231f20]/70 transition-colors"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Program complet <ArrowRight size={14} />
-          </a>
+        {/* Two-column: Events + Vacations */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Events */}
+          {sortedEvents.length > 0 && (
+            <div>
+              <h3
+                className="text-[#231f20] text-lg font-bold uppercase tracking-wider mb-4"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Evenimente importante
+              </h3>
+              <div className="flex flex-col gap-3">
+                {sortedEvents.map((ev) => {
+                  const Icon = eventIcons[ev.type]
+                  return (
+                    <div
+                      key={ev.id}
+                      className="bg-white rounded-xl border border-[#e5e5e5] p-4 flex items-start gap-4"
+                    >
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${eventColors[ev.type]}`}
+                      >
+                        <Icon size={18} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span
+                            className="text-[#231f20] text-sm font-bold"
+                            style={{ fontFamily: 'var(--font-display)' }}
+                          >
+                            {ev.title}
+                          </span>
+                          <span
+                            className="text-[10px] uppercase tracking-wider font-bold text-[#6b6b6b] bg-[#f5f5f5] px-2 py-0.5 rounded-full"
+                            style={{ fontFamily: 'var(--font-display)' }}
+                          >
+                            {eventLabels[ev.type]}
+                          </span>
+                        </div>
+                        <div className="text-[#6b6b6b] text-xs mt-0.5">{formatDate(ev.date)}</div>
+                        {ev.description && (
+                          <p className="text-[#6b6b6b] text-xs mt-1.5 leading-relaxed">{ev.description}</p>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Vacations */}
+          {sortedVacations.length > 0 && (
+            <div>
+              <h3
+                className="text-[#231f20] text-lg font-bold uppercase tracking-wider mb-4"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Vacanțe
+              </h3>
+              <div className="flex flex-col gap-3">
+                {sortedVacations.map((v) => (
+                  <div
+                    key={v.id}
+                    className="bg-white rounded-xl border border-[#e5e5e5] p-4 flex items-center justify-between gap-3"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <div
+                        className="text-[#231f20] text-sm font-bold"
+                        style={{ fontFamily: 'var(--font-display)' }}
+                      >
+                        {v.label || 'Vacanță'}
+                      </div>
+                      <div className="text-[#6b6b6b] text-xs mt-0.5">
+                        {formatRange(v.startDate, v.endDate)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
