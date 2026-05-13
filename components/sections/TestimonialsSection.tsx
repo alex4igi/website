@@ -7,51 +7,73 @@ import SprayLabel from '@/components/ui/spray-label'
 
 const testimonials = [
   {
-    type: 'parent',
-    name: 'Elena V.',
-    role: 'Mamă · fiul la Street Dance Kids',
-    quote:
-      'Fiul meu a venit prima dată timid și fără nicio experiență. Acum urcă pe scenă cu zâmbetul pe față și discipol de câțiva ani. Quasar l-a schimbat cu adevărat.',
-    stars: 5,
-  },
-  {
-    type: 'student',
-    name: 'Radu C.',
-    role: 'Dansator · Studenți',
-    quote:
-      'Am venit la Quasar fără să fi dansat niciodată. În 6 luni eram pe scenă la spectacolul anual. Echipa asta e altceva — energie, pasiune și spirit real.',
-    stars: 5,
-  },
-  {
-    type: 'parent',
-    name: 'Mihaela D.',
-    role: 'Mamă · fiica la Gimnastică',
-    quote:
-      'Am ales Quasar pentru structura lor. Nu e haotic, nu e improvizat. E un program real, cu instructori atenți și progres vizibil din lună în lună.',
-    stars: 5,
-  },
-  {
-    type: 'teen',
     name: 'Andreea M.',
-    role: 'Dansatoare · KPOP',
+    role: 'Mamă · 38 de ani',
     quote:
-      'KPOP-ul la Quasar nu e doar dans. E o familie. Am cunoscut oameni cu care vorbesc și în afara sălii. Cel mai bun lucru din viața mea de liceu.',
+      'Sincer, la început mi s-au părut scumpe. Dar când am împărțit la numărul de ședințe, mi-am dat seama că e chiar avantajos — mai ales că în preț intră și spectacole, concursuri și o grămadă de alte evenimente. Merită fiecare leu.',
     stars: 5,
   },
   {
-    type: 'parent',
-    name: 'Ionuț R.',
-    role: 'Tată · fiica la Street Dance',
+    name: 'Raluca D.',
+    role: 'Mamă · 42 de ani',
     quote:
-      'Eram sceptic. Acum sunt cel mai vocal susținător al lui Quasar în anturajul meu. Dacă ai un copil în Iași, nu există alternativă mai bună.',
+      'Al meu e un pic retras, așa că m-am temut că o să fie copleșit. La prima ședință a fost lăsat pur și simplu să stea și să asculte muzică — fără nicio presiune. Până la urmă el singur a cerut să încerce.',
     stars: 5,
   },
   {
-    type: 'student',
-    name: 'Laura S.',
-    role: 'Dansatoare · Adults',
+    name: 'Mihaela T.',
+    role: 'Mamă · 36 de ani',
     quote:
-      'Am început la 28 de ani, convinsă că e prea târziu. Quasar m-a convins că nu există prea târziu — există doar primul pas pe care nu l-ai făcut încă.',
+      'Când se formează grupurile se fac niște jocuri între copii, ca să spargă gheața. Când am luat-o acasă după primul curs, îmi povestea entuziasmată că și-a făcut prieteni noi. Le știa chiar și numele. 😄',
+    stars: 5,
+  },
+  {
+    name: 'Ioana C.',
+    role: 'Mamă · 44 de ani',
+    quote:
+      'Acum vine acasă cu mișcări noi — și fiecare pas are o poveste și un nume. Pe unele mișcări le observă și prin videoclipuri. Nu mai e doar "dans", e ceva ce înțelege și poate explica. Este foarte mândră fetița mea!',
+    stars: 5,
+  },
+  {
+    name: 'Cristina B.',
+    role: 'Mamă · 39 de ani',
+    quote:
+      'A ajuns să aștepte ora de dans cu atâta nerăbdare, că am renunțat să mai plecăm în concediu când pică cursuri sau evenimente. Acum noi ne facem programul după ea — nu invers.',
+    stars: 5,
+  },
+  {
+    name: 'Simona R.',
+    role: 'Mamă · 47 de ani',
+    quote:
+      'Se închide în cameră, pune videoclipurile cu coregrafiile lui și repetă ore întregi. Singur, din proprie inițiativă. Ca părinte, eu sunt mulțumită.',
+    stars: 5,
+  },
+  {
+    name: 'Elena P.',
+    role: 'Mamă · 41 de ani',
+    quote:
+      'Se vede că au ani de experiență cu copii. Au răbdare, știu cum să le vorbească, cum să-i motiveze. Dau toți în mintea lor — în sensul cel mai bun.',
+    stars: 5,
+  },
+  {
+    name: 'Diana F.',
+    role: 'Mamă · 35 de ani',
+    quote:
+      'Instructorul dansează efectiv alături de copii. Nu stă deoparte și dă indicații de la distanță — e acolo, cu ei, pas cu pas.',
+    stars: 5,
+  },
+  {
+    name: 'Gabriela N.',
+    role: 'Mamă · 46 de ani',
+    quote:
+      'Dacă o pedepsesc cu telefonul, ridică din umeri. Dar dacă îi spun că nu merge la dans? Avem o dramă în toată casa. 😂',
+    stars: 5,
+  },
+  {
+    name: 'Loredana S.',
+    role: 'Mamă · 50 de ani',
+    quote:
+      'Suntem de 5 ani în această comunitate — înainte a mai făcut dans sportiv, dar aici a găsit cu adevărat locul lui. Dansul a devenit identitatea lui. Acum vrea să dea la facultatea de coregrafie din București. Dacă nu era Quasarul, copilul meu ar fi renunțat la dans de mult. Mulțumesc din suflet.',
     stars: 5,
   },
 ]
@@ -84,14 +106,14 @@ export default function TestimonialsSection() {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div className="max-w-xl">
-            <div className="mb-4"><SprayLabel>Ce spun membrii</SprayLabel></div>
+            <div className="mb-4"><SprayLabel>Testimoniale</SprayLabel></div>
             <h2
               className="text-white text-3xl md:text-5xl font-extrabold leading-tight text-balance"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              Vibrația Quasar,
+              Ce spun părinții
               <br />
-              <span className="text-[#f8ef21]">în cuvintele lor.</span>
+              <span className="text-[#f8ef21]">despre noi.</span>
             </h2>
           </div>
 

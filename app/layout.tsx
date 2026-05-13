@@ -18,6 +18,10 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  icons: {
+    icon: '/favicon-quasar.png',
+    apple: '/favicon-quasar.png',
+  },
   title: 'Quasar Dance | Școală de Dans în Iași din 1981',
   description:
     'Quasar Dance — cea mai longevivă comunitate de dans din Iași. Cursuri de street dance, gimnastică, KPOP pentru copii, studenți și adulți. 600+ membri activi, 200+ trofee, 3 locații.',
