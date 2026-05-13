@@ -4,7 +4,7 @@ const steps = [
     title: 'Începător',
     subtitle: 'Primii pași',
     desc: 'Fundamente de dans, coordonare, ritm, muzicalitate. Grupă prietenoasă, fără presiune.',
-    tags: ['Baza technică', 'Ritm', 'Comunicare'],
+    tags: ['Baza tehnică', 'Ritm', 'Comunicare'],
   },
   {
     num: '02',
@@ -15,10 +15,10 @@ const steps = [
   },
   {
     num: '03',
-    title: 'Specializare',
-    subtitle: 'Direcție proprie',
-    desc: 'Alegi un stil — street dance, KPOP, gimnastică. Nivelul de competiție devine o opțiune reală.',
-    tags: ['Street Dance', 'KPOP', 'Competiții'],
+    title: 'Avansat',
+    subtitle: 'Tehnică & precizie',
+    desc: 'Stăpânești stilul ales — Street Dance, KPOP, Gimnastică artistică sau Zumba. Pregătit pentru orice provocare.',
+    tags: ['Tehnică', 'Specializare', 'Mentorat'],
   },
   {
     num: '04',

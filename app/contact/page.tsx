@@ -76,9 +76,9 @@ const faqs = [
       'Momentan ne concentrăm pe experiența fizică la sală, dar organizăm ocazional workshopuri online. Abonează-te la newsletter pentru a fi la curent cu toate noutățile!',
   },
   {
-    question: 'Ce stiluri de dans se predau?',
+    question: 'Ce cursuri se predau?',
     answer:
-      'Predăm o varietate largă de stiluri: Street Dance, Hip-Hop, KPOP, Breaking, Commercial Dance, dans pentru copii, gimnastică artistică și acrobatică. Explorează secțiunea "Cursuri" pentru detalii complete.',
+      'Avem 4 cursuri principale: Street Dance (Hip-Hop, breaking, popping, locking), KPOP Dance, Gimnastică artistică și Zumba pentru adulți. Fiecare curs se desfășoară pe 3 dificultăți (Începător, Intermediar, Avansat) și pe grupe de vârstă: Tiny (4–7), Junior (7–10), Varsity (11–15), Teens (15–18), Students (19–25), Adults (25+).',
   },
   {
     question: 'Dacă nu mă înscriu online, pot veni direct la sală?',

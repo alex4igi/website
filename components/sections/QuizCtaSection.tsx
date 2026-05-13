@@ -73,21 +73,21 @@ export default function QuizCtaSection() {
               </div>
               <div className="flex flex-col gap-2">
                 <div className="text-white text-2xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-                  Street Dance Kids
+                  Street Dance · Junior
                 </div>
-                <div className="text-white/50 text-sm">Vârsta 8 ani · Nivel începător · Locație: Centru</div>
+                <div className="text-white/50 text-sm">8 ani · Nivel începător · Locație: Centru</div>
               </div>
               <div className="h-px bg-white/10" />
               <p className="text-white/70 text-sm leading-relaxed">
-                Bazat pe răspunsurile tale, recomandăm Street Dance Kids la Quasar Centru, marți și
-                joi de la 16:00. Clasa perfectă pentru energia și personalitatea sa.
+                Bazat pe răspunsurile tale, recomandăm Street Dance pentru grupa Junior la Quasar Centru,
+                marți și joi de la 16:00. Clasa perfectă pentru energia și personalitatea sa.
               </p>
               <div className="flex gap-3">
                 <span className="text-xs font-semibold bg-[#f8ef21] text-[#231f20] px-3 py-1.5 rounded-full" style={{ fontFamily: 'var(--font-display)' }}>
-                  Energie +++
+                  Începător
                 </span>
                 <span className="text-xs font-semibold bg-white/10 text-white px-3 py-1.5 rounded-full" style={{ fontFamily: 'var(--font-display)' }}>
-                  Social
+                  Junior 7–10
                 </span>
                 <span className="text-xs font-semibold bg-white/10 text-white px-3 py-1.5 rounded-full" style={{ fontFamily: 'var(--font-display)' }}>
                   Urban

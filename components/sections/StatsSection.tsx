@@ -65,11 +65,11 @@ export default function StatsSection() {
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex flex-col gap-2 bg-[#231f20] rounded-2xl p-6 md:p-8 card-lift reveal ${inView ? 'in-view' : ''}`}
+              className={`flex flex-col gap-2 bg-[#231f20] rounded-2xl p-4 sm:p-6 md:p-8 card-lift reveal ${inView ? 'in-view' : ''}`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <span
-                className="text-[#f8ef21] text-4xl md:text-5xl font-extrabold leading-none tabular-nums"
+                className="text-[#f8ef21] text-[clamp(1.1rem,5.5vw,3rem)] font-extrabold leading-none tabular-nums"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 <AnimatedNumber target={stat.raw} started={inView} />+

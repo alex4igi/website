@@ -19,9 +19,9 @@ const instructorsData = [
     image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80',
     years: '40+ ani în dans',
     courses: [
-      { name: 'Street Dance Kids', level: 'Începători', schedule: 'Luni & Miercuri 17:00-18:00' },
-      { name: 'Hip-Hop Adulți', level: 'Intermediar/Avansat', schedule: 'Marți & Joi 19:00-20:30' },
-      { name: 'Breaking Workshop', level: 'Toate nivelurile', schedule: 'Sâmbătă 11:00-13:00' },
+      { name: 'Street Dance · Junior', level: 'Începător', schedule: 'Luni & Miercuri 17:00-18:00' },
+      { name: 'Street Dance · Adults', level: 'Intermediar / Avansat', schedule: 'Marți & Joi 19:00-20:30' },
+      { name: 'Street Dance · Teens', level: 'Avansat', schedule: 'Sâmbătă 11:00-13:00' },
     ],
     achievements: ['Fondator Quasar Dance', 'Pioneer Street Dance în România', 'Coregraf 100+ spectacole', 'Mentor peste 500 instructori'],
     testimonials: [
@@ -40,9 +40,9 @@ const instructorsData = [
     image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80',
     years: '12+ ani în Quasar',
     courses: [
-      { name: 'Gimnastică Copii 4-7 ani', level: 'Începători', schedule: 'Marți & Joi 16:00-17:00' },
-      { name: 'Gimnastică Avansați', level: 'Avansat', schedule: 'Luni, Miercuri, Vineri 17:30-19:00' },
-      { name: 'Acrobație pentru Dans', level: 'Intermediar', schedule: 'Sâmbătă 10:00-11:30' },
+      { name: 'Gimnastică artistică · Tiny', level: 'Începător', schedule: 'Marți & Joi 16:00-17:00' },
+      { name: 'Gimnastică artistică · Teens', level: 'Avansat', schedule: 'Luni, Miercuri, Vineri 17:30-19:00' },
+      { name: 'Gimnastică artistică · Varsity', level: 'Intermediar', schedule: 'Sâmbătă 10:00-11:30' },
     ],
     achievements: ['Fostă gimnastă lotul național', 'Certificare FPTR', '500+ elevi formați', 'Specialist pregătire copii 4-12 ani'],
     testimonials: [
@@ -61,9 +61,9 @@ const instructorsData = [
     image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&q=80',
     years: '8+ ani în Quasar',
     courses: [
-      { name: 'K-POP Teens', level: 'Începători/Intermediar', schedule: 'Miercuri & Vineri 18:00-19:30' },
-      { name: 'K-POP Adulți', level: 'Toate nivelurile', schedule: 'Marți & Joi 20:00-21:30' },
-      { name: 'Commercial Dance', level: 'Intermediar/Avansat', schedule: 'Sâmbătă 14:00-15:30' },
+      { name: 'KPOP Dance · Teens', level: 'Începător / Intermediar', schedule: 'Miercuri & Vineri 18:00-19:30' },
+      { name: 'KPOP Dance · Students', level: 'Intermediar / Avansat', schedule: 'Marți & Joi 20:00-21:30' },
+      { name: 'KPOP Dance · Varsity', level: 'Începător', schedule: 'Sâmbătă 14:00-15:30' },
     ],
     achievements: ['Training în Seul (1MILLION Dance)', 'Coregraf oficial Quasar', 'Viral TikTok 2M+ views', 'Organizator K-POP Dance Camp'],
     testimonials: [
@@ -82,9 +82,9 @@ const instructorsData = [
     image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
     years: '15+ ani în Quasar (6 ca instructor)',
     courses: [
-      { name: 'Hip-Hop Kids', level: 'Începători', schedule: 'Luni & Miercuri 16:30-17:30' },
-      { name: 'Hip-Hop Intermediar', level: 'Intermediar', schedule: 'Marți & Joi 18:30-20:00' },
-      { name: 'House Dance', level: 'Intermediar/Avansat', schedule: 'Sâmbătă 16:00-17:30' },
+      { name: 'Street Dance · Junior', level: 'Începător', schedule: 'Luni & Miercuri 16:30-17:30' },
+      { name: 'Street Dance · Varsity', level: 'Intermediar', schedule: 'Marți & Joi 18:30-20:00' },
+      { name: 'Street Dance · Students', level: 'Intermediar / Avansat', schedule: 'Sâmbătă 16:00-17:30' },
     ],
     achievements: ['Campion național Street Dance', 'Battle organizer', 'Quasar Alumni → Instructor', 'Mentor peste 100 elevi'],
     testimonials: [
@@ -103,9 +103,9 @@ const instructorsData = [
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80',
     years: '10+ ani în Quasar',
     courses: [
-      { name: 'Contemporary Teens', level: 'Intermediar', schedule: 'Miercuri & Vineri 17:00-18:30' },
-      { name: 'Modern Jazz', level: 'Toate nivelurile', schedule: 'Marți 19:00-20:30' },
-      { name: 'Improvisation Lab', level: 'Avansat', schedule: 'Duminică 11:00-13:00' },
+      { name: 'Street Dance · Teens', level: 'Intermediar', schedule: 'Miercuri & Vineri 17:00-18:30' },
+      { name: 'Zumba · Adults', level: 'Toate dificultățile', schedule: 'Marți 19:00-20:30' },
+      { name: 'Street Dance · Adults', level: 'Avansat', schedule: 'Duminică 11:00-13:00' },
     ],
     achievements: ['Diplomă Royal Academy of Dance', 'Coregraf spectacole teatru', 'Guest teacher EU workshops', 'Specialist improvizație & exprimare corporală'],
     testimonials: [
