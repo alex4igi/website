@@ -1,20 +1,16 @@
-import { unstable_cache } from 'next/cache'
 import SprayLabel from '@/components/ui/spray-label'
 import { getPricing } from '@/lib/db'
 import { defaultPricingData } from '@/lib/db/defaults'
 import type { PricingData } from '@/lib/db/types'
 
-const fetchPricing = unstable_cache(
-  async (): Promise<PricingData> => {
-    try {
-      return await getPricing()
-    } catch {
-      return defaultPricingData
-    }
-  },
-  ['pricing'],
-  { tags: ['pricing'] },
-)
+async function fetchPricing(): Promise<PricingData> {
+  try {
+    return await getPricing()
+  } catch (err) {
+    console.error('[PricingSection] fallback to defaults:', err)
+    return defaultPricingData
+  }
+}
 
 function formatPrice(lei: number) {
   return lei.toLocaleString('ro-RO')

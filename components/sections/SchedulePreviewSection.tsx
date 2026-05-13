@@ -1,21 +1,17 @@
-import { unstable_cache } from 'next/cache'
 import { CalendarDays, PartyPopper, Trophy } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import { getCalendar } from '@/lib/db'
 import { defaultCalendarData } from '@/lib/db/defaults'
 import type { CalendarData } from '@/lib/db/types'
 
-const fetchCalendar = unstable_cache(
-  async (): Promise<CalendarData> => {
-    try {
-      return await getCalendar()
-    } catch {
-      return defaultCalendarData
-    }
-  },
-  ['calendar'],
-  { tags: ['calendar'] },
-)
+async function fetchCalendar(): Promise<CalendarData> {
+  try {
+    return await getCalendar()
+  } catch (err) {
+    console.error('[SchedulePreviewSection] fallback to defaults:', err)
+    return defaultCalendarData
+  }
+}
 
 function formatRange(start: string, end: string) {
   if (!start || !end) return ''
