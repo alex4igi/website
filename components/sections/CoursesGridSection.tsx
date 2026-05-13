@@ -9,7 +9,7 @@ const courses = [
     audience: 'Tiny → Adults · 4–99 ani',
     tags: ['Începător', 'Intermediar', 'Avansat'],
     image: 'https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=600&q=80',
-    href: '#program',
+    href: '/program-si-preturi',
   },
   {
     id: 'kpop-dance',
@@ -19,7 +19,7 @@ const courses = [
     audience: 'Junior → Students · 7–25 ani',
     tags: ['Începător', 'Intermediar', 'Avansat'],
     image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80',
-    href: '#program',
+    href: '/program-si-preturi',
   },
   {
     id: 'gimnastica',
@@ -29,7 +29,7 @@ const courses = [
     audience: 'Tiny → Teens · 4–18 ani',
     tags: ['Începător', 'Intermediar', 'Avansat'],
     image: 'https://images.unsplash.com/photo-1566241142559-40e1dab266c6?w=600&q=80',
-    href: '#program',
+    href: '/program-si-preturi',
   },
   {
     id: 'zumba',
@@ -39,7 +39,7 @@ const courses = [
     audience: 'Adults · 25+ ani',
     tags: ['Începător', 'Intermediar', 'Avansat'],
     image: 'https://images.unsplash.com/photo-1554844347-c0c37cd35ef0?w=600&q=80',
-    href: '#program',
+    href: '/program-si-preturi',
   },
 ]
 
@@ -59,7 +59,7 @@ export default function CoursesGridSection() {
             </h2>
           </div>
           <a
-            href="#program"
+            href="/program-si-preturi"
             className="inline-flex items-center gap-2 text-[#231f20]/50 hover:text-[#231f20] text-sm font-semibold transition-colors"
             style={{ fontFamily: 'var(--font-display)' }}
           >

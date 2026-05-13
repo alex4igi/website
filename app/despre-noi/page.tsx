@@ -353,14 +353,14 @@ export default function DespreNoiPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="#cursuri"
+              href="/#cursuri"
               className="inline-flex items-center justify-center gap-2 bg-[#231f20] text-white font-bold text-base px-8 py-4 rounded-full hover:bg-[#3a3637] transition-colors duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Vezi cursurile <ArrowRight size={18} />
             </a>
             <a
-              href="#quiz"
+              href="/#quiz"
               className="inline-flex items-center justify-center gap-2 border-2 border-[#231f20] text-[#231f20] font-bold text-base px-8 py-4 rounded-full hover:bg-[#231f20] hover:text-white transition-all duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
             >

@@ -117,7 +117,7 @@ export default function JourneySection() {
             Nu ești sigur de unde să începi? Facem noi evaluarea gratuită.
           </p>
           <a
-            href="#inscriere"
+            href="/#inscriere"
             className="bg-[#f8ef21] text-[#231f20] font-bold text-sm px-6 py-3 rounded-full hover:bg-white transition-colors whitespace-nowrap"
             style={{ fontFamily: 'var(--font-display)' }}
           >

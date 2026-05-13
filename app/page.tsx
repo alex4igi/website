@@ -4,7 +4,7 @@ import MarqueeTicker from '@/components/sections/MarqueeTicker'
 import PathsSection from '@/components/sections/PathsSection'
 import WhyParentsSection from '@/components/sections/WhyParentsSection'
 import JourneySection from '@/components/sections/JourneySection'
-import CoursesGridSection from '@/components/sections/CoursesGridSection'
+// import CoursesGridSection from '@/components/sections/CoursesGridSection'
 import AgeGroupsSection from '@/components/sections/AgeGroupsSection'
 import DifferentiatorsSection from '@/components/sections/DifferentiatorsSection'
 import StatsSection from '@/components/sections/StatsSection'
@@ -39,7 +39,7 @@ export default function HomePage() {
       <JourneySection />
 
       {/* 5. Courses preview grid — 4 highlighted courses */}
-      <CoursesGridSection />
+      {/* <CoursesGridSection /> */}
 
       {/* 6. Age groups — who is it for */}
       <AgeGroupsSection />

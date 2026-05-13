@@ -128,7 +128,7 @@ export default function LocationsSection() {
                   Hartă
                 </a>
                 <a
-                  href="#inscriere"
+                  href="/#inscriere"
                   className={`flex-1 text-center text-xs font-bold py-2.5 rounded-full transition-all duration-200 ${
                     loc.highlight
                       ? 'bg-[#f8ef21] text-[#231f20] hover:bg-white'

@@ -5,10 +5,10 @@ const navCols = [
   {
     title: 'Cursuri',
     links: [
-      { label: 'Street Dance', href: '#cursuri' },
-      { label: 'KPOP Dance', href: '#cursuri' },
-      { label: 'Gimnastică artistică', href: '#cursuri' },
-      { label: 'Zumba (Adults)', href: '#cursuri' },
+      { label: 'Street Dance', href: '/#cursuri' },
+      { label: 'KPOP Dance', href: '/#cursuri' },
+      { label: 'Gimnastică artistică', href: '/#cursuri' },
+      { label: 'Zumba (Adults)', href: '/#cursuri' },
     ],
   },
   {
@@ -16,9 +16,9 @@ const navCols = [
     links: [
       { label: 'Despre noi', href: '/despre-noi' },
       { label: 'Echipa noastră', href: '/despre-noi#echipa' },
-      { label: 'Program', href: '#program' },
-      { label: 'Prețuri', href: '#preturi' },
-      { label: 'Locații', href: '#locatii' },
+      { label: 'Program', href: '/program-si-preturi#program' },
+      { label: 'Prețuri', href: '/program-si-preturi#preturi' },
+      { label: 'Locații', href: '/#locatii' },
       { label: 'Contact', href: '/contact' },
     ],
   },

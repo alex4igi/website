@@ -110,7 +110,7 @@ export default async function PricingSection() {
               </div>
 
               <a
-                href="#inscriere"
+                href="/#inscriere"
                 className="mt-2 text-center font-bold text-sm px-5 py-3 rounded-full bg-[#231f20] text-white hover:bg-[#3a3637] transition-all duration-200"
                 style={{ fontFamily: 'var(--font-display)' }}
               >

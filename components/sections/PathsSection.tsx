@@ -13,7 +13,7 @@ const paths = [
     accent: '#f8ef21',
     accentText: '#231f20',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2148169349-ZC3rzFu9PcjgYnky1R8QTixywntVwU.jpg',
-    href: '#cursuri-all',
+    href: '/program-si-preturi',
   },
   {
     id: 'kpop-dance',
@@ -24,7 +24,7 @@ const paths = [
     accent: '#231f20',
     accentText: '#f8ef21',
     image: 'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&q=80',
-    href: '#cursuri-all',
+    href: '/program-si-preturi',
   },
   {
     id: 'gimnastica',
@@ -35,7 +35,7 @@ const paths = [
     accent: '#3a3637',
     accentText: '#f8ef21',
     image: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80',
-    href: '#cursuri-all',
+    href: '/program-si-preturi',
   },
   {
     id: 'zumba',
@@ -46,7 +46,7 @@ const paths = [
     accent: '#f8ef21',
     accentText: '#231f20',
     image: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=600&q=80',
-    href: '#cursuri-all',
+    href: '/program-si-preturi',
   },
 ]
 
@@ -70,7 +70,7 @@ export default function PathsSection() {
             </h2>
           </div>
           <a
-            href="#cursuri-all"
+            href="/program-si-preturi"
             className="inline-flex items-center gap-2 text-white/40 hover:text-[#f8ef21] text-sm font-bold transition-colors duration-200"
             style={{ fontFamily: 'var(--font-display)' }}
           >

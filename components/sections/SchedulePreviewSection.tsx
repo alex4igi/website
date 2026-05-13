@@ -1,5 +1,6 @@
 import { CalendarDays, PartyPopper, Trophy } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
+import CalendarLightbox from '@/components/CalendarLightbox'
 import { getCalendar } from '@/lib/db'
 import { defaultCalendarData } from '@/lib/db/defaults'
 import type { CalendarData } from '@/lib/db/types'
@@ -64,20 +65,29 @@ export default async function SchedulePreviewSection() {
     <section id="program" className="bg-[#f5f5f5] py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-5 md:px-8">
         {/* Header */}
-        <div className="mb-10">
-          <div className="mb-4"><SprayLabel>Program</SprayLabel></div>
-          <h2
-            className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Calendar cursuri
-            <br />
-            <span className="text-[#231f20]/40">{data.yearLabel}</span>
-          </h2>
-          <p className="text-[#6b6b6b] mt-4 max-w-2xl">
-            Începem pe <strong className="text-[#231f20]">{formatDate(data.startDate)}</strong> și terminăm pe{' '}
-            <strong className="text-[#231f20]">{formatDate(data.endDate)}</strong>. {sortedModules.length} module, cu pauze și evenimente.
-          </p>
+        <div className="mb-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <div className="mb-4"><SprayLabel>Program</SprayLabel></div>
+            <h2
+              className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              Calendar cursuri
+              <br />
+              <span className="text-[#231f20]/40">{data.yearLabel}</span>
+            </h2>
+            <p className="text-[#6b6b6b] mt-4 max-w-2xl">
+              Începem pe <strong className="text-[#231f20]">{formatDate(data.startDate)}</strong> și terminăm pe{' '}
+              <strong className="text-[#231f20]">{formatDate(data.endDate)}</strong>. {sortedModules.length} module, cu pauze și evenimente.
+            </p>
+          </div>
+
+          <CalendarLightbox
+            src="/2026-2027-calendar.jpeg"
+            title={`Calendar ${data.yearLabel}`}
+            alt={`Calendar cursuri Quasar Dance ${data.yearLabel}`}
+            triggerLabel="Vezi calendar"
+          />
         </div>
 
         {/* Modules */}
