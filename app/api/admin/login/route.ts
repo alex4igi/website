@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'invalid_password' }, { status: 401 })
   }
 
-  const token = issueSessionToken()
+  const token = await issueSessionToken()
   const res = NextResponse.json({ ok: true })
   res.cookies.set({
     name: adminCookieName(),

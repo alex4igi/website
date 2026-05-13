@@ -6,7 +6,8 @@
       "Bash(DATABASE_URL=postgres://placeholder npx drizzle-kit generate)",
       "Bash(grep -rA 3 \"export.*revalidateTag\" node_modules/next/dist/server/web/spec-extension/)",
       "Bash(pnpm --version)",
-      "Bash(pnpm install *)"
+      "Bash(pnpm install *)",
+      "Bash(pnpm run *)"
     ]
   }
 }

@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { ArrowRight, CalendarDays, Wallet } from 'lucide-react'
 import { getCalendar, getPricing } from '@/lib/db'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminDashboard() {
   const [pricing, calendar] = await Promise.all([getPricing(), getCalendar()])
 
