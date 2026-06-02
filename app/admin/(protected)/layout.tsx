@@ -33,6 +33,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 Calendar
               </Link>
+              <Link
+                href="/admin/schedule"
+                className="px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Orar
+              </Link>
             </nav>
           </div>
           <div className="flex items-center gap-3">

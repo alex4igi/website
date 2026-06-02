@@ -1,11 +1,16 @@
 import Link from 'next/link'
-import { ArrowRight, CalendarDays, Wallet } from 'lucide-react'
-import { getCalendar, getPricing } from '@/lib/db'
+import { ArrowRight, CalendarDays, Clock, Wallet } from 'lucide-react'
+import { getCalendar, getPricing, getSchedule } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-  const [pricing, calendar] = await Promise.all([getPricing(), getCalendar()])
+  const [pricing, calendar, schedule] = await Promise.all([getPricing(), getCalendar(), getSchedule()])
+
+  const scheduleClassCount = schedule.locations.reduce(
+    (n, loc) => n + loc.studios.reduce((m, st) => m + st.classes.length, 0),
+    0,
+  )
 
   const cards = [
     {
@@ -22,6 +27,13 @@ export default async function AdminDashboard() {
       summary: `${calendar.modules.length} module · ${calendar.events.length} evenimente · ${calendar.vacations.length} vacanțe`,
       detail: `An: ${calendar.yearLabel}`,
     },
+    {
+      href: '/admin/schedule',
+      title: 'Orar săptămânal',
+      icon: Clock,
+      summary: `${schedule.locations.length} locații · ${scheduleClassCount} ore`,
+      detail: 'Orar pe locații și studiouri',
+    },
   ]
 
   return (
@@ -34,7 +46,7 @@ export default async function AdminDashboard() {
           Bine ai venit
         </h1>
         <p className="text-[#6b6b6b] text-sm mt-2">
-          Editează prețurile și calendarul cursurilor. Modificările apar pe site instant.
+          Editează prețurile, calendarul și orarul săptămânal. Modificările apar pe site instant.
         </p>
       </div>
 

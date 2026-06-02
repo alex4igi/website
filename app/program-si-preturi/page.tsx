@@ -29,11 +29,12 @@ async function safePricing() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const [pricing, calendar] = await Promise.all([safePricing(), safeCalendar()])
-  const minPrice = Math.min(
-    ...pricing.plans.map((p) => p.priceStandard).filter((v) => v > 0),
-  )
+  const monthlyPrices = pricing.plans
+    .map((p) => (p.priceMonthly && p.priceMonthly > 0 ? p.priceMonthly : Math.round(p.priceStandard / 10)))
+    .filter((v) => v > 0)
+  const minMonthly = monthlyPrices.length ? Math.min(...monthlyPrices) : 0
   const title = `Program și Prețuri — Cursuri Dans ${calendar.yearLabel} | Quasar Dance Iași`
-  const description = `Calendar academic ${calendar.yearLabel} și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică artistică și Zumba. Tarife de la ${minPrice.toLocaleString('ro-RO')} lei/an, taxă rezervare ${pricing.reservationFee} lei.`
+  const description = `Calendar academic ${calendar.yearLabel} și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică artistică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună, taxă rezervare ${pricing.reservationFee} lei.`
 
   return {
     title,
@@ -62,7 +63,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ProgramSiPreturiPage() {
   const [pricing, calendar] = await Promise.all([safePricing(), safeCalendar()])
-  const earlyBirdActive = pricing.earlyBirdDeadline && new Date(pricing.earlyBirdDeadline) > new Date()
   const formatDate = (iso: string) =>
     iso ? new Date(iso).toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' }) : ''
 
@@ -100,11 +100,9 @@ export default async function ProgramSiPreturiPage() {
               <InfoPill icon={CalendarDays}>
                 Start: <strong>{formatDate(calendar.startDate)}</strong>
               </InfoPill>
-              {earlyBirdActive && (
-                <InfoPill icon={Sparkles}>
-                  Early-bird până la <strong>{formatDate(pricing.earlyBirdDeadline)}</strong>
-                </InfoPill>
-              )}
+              <InfoPill icon={Sparkles}>
+                Preț lunar transparent
+              </InfoPill>
               <InfoPill icon={ShieldCheck}>
                 Taxă rezervare: <strong>{pricing.reservationFee} lei</strong>
               </InfoPill>
@@ -119,6 +117,13 @@ export default async function ProgramSiPreturiPage() {
               >
                 Vezi prețurile <ArrowRight size={16} />
               </a>
+              <Link
+                href="/orar"
+                className="inline-flex items-center gap-2 border-2 border-white/30 text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-white hover:text-[#231f20] hover:border-white transition-all"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Vezi orarul
+              </Link>
               <a
                 href="#program"
                 className="inline-flex items-center gap-2 border-2 border-white/30 text-white font-bold text-sm px-6 py-3 rounded-full hover:bg-white hover:text-[#231f20] hover:border-white transition-all"
@@ -131,7 +136,7 @@ export default async function ProgramSiPreturiPage() {
         </div>
       </section>
 
-      {/* Pricing first — most users land here for pricing */}
+      {/* Pricing */}
       <PricingSection />
 
       {/* Calendar */}
@@ -162,7 +167,7 @@ export default async function ProgramSiPreturiPage() {
               {
                 num: '02',
                 title: 'Rezervi loc',
-                desc: `Plătești taxa de rezervare de ${pricing.reservationFee} lei și locul tău în grupă e blocat${earlyBirdActive ? '. Profită de tariful early-bird.' : '.'}`,
+                desc: `Plătești taxa de rezervare de ${pricing.reservationFee} lei și locul tău în grupă e blocat.`,
               },
               {
                 num: '03',

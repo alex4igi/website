@@ -2,8 +2,8 @@ import { neon } from '@neondatabase/serverless'
 import { drizzle, type NeonHttpDatabase } from 'drizzle-orm/neon-http'
 import { eq } from 'drizzle-orm'
 import * as schema from './schema'
-import { defaultCalendarData, defaultPricingData } from './defaults'
-import type { CalendarData, PricingData } from './types'
+import { defaultCalendarData, defaultPricingData, defaultScheduleData } from './defaults'
+import type { CalendarData, PricingData, ScheduleData } from './types'
 
 let _db: NeonHttpDatabase<typeof schema> | null = null
 
@@ -35,6 +35,11 @@ export async function getCalendar(): Promise<CalendarData> {
   return rows[0]?.data ?? defaultCalendarData
 }
 
+export async function getSchedule(): Promise<ScheduleData> {
+  const rows = await getDb().select().from(schema.schedule).where(eq(schema.schedule.id, 1)).limit(1)
+  return rows[0]?.data ?? defaultScheduleData
+}
+
 export async function savePricing(data: PricingData) {
   await getDb()
     .insert(schema.pricing)
@@ -51,6 +56,16 @@ export async function saveCalendar(data: CalendarData) {
     .values({ id: 1, data, updatedAt: new Date() })
     .onConflictDoUpdate({
       target: schema.calendar.id,
+      set: { data, updatedAt: new Date() },
+    })
+}
+
+export async function saveSchedule(data: ScheduleData) {
+  await getDb()
+    .insert(schema.schedule)
+    .values({ id: 1, data, updatedAt: new Date() })
+    .onConflictDoUpdate({
+      target: schema.schedule.id,
       set: { data, updatedAt: new Date() },
     })
 }

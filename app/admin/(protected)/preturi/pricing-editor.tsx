@@ -13,8 +13,9 @@ function newPlan(order: number): PricingPlan {
     level: 'Începător',
     sessionsPerYear: 70,
     durationMinutes: 55,
-    priceEarlyBird: 0,
+    priceMonthly: 0,
     priceStandard: 0,
+    priceEarlyBird: 0,
     displayOrder: order,
   }
 }
@@ -73,7 +74,8 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
             Prețuri
           </h1>
           <p className="text-[#6b6b6b] text-sm mt-1">
-            Editează planurile, taxa de rezervare și deadline-ul early-bird.
+            Editează planurile, prețul lunar afișat și taxa de rezervare. Prețul
+            per ședință se calculează automat din prețul anual.
           </p>
         </div>
         <SaveButton status={status} onClick={save} />
@@ -102,13 +104,16 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
               className="admin-input"
             />
           </Field>
-          <Field label="Deadline early-bird">
+          <Field label="Deadline reînscriere (intern)">
             <input
               type="date"
               value={data.earlyBirdDeadline}
               onChange={(e) => update({ earlyBirdDeadline: e.target.value })}
               className="admin-input"
             />
+            <span className="text-[11px] text-[#6b6b6b]">
+              Folosit doar pentru campania de reînscriere, nu pe site.
+            </span>
           </Field>
           <Field label="Taxă rezervare (lei)">
             <input
@@ -233,17 +238,18 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
                 </Field>
               </div>
 
+              {/* Prețuri afișate public */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label="Preț early-bird (lei)">
+                <Field label="Preț lunar (lei) · afișat mare">
                   <input
                     type="number"
                     min={0}
-                    value={plan.priceEarlyBird}
-                    onChange={(e) => updatePlan(plan.id, { priceEarlyBird: Number(e.target.value) || 0 })}
+                    value={plan.priceMonthly}
+                    onChange={(e) => updatePlan(plan.id, { priceMonthly: Number(e.target.value) || 0 })}
                     className="admin-input"
                   />
                 </Field>
-                <Field label="Preț standard (lei)">
+                <Field label="Preț anual (lei) · calculează preț/ședință">
                   <input
                     type="number"
                     min={0}
@@ -251,6 +257,27 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
                     onChange={(e) => updatePlan(plan.id, { priceStandard: Number(e.target.value) || 0 })}
                     className="admin-input"
                   />
+                  <span className="text-[11px] text-[#6b6b6b]">
+                    {plan.sessionsPerYear > 0 && plan.priceStandard > 0
+                      ? `≈ ${Math.round(plan.priceStandard / plan.sessionsPerYear)} lei / ședință (afișat public)`
+                      : 'Detaliază prețul anual și în descriere.'}
+                  </span>
+                </Field>
+              </div>
+
+              {/* Preț reînscriere — nu se afișează public */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Field label="Preț reînscriere / early-bird (lei)">
+                  <input
+                    type="number"
+                    min={0}
+                    value={plan.priceEarlyBird}
+                    onChange={(e) => updatePlan(plan.id, { priceEarlyBird: Number(e.target.value) || 0 })}
+                    className="admin-input"
+                  />
+                  <span className="text-[11px] text-[#6b6b6b]">
+                    Nu se afișează pe site. Rezervat pentru campania de reînscriere (mai).
+                  </span>
                 </Field>
               </div>
             </div>

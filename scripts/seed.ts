@@ -1,12 +1,13 @@
 import 'dotenv/config'
-import { savePricing, saveCalendar, getPricing, getCalendar } from '../lib/db'
-import { defaultPricingData, defaultCalendarData } from '../lib/db/defaults'
+import { savePricing, saveCalendar, saveSchedule, getPricing, getCalendar, getSchedule } from '../lib/db'
+import { defaultPricingData, defaultCalendarData, defaultScheduleData } from '../lib/db/defaults'
 
 async function main() {
-  console.log('Seeding pricing + calendar with default Quasar data...')
+  console.log('Seeding pricing + calendar + schedule with default Quasar data...')
 
   const existingPricing = await getPricing().catch(() => null)
   const existingCalendar = await getCalendar().catch(() => null)
+  const existingSchedule = await getSchedule().catch(() => null)
 
   if (existingPricing && existingPricing.plans.length > 0) {
     console.log('• Pricing already has data — skipping.')
@@ -22,6 +23,13 @@ async function main() {
     console.log(
       `• Seeded calendar: ${defaultCalendarData.modules.length} modules, ${defaultCalendarData.vacations.length} vacations, ${defaultCalendarData.events.length} events.`,
     )
+  }
+
+  if (existingSchedule && existingSchedule.locations.length > 0) {
+    console.log('• Schedule already has data — skipping.')
+  } else {
+    await saveSchedule(defaultScheduleData)
+    console.log(`• Seeded schedule: ${defaultScheduleData.locations.length} locations.`)
   }
 
   console.log('Done.')

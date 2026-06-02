@@ -7,8 +7,9 @@ const navLinks = [
   { href: '/#cursuri', label: 'Cursuri', num: '01' },
   { href: '/despre-noi', label: 'Despre noi', num: '02' },
   { href: '/program-si-preturi', label: 'Program & Prețuri', num: '03' },
-  { href: '/#locatii', label: 'Locații', num: '04' },
-  { href: '/contact', label: 'Contact', num: '05' },
+  { href: '/orar', label: 'Orar', num: '04' },
+  { href: '/#locatii', label: 'Locații', num: '05' },
+  { href: '/contact', label: 'Contact', num: '06' },
 ]
 
 export default function Navbar() {
@@ -70,7 +71,7 @@ export default function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <Link
-              href="/#quiz"
+              href="/quiz"
               className="text-sm font-semibold text-white/70 hover:text-[#f8ef21] transition-colors duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
             >
@@ -222,7 +223,7 @@ export default function Navbar() {
             }}
           >
             <Link
-              href="/#quiz"
+              href="/quiz"
               className="block text-center border border-white/20 text-white text-sm font-bold py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-colors duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
               onClick={() => setOpen(false)}

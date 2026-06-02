@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const steps = [
-  { num: '1', label: 'Răspunzi la 7 întrebări rapide' },
+  { num: '1', label: 'Răspunzi la 5 întrebări rapide' },
   { num: '2', label: 'Îți descoperim stilul potrivit' },
   { num: '3', label: 'Primești recomandarea personalizată' },
 ]
@@ -28,8 +28,8 @@ export default function QuizCtaSection() {
               ți se potrivește?
             </h2>
             <p className="text-[#231f20]/70 text-base leading-relaxed mb-8">
-              Răspunde la 7 întrebări simple și îți recomandăm cursul perfect pentru
-              tine sau pentru copilul tău. Gratuit, instant, fără apel de vânzări.
+              Răspunde la 5 întrebări simple și îți recomandăm cursul perfect pentru
+              copilul tău. Gratuit, instant, fără apel de vânzări.
             </p>
 
             {/* Steps */}

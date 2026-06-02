@@ -16,16 +16,22 @@ function formatPrice(lei: number) {
   return lei.toLocaleString('ro-RO')
 }
 
-function formatDate(iso: string) {
-  if (!iso) return ''
-  const d = new Date(iso)
-  return d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' })
+// Preț lunar afișat mare. Fallback: preț anual / 10 luni (sept–iunie).
+function monthlyPrice(plan: { priceMonthly?: number; priceStandard: number }) {
+  return plan.priceMonthly && plan.priceMonthly > 0
+    ? plan.priceMonthly
+    : Math.round(plan.priceStandard / 10)
+}
+
+// Preț per ședință — „ca la magazine, preț/100g": preț anual / nr. ședințe.
+function pricePerSession(plan: { priceStandard: number; sessionsPerYear: number }) {
+  if (!plan.sessionsPerYear) return 0
+  return Math.round(plan.priceStandard / plan.sessionsPerYear)
 }
 
 export default async function PricingSection() {
   const data = await fetchPricing()
   const sortedPlans = [...data.plans].sort((a, b) => a.displayOrder - b.displayOrder)
-  const earlyBirdActive = data.earlyBirdDeadline && new Date(data.earlyBirdDeadline) > new Date()
 
   return (
     <section id="preturi" className="bg-white py-20 md:py-28">
@@ -42,13 +48,9 @@ export default async function PricingSection() {
             <span className="text-[#231f20]/40">{data.academicYearLabel}</span>
           </h2>
           <p className="text-[#6b6b6b] mt-4 max-w-2xl">
-            Taxă rezervare loc în grupă: <strong className="text-[#231f20]">{formatPrice(data.reservationFee)} lei</strong>.
-            {earlyBirdActive && (
-              <>
-                {' '}Tarif early-bird valabil până pe{' '}
-                <strong className="text-[#231f20]">{formatDate(data.earlyBirdDeadline)}</strong>.
-              </>
-            )}
+            Prețuri afișate <strong className="text-[#231f20]">lunar</strong>, cu prețul per
+            ședință alături — transparent, ca să compari ușor. Taxă rezervare loc în grupă:{' '}
+            <strong className="text-[#231f20]">{formatPrice(data.reservationFee)} lei</strong>.
           </p>
         </div>
 
@@ -76,36 +78,26 @@ export default async function PricingSection() {
 
               <p className="text-[#6b6b6b] text-sm leading-relaxed flex-1">{plan.description}</p>
 
-              <div className="border-t border-[#e5e5e5] pt-4 flex flex-col gap-2">
-                {earlyBirdActive && (
-                  <div className="flex items-baseline justify-between">
-                    <span
-                      className="text-xs font-bold text-[#231f20] uppercase tracking-wider"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      Early-bird
-                    </span>
-                    <span
-                      className="text-2xl font-extrabold text-[#231f20]"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {formatPrice(plan.priceEarlyBird)} <span className="text-sm font-bold">lei</span>
-                    </span>
-                  </div>
-                )}
-                <div className="flex items-baseline justify-between">
+              <div className="border-t border-[#e5e5e5] pt-4 flex flex-col gap-1">
+                {/* Preț lunar — headline */}
+                <div className="flex items-baseline gap-1.5">
                   <span
-                    className={`text-xs font-bold uppercase tracking-wider ${earlyBirdActive ? 'text-[#6b6b6b]' : 'text-[#231f20]'}`}
+                    className="text-4xl font-extrabold text-[#231f20] leading-none"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    Standard
+                    {formatPrice(monthlyPrice(plan))}
                   </span>
                   <span
-                    className={`font-extrabold ${earlyBirdActive ? 'text-xl text-[#6b6b6b]' : 'text-2xl text-[#231f20]'}`}
+                    className="text-base font-bold text-[#231f20]"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    {formatPrice(plan.priceStandard)} <span className="text-sm font-bold">lei</span>
+                    lei
                   </span>
+                  <span className="text-sm font-semibold text-[#6b6b6b]">/ lună</span>
+                </div>
+                {/* Preț per ședință — unitate transparentă, ca preț/100g */}
+                <div className="text-sm font-medium text-[#6b6b6b]">
+                  ≈ {formatPrice(pricePerSession(plan))} lei / ședință
                 </div>
               </div>
 

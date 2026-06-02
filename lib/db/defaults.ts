@@ -1,8 +1,9 @@
-import type { CalendarData, PricingData } from './types'
+import type { CalendarData, PricingData, ScheduleClass, ScheduleData } from './types'
 
 // Initial seed reflecting Anexa 1 (Oferta educațională sept 2026 – iunie 2027).
-// Early-bird = "Valoare semnare contract până la 01 IUNIE 2026".
-// Standard = "Valoare (lei) - după 01 IUNIE 2026".
+// priceMonthly = preț lunar afișat public (font mare). priceStandard = preț anual
+// (folosit la calculul preț/ședință). priceEarlyBird = preț reînscriere (intern,
+// nu se afișează public — pagină separată în mai).
 
 export const defaultPricingData: PricingData = {
   academicYearLabel: 'sept 2026 – iunie 2027',
@@ -17,8 +18,9 @@ export const defaultPricingData: PricingData = {
       level: 'Începător',
       sessionsPerYear: 35,
       durationMinutes: 55,
-      priceEarlyBird: 1700,
+      priceMonthly: 180,
       priceStandard: 1800,
+      priceEarlyBird: 1700,
       displayOrder: 1,
     },
     {
@@ -29,8 +31,9 @@ export const defaultPricingData: PricingData = {
       level: 'Începător',
       sessionsPerYear: 70,
       durationMinutes: 55,
-      priceEarlyBird: 2600,
+      priceMonthly: 270,
       priceStandard: 2700,
+      priceEarlyBird: 2600,
       displayOrder: 2,
     },
     {
@@ -41,8 +44,9 @@ export const defaultPricingData: PricingData = {
       level: 'Începător & Intermediar',
       sessionsPerYear: 70,
       durationMinutes: 55,
-      priceEarlyBird: 2600,
+      priceMonthly: 270,
       priceStandard: 2700,
+      priceEarlyBird: 2600,
       displayOrder: 3,
     },
     {
@@ -53,8 +57,9 @@ export const defaultPricingData: PricingData = {
       level: 'Începător & Intermediar',
       sessionsPerYear: 70,
       durationMinutes: 55,
-      priceEarlyBird: 2600,
+      priceMonthly: 270,
       priceStandard: 2700,
+      priceEarlyBird: 2600,
       displayOrder: 4,
     },
     {
@@ -65,8 +70,9 @@ export const defaultPricingData: PricingData = {
       level: 'Avansat',
       sessionsPerYear: 70,
       durationMinutes: 55,
-      priceEarlyBird: 2600,
+      priceMonthly: 270,
       priceStandard: 2700,
+      priceEarlyBird: 2600,
       displayOrder: 5,
     },
   ],
@@ -168,6 +174,147 @@ export const defaultCalendarData: CalendarData = {
       type: 'spectacol',
       title: 'Spectacol Quasar — Iunie',
       description: 'Spectacolul de final de an școlar.',
+    },
+  ],
+}
+
+// Orar săptămânal — transcris din planșele oficiale Quasar Dance (Ștefan cel
+// Mare: Studio 1 & 2; Nicolina). Nivelul determină culoarea celulei în orar:
+// incepator = alb, intermediar = gri deschis, mixt = gri, avansat = negru.
+
+let _sid = 0
+function c(
+  day: ScheduleClass['day'],
+  discipline: string,
+  ageGroup: string,
+  startTime: string,
+  endTime: string,
+  level: ScheduleClass['level'],
+): ScheduleClass {
+  return { id: `cls-${++_sid}`, day, discipline, ageGroup, startTime, endTime, level }
+}
+
+export const defaultScheduleData: ScheduleData = {
+  note: 'Orarul poate suferi mici ajustări de la un modul la altul. Sună-ne pentru a confirma grupa și ora.',
+  locations: [
+    {
+      id: 'stefan-cel-mare',
+      name: 'Ștefan cel Mare',
+      phone: '0730 534 172',
+      displayOrder: 1,
+      studios: [
+        {
+          id: 'scm-studio-1',
+          name: 'Studio 1',
+          classes: [
+            c('lu', 'Junior', '7-10 ani', '17:00', '18:00', 'incepator'),
+            c('lu', 'ZUMBA', '7+ ani', '18:00', '19:00', 'incepator'),
+            c('lu', 'QtheCrew', '15-18 ani', '19:00', '20:30', 'avansat'),
+            c('lu', 'Rock on Q', '18+', '20:30', '22:00', 'avansat'),
+            c('ma', 'Tiny', '4-7 ani', '16:30', '17:30', 'incepator'),
+            c('ma', 'Junior', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('ma', 'MiniQs', '11-15 ani', '18:30', '20:00', 'intermediar'),
+            c('ma', 'Student', '18-24 ani', '20:00', '21:00', 'incepator'),
+            c('ma', 'UniQ', '18+', '21:00', '22:30', 'avansat'),
+            c('mi', 'Junior', '7-10 ani', '17:00', '18:00', 'incepator'),
+            c('mi', 'Privat', 'MIXT', '18:00', '19:00', 'mixt'),
+            c('mi', 'QtheCrew', '15-18 ani', '19:00', '20:30', 'avansat'),
+            c('mi', 'Rock on Q', '18+', '20:30', '22:00', 'avansat'),
+            c('jo', 'Tiny', '4-7 ani', '16:30', '17:30', 'incepator'),
+            c('jo', 'Junior', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('jo', 'MiniQs', '11-15 ani', '18:30', '20:00', 'intermediar'),
+            c('jo', 'Student', '18-24 ani', '20:00', '21:00', 'incepator'),
+            c('jo', 'UniQ', '18+', '21:00', '22:30', 'avansat'),
+            c('vi', 'Junior', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('vi', 'ZUMBA', '7+ ani', '18:30', '19:30', 'incepator'),
+            c('vi', 'OPEN', 'MIXT', '19:30', '21:00', 'intermediar'),
+            c('sa', 'Junior', '7-10 ani', '10:00', '11:00', 'incepator'),
+            c('sa', 'Junior', '7-10 ani', '11:00', '12:00', 'intermediar'),
+            c('sa', 'QMotion', '7-10 ani', '12:00', '13:00', 'avansat'),
+            c('sa', 'Varsity', '11-15 ani', '13:00', '14:00', 'incepator'),
+            c('sa', 'Varsity', '11-15 ani', '14:00', '15:00', 'incepator'),
+            c('sa', 'QoolKids', '11-15 ani', '15:00', '16:30', 'avansat'),
+            c('sa', 'K-pop', 'MIXT', '16:30', '17:30', 'mixt'),
+            c('sa', '1up Crew', 'MIXT', '17:30', '19:00', 'avansat'),
+            c('du', 'Junior', '7-10 ani', '10:00', '11:00', 'incepator'),
+            c('du', 'Junior', '7-10 ani', '11:00', '12:00', 'intermediar'),
+            c('du', 'QMotion', '7-10 ani', '12:00', '13:00', 'avansat'),
+            c('du', 'Varsity', '11-15 ani', '13:00', '14:00', 'incepator'),
+            c('du', 'Varsity', '11-15 ani', '14:00', '15:00', 'incepator'),
+            c('du', 'QoolKids', '11-15 ani', '15:00', '16:30', 'avansat'),
+            c('du', 'K-pop', 'MIXT', '16:30', '17:30', 'mixt'),
+            c('du', '1up Crew', 'MIXT', '17:30', '19:00', 'avansat'),
+          ],
+        },
+        {
+          id: 'scm-studio-2',
+          name: 'Studio 2',
+          classes: [
+            c('lu', 'Tiny', '4-7 ani', '16:30', '17:30', 'incepator'),
+            c('lu', 'Junior', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('lu', 'Teen', '15+ ani', '18:30', '19:30', 'incepator'),
+            c('ma', 'Teen', '15+ ani', '18:00', '19:00', 'incepator'),
+            c('ma', 'Teen', '15+ ani', '19:00', '20:00', 'intermediar'),
+            c('mi', 'Tiny', '4-7 ani', '16:30', '17:30', 'incepator'),
+            c('mi', 'Junior', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('mi', 'Teen', '15+ ani', '18:30', '19:30', 'incepator'),
+            c('jo', 'Teen', '15+ ani', '18:00', '19:00', 'incepator'),
+            c('jo', 'Teen', '15+ ani', '19:00', '20:00', 'incepator'),
+            c('sa', 'Varsity', '11-15 ani', '13:30', '14:30', 'incepator'),
+            c('sa', 'Varsity', '11-15 ani', '14:30', '15:30', 'incepator'),
+            c('sa', 'K-pop', 'MIXT', '15:30', '16:30', 'mixt'),
+            c('du', 'Varsity', '11-15 ani', '13:30', '14:30', 'incepator'),
+            c('du', 'Varsity', '11-15 ani', '14:30', '15:30', 'incepator'),
+            c('du', 'K-pop', 'MIXT', '15:30', '16:30', 'mixt'),
+          ],
+        },
+      ],
+    },
+    {
+      id: 'nicolina',
+      name: 'Nicolina',
+      phone: '0770 227 580',
+      displayOrder: 2,
+      studios: [
+        {
+          id: 'nicolina-studio',
+          name: '',
+          classes: [
+            c('lu', 'Dans', '7-10 ani', '16:30', '17:30', 'incepator'),
+            c('lu', 'Gimnastica', '7-10 ani', '17:30', '18:30', 'intermediar'),
+            c('lu', 'Gimnastica', '11-15 ani', '18:30', '19:30', 'intermediar'),
+            c('lu', 'AcroQ', '15+ ani', '19:30', '20:30', 'avansat'),
+            c('ma', 'Gimnastica', '7-10 ani', '16:30', '17:30', 'incepator'),
+            c('ma', 'Dans', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('ma', 'Dans', '11-15 ani', '18:30', '19:30', 'incepator'),
+            c('ma', 'Dans', '11-15 ani', '19:30', '20:30', 'intermediar'),
+            c('mi', 'Dans', '7-10 ani', '16:30', '17:30', 'incepator'),
+            c('mi', 'Gimnastica', '7-10 ani', '17:30', '18:30', 'intermediar'),
+            c('mi', 'Gimnastica', '11-15 ani', '18:30', '19:30', 'intermediar'),
+            c('mi', 'AcroQ', '15+ ani', '19:30', '20:30', 'avansat'),
+            c('jo', 'Gimnastica', '7-10 ani', '16:30', '17:30', 'incepator'),
+            c('jo', 'Dans', '7-10 ani', '17:30', '18:30', 'incepator'),
+            c('jo', 'Dans', '11-15 ani', '18:30', '19:30', 'incepator'),
+            c('jo', 'Dans', '11-15 ani', '19:30', '20:30', 'intermediar'),
+            c('vi', 'Dans', 'MIXT', '16:30', '17:30', 'incepator'),
+            c('vi', 'Gimnastica', 'MIXT', '17:30', '18:30', 'incepator'),
+            c('vi', 'Dans', '25+ ani', '18:30', '19:30', 'incepator'),
+            c('vi', 'Dans', '25+ ani', '19:30', '20:30', 'incepator'),
+            c('sa', 'Dans', '7-10 ani', '10:00', '11:00', 'incepator'),
+            c('sa', 'Dans', '7-10 ani', '11:00', '12:00', 'mixt'),
+            c('sa', 'Gimnastica', '7-10 ani', '12:00', '13:00', 'incepator'),
+            c('sa', 'Gimnastica', '7-10 ani', '13:00', '14:00', 'mixt'),
+            c('sa', 'QSD Crew', '11-15 ani', '14:00', '15:00', 'avansat'),
+            c('sa', 'Dans', '11-15 ani', '15:00', '16:00', 'incepator'),
+            c('du', 'Dans', '7-10 ani', '10:00', '11:00', 'incepator'),
+            c('du', 'Dans', '7-10 ani', '11:00', '12:00', 'mixt'),
+            c('du', 'Gimnastica', '7-10 ani', '12:00', '13:00', 'incepator'),
+            c('du', 'Gimnastica', '7-10 ani', '13:00', '14:00', 'mixt'),
+            c('du', 'QSD Crew', '11-15 ani', '14:00', '15:00', 'avansat'),
+            c('du', 'Dans', '11-15 ani', '15:00', '16:00', 'incepator'),
+          ],
+        },
+      ],
     },
   ],
 }

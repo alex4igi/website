@@ -8,6 +8,13 @@
       "when": 1778682432502,
       "tag": "0000_empty_speed_demon",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1780409178329,
+      "tag": "0001_furry_kat_farrell",
+      "breakpoints": true
     }
   ]
 }
