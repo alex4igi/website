@@ -2,9 +2,20 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { ChevronDown } from 'lucide-react'
 
-const navLinks = [
-  { href: '/#cursuri', label: 'Cursuri', num: '01' },
+type NavChild = { href: string; label: string }
+type NavLink = { href: string; label: string; num: string; children?: NavChild[] }
+
+const courseLinks: NavChild[] = [
+  { href: '/cursuri/street-dance', label: 'Street Dance' },
+  { href: '/cursuri/kpop-dance', label: 'KPOP Dance' },
+  { href: '/cursuri/gimnastica', label: 'Gimnastică artistică' },
+  { href: '/cursuri/zumba', label: 'Zumba (Adults)' },
+]
+
+const navLinks: NavLink[] = [
+  { href: '/#cursuri', label: 'Cursuri', num: '01', children: courseLinks },
   { href: '/despre-noi', label: 'Despre noi', num: '02' },
   { href: '/program-si-preturi', label: 'Program & Prețuri', num: '03' },
   { href: '/orar', label: 'Orar', num: '04' },
@@ -55,17 +66,48 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <ul className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="text-white/80 hover:text-[#f8ef21] text-sm font-medium transition-colors duration-200"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link) =>
+              link.children ? (
+                <li key={link.label} className="relative group">
+                  <Link
+                    href={link.href}
+                    className="inline-flex items-center gap-1 text-white/80 hover:text-[#f8ef21] text-sm font-medium transition-colors duration-200 group-focus-within:text-[#f8ef21]"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {link.label}
+                    <ChevronDown
+                      size={14}
+                      className="transition-transform duration-200 group-hover:rotate-180"
+                    />
+                  </Link>
+                  {/* Dropdown */}
+                  <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 invisible translate-y-1 transition-all duration-200 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0">
+                    <div className="bg-[#231f20] rounded-2xl p-2 min-w-[220px] shadow-2xl border border-white/10">
+                      {link.children.map((c) => (
+                        <Link
+                          key={c.href + c.label}
+                          href={c.href}
+                          className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-white/80 hover:text-[#f8ef21] hover:bg-white/5 transition-colors duration-200"
+                          style={{ fontFamily: 'var(--font-display)' }}
+                        >
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </li>
+              ) : (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/80 hover:text-[#f8ef21] text-sm font-medium transition-colors duration-200"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
 
           {/* Desktop CTA */}
@@ -198,7 +240,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className="group flex items-baseline gap-4 py-4 border-b border-white/10 hover:border-[#f8ef21]/40 transition-colors duration-200"
+                  className={`group flex items-baseline gap-4 py-4 hover:border-[#f8ef21]/40 transition-colors duration-200 ${link.children ? '' : 'border-b border-white/10'}`}
                   style={{ fontFamily: 'var(--font-display)' }}
                   onClick={() => setOpen(false)}
                 >
@@ -209,6 +251,23 @@ export default function Navbar() {
                     {link.label}
                   </span>
                 </Link>
+
+                {/* Sub-links (Cursuri) */}
+                {link.children && (
+                  <div className="flex flex-col pl-9 pb-3 border-b border-white/10">
+                    {link.children.map((c) => (
+                      <Link
+                        key={c.href + c.label}
+                        href={c.href}
+                        onClick={() => setOpen(false)}
+                        className="text-white/55 hover:text-[#f8ef21] text-base font-semibold py-1.5 transition-colors duration-200"
+                        style={{ fontFamily: 'var(--font-display)' }}
+                      >
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </li>
             ))}
           </ul>

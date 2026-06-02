@@ -13,7 +13,7 @@ const paths = [
     accent: '#f8ef21',
     accentText: '#231f20',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2148169349-ZC3rzFu9PcjgYnky1R8QTixywntVwU.jpg',
-    href: '/program-si-preturi',
+    href: '/cursuri/street-dance',
   },
   {
     id: 'kpop-dance',
@@ -23,8 +23,8 @@ const paths = [
     age: 'Junior → Students · 7–25 ani',
     accent: '#231f20',
     accentText: '#f8ef21',
-    image: 'https://images.unsplash.com/photo-1520256862855-398228c41684?w=600&q=80',
-    href: '/program-si-preturi',
+    image: '/cursuri/k-pop-dance.jpg',
+    href: '/cursuri/kpop-dance',
   },
   {
     id: 'gimnastica',
@@ -34,8 +34,8 @@ const paths = [
     age: 'Tiny → Teens · 4–18 ani',
     accent: '#3a3637',
     accentText: '#f8ef21',
-    image: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80',
-    href: '/program-si-preturi',
+    image: '/cursuri/gimnastica.jpg',
+    href: '/cursuri/gimnastica',
   },
   {
     id: 'zumba',
@@ -46,7 +46,7 @@ const paths = [
     accent: '#f8ef21',
     accentText: '#231f20',
     image: 'https://images.unsplash.com/photo-1535525153412-5a42439a210d?w=600&q=80',
-    href: '/program-si-preturi',
+    href: '/cursuri/zumba',
   },
 ]
 

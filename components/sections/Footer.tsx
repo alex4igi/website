@@ -5,10 +5,10 @@ const navCols = [
   {
     title: 'Cursuri',
     links: [
-      { label: 'Street Dance', href: '/#cursuri' },
-      { label: 'KPOP Dance', href: '/#cursuri' },
-      { label: 'Gimnastică artistică', href: '/#cursuri' },
-      { label: 'Zumba (Adults)', href: '/#cursuri' },
+      { label: 'Street Dance', href: '/cursuri/street-dance' },
+      { label: 'KPOP Dance', href: '/cursuri/kpop-dance' },
+      { label: 'Gimnastică artistică', href: '/cursuri/gimnastica' },
+      { label: 'Zumba (Adults)', href: '/cursuri/zumba' },
     ],
   },
   {
