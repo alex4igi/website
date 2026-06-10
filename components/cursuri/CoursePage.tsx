@@ -476,7 +476,7 @@ export default function CoursePage({ course }: { course: CourseConfig }) {
             <span className="w-1 h-1 rounded-full bg-[#231f20]/30" />
             <span>Instructori formați în sistem Quasar</span>
             <span className="w-1 h-1 rounded-full bg-[#231f20]/30" />
-            <span>Ședință de probă disponibilă</span>
+            <span className="font-bold">Ședință de probă GRATUITĂ</span>
           </div>
         </div>
       </section>

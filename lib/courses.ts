@@ -147,9 +147,9 @@ const streetDance: CourseConfig = {
       {
         id: 'dancehall',
         name: 'Dancehall',
-        kicker: 'Jamaica · energie & ritm',
-        desc: 'Mișcări vibrante pe ritmuri jamaicane, pline de energie și bună dispoziție. Unul dintre stilurile accesibile cu care încep cei mici.',
-        tags: ['Energie', 'Ritm', 'Vibe'],
+        kicker: 'Jamaica · atitudine & ritm',
+        desc: 'Energia explozivă a străzilor din Jamaica. Un stil plin de atitudine, ritm și expresivitate, construit pe mișcări autentice care spun povești și transmit emoție prin fiecare pas.',
+        tags: ['Atitudine', 'Ritm', 'Expresivitate'],
       },
       {
         id: 'house',
@@ -199,10 +199,10 @@ const streetDance: CourseConfig = {
     image: '/cursuri/cursuri-tiny.jpg',
     imageAlt: 'Copil și instructor Quasar Dance la cursul de street dance pentru cei mici din Iași',
     groups: [
-      { label: 'Tiny', age: '4–7 ani', theme: 'Joacă & Coordonare', desc: 'Totul e o poveste! Prin joculețe muzicale și melodii vesele, cei mici învață ritmul, își coordonează corpul și se îndrăgostesc de mișcare.' },
+      { label: 'Tiny', age: '4–6 ani', theme: 'Joacă & Coordonare', desc: 'Totul e o poveste! Prin joculețe muzicale și melodii vesele, cei mici învață ritmul, își coordonează corpul și se îndrăgostesc de mișcare.' },
       { label: 'Junior', age: '7–10 ani', theme: 'Echipă & Prezență scenică', desc: 'Energia crește! Vocabular vast de mișcări, lucru în echipă și prezență scenică. Învață să aibă curaj și să se susțină reciproc.' },
-      { label: 'Varsity', age: '11–15 ani', theme: 'Personalitate & Curaj', desc: 'Încurajăm puternic dezvoltarea personalității. Introducem freestyle-ul (improvizația), pentru libertatea de a gândi independent și a-și găsi propriul stil.' },
-      { label: 'Teens', age: '15–18 ani', theme: 'Vocabular, Improvizație & Comunitate', desc: 'Focus pe rafinarea tehnicii, improvizație și spirit de echipă, într-un mediu în care tinerii se simt acceptați și ascultați.' },
+      { label: 'Varsity', age: '11–14 ani', theme: 'Personalitate & Curaj', desc: 'Încurajăm puternic dezvoltarea personalității. Introducem freestyle-ul (improvizația), pentru libertatea de a gândi independent și a-și găsi propriul stil.' },
+      { label: 'Teens', age: '15–19 ani', theme: 'Vocabular, Improvizație & Comunitate', desc: 'Focus pe rafinarea tehnicii, improvizație și spirit de echipă, într-un mediu în care tinerii se simt acceptați și ascultați.' },
     ],
   },
   levels: {
@@ -291,9 +291,9 @@ const kpopDance: CourseConfig = {
     imageAlt: 'Grupă de cursanți K-Pop Quasar Dance în timpul unei coregrafii Dance Cover în Iași',
     groups: [
       { label: 'Junior', age: '7–10 ani' },
-      { label: 'Varsity', age: '11–15 ani' },
-      { label: 'Teens', age: '15–18 ani' },
-      { label: 'Students', age: '19–25 ani' },
+      { label: 'Varsity', age: '11–14 ani' },
+      { label: 'Teens', age: '15–19 ani' },
+      { label: 'Students', age: '20–25 ani' },
     ],
   },
   levels: {
@@ -375,15 +375,14 @@ const gimnastica: CourseConfig = {
   },
   ageGroups: {
     label: 'Grupe de vârstă',
-    title: 'De la Tiny la Teens',
-    desc: 'Abordare 100% personalizată: progresul fiecărui copil se măsoară în funcție de capacitățile proprii, prin încurajare — nu prin presiune sau comparații.',
+    title: 'De la Junior la Teens',
+    desc: 'Gimnastica acrobatică începe de la 7 ani. Abordare 100% personalizată: progresul fiecărui copil se măsoară în funcție de capacitățile proprii, prin încurajare — nu prin presiune sau comparații.',
     image: '/images/gimnastica-acrobatica.jpeg',
     imageAlt: 'Copil la cursul de gimnastică acrobatică Quasar Dance executând un element, în Iași',
     groups: [
-      { label: 'Tiny', age: '4–7 ani' },
       { label: 'Junior', age: '7–10 ani' },
-      { label: 'Varsity', age: '11–15 ani' },
-      { label: 'Teens', age: '15–18 ani' },
+      { label: 'Varsity', age: '11–14 ani' },
+      { label: 'Teens', age: '15–19 ani' },
     ],
   },
   levels: {
@@ -408,7 +407,7 @@ const gimnastica: CourseConfig = {
     'Rezervă-i un loc la cursurile de gimnastică acrobatică din Iași. Te ajutăm să alegi grupa potrivită vârstei.',
 }
 
-/* ── Zumba (Adults) ─────────────────────────────────────────────────────── */
+/* ── Zumba (Adulți) ─────────────────────────────────────────────────────── */
 
 const zumba: CourseConfig = {
   slug: 'zumba',

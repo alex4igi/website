@@ -8,7 +8,7 @@ const navCols = [
       { label: 'Street Dance', href: '/cursuri/street-dance' },
       { label: 'KPOP Dance', href: '/cursuri/kpop-dance' },
       { label: 'Gimnastică acrobatică', href: '/cursuri/gimnastica' },
-      { label: 'Zumba (Adults)', href: '/cursuri/zumba' },
+      { label: 'Zumba (Adulți)', href: '/cursuri/zumba' },
     ],
   },
   {
@@ -67,12 +67,12 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2.5 text-white/55 text-sm">
                 <MapPin size={14} className="flex-shrink-0" />
-                <span>Strada Lăpușneanu 14, Iași</span>
+                <span>Ștefan cel Mare &amp; Nicolina, Iași</span>
               </div>
               <div className="flex items-center gap-2.5 text-white/55 text-sm">
                 <Phone size={14} className="flex-shrink-0" />
-                <a href="tel:+40232000000" className="hover:text-[#f8ef21] transition-colors">
-                  +40 232 000 000
+                <a href="tel:+40730534172" className="hover:text-[#f8ef21] transition-colors">
+                  0730 534 172
                 </a>
               </div>
               <div className="flex items-center gap-2.5 text-white/55 text-sm">
@@ -128,20 +128,27 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-white/8">
-        <div className="max-w-7xl mx-auto px-5 md:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-white/30 text-xs">
-            © {new Date().getFullYear()} Quasar Dance. Toate drepturile rezervate.
+        <div className="max-w-7xl mx-auto px-5 md:px-8 py-5 flex flex-col gap-3">
+          {/* Legal / company data */}
+          <p className="text-white/30 text-[11px] leading-relaxed text-center sm:text-left">
+            QUASAR DANCE STUDIO S.R.L. · CUI RO49361270 · Reg. Com. J22/15/2024 · Sediul social: Str. Vasile Lupu 96, Bl. G2, Et. 7, Ap. 20, Iași 700360
           </p>
-          <div className="flex items-center gap-5">
-            {['Politică de confidențialitate', 'Termeni & condiții', 'GDPR'].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="text-white/30 hover:text-white/60 text-xs transition-colors"
-              >
-                {item}
-              </a>
-            ))}
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-white/30 text-xs">
+              © {new Date().getFullYear()} Quasar Dance. Toate drepturile rezervate.
+            </p>
+            <div className="flex items-center gap-5">
+              {['Politică de confidențialitate', 'Termeni & condiții', 'GDPR'].map((item) => (
+                <a
+                  key={item}
+                  href="#"
+                  className="text-white/30 hover:text-white/60 text-xs transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>

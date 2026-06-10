@@ -11,7 +11,7 @@ const courseLinks: NavChild[] = [
   { href: '/cursuri/street-dance', label: 'Street Dance' },
   { href: '/cursuri/kpop-dance', label: 'KPOP Dance' },
   { href: '/cursuri/gimnastica', label: 'Gimnastică acrobatică' },
-  { href: '/cursuri/zumba', label: 'Zumba (Adults)' },
+  { href: '/cursuri/zumba', label: 'Zumba (Adulți)' },
 ]
 
 const navLinks: NavLink[] = [

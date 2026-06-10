@@ -2,11 +2,11 @@ const groups = [
   {
     id: 'tiny',
     label: 'Tiny',
-    age: '4 – 7 ani',
+    age: '4 – 6 ani',
     desc: 'Primii pași în dans prin joc, muzică și mișcare liberă. Grupuri mici, instructori dedicați.',
     color: '#f8ef21',
     textColor: '#231f20',
-    courses: ['Street Dance', 'Gimnastică acrobatică'],
+    courses: ['Street Dance'],
   },
   {
     id: 'junior',
@@ -20,7 +20,7 @@ const groups = [
   {
     id: 'varsity',
     label: 'Varsity',
-    age: '11 – 15 ani',
+    age: '11 – 14 ani',
     desc: 'Stil personal, expresie artistică și primele competiții. Energia la maximum.',
     color: '#3a3637',
     textColor: '#ffffff',
@@ -29,7 +29,7 @@ const groups = [
   {
     id: 'teens',
     label: 'Teens',
-    age: '15 – 18 ani',
+    age: '15 – 19 ani',
     desc: 'Performanță, spectacole Quasar și concursuri naționale. Comunitate strânsă.',
     color: '#f8ef21',
     textColor: '#231f20',
@@ -38,7 +38,7 @@ const groups = [
   {
     id: 'students',
     label: 'Students',
-    age: '19 – 25 ani',
+    age: '20 – 25 ani',
     desc: 'Program flexibil, vibe tânăr, coregrafii actuale. Cel mai bun workout social din Iași.',
     color: '#231f20',
     textColor: '#ffffff',
@@ -46,8 +46,8 @@ const groups = [
   },
   {
     id: 'adults',
-    label: 'Adults',
-    age: '25+ ani',
+    label: 'Adulți',
+    age: '>25 ani',
     desc: 'Fără vârstă maximă. Dans pentru bucurie, sănătate și comunitate la orice vârstă.',
     color: '#3a3637',
     textColor: '#ffffff',
