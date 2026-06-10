@@ -21,12 +21,12 @@ import Footer from '@/components/sections/Footer'
 export const metadata: Metadata = {
   title: 'Quasar Dance - Cursuri de dans în Iași',
   description:
-    'Cursuri de dans în Iași pentru copii și adulți: Street Dance, KPOP, Gimnastică artistică și Zumba. Școală cu tradiție din 1981, 3 locații.',
+    'Cursuri de dans în Iași pentru copii și adulți: Street Dance, KPOP, Gimnastică acrobatică și Zumba. Școală cu tradiție din 1981, 3 locații.',
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Quasar Dance - Cursuri de dans în Iași',
     description:
-      'Cursuri de dans în Iași pentru copii și adulți: Street Dance, KPOP, Gimnastică artistică și Zumba. Tradiție din 1981.',
+      'Cursuri de dans în Iași pentru copii și adulți: Street Dance, KPOP, Gimnastică acrobatică și Zumba. Tradiție din 1981.',
     url: 'https://quasardance.ro',
     siteName: 'Quasar Dance',
     locale: 'ro_RO',

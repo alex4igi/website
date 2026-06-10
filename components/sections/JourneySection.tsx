@@ -17,7 +17,7 @@ const steps = [
     num: '03',
     title: 'Avansat',
     subtitle: 'Tehnică & precizie',
-    desc: 'Stăpânești stilul ales — Street Dance, KPOP, Gimnastică artistică sau Zumba. Pregătit pentru orice provocare.',
+    desc: 'Stăpânești stilul ales — Street Dance, KPOP, Gimnastică acrobatică sau Zumba. Pregătit pentru orice provocare.',
     tags: ['Tehnică', 'Specializare', 'Mentorat'],
   },
   {

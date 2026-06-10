@@ -2,28 +2,25 @@
 
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Users, Heart, Target, TrendingUp, Star, MapPin, Award } from 'lucide-react'
+import { ArrowRight, Users, Heart, Target, Sparkles, Star, MapPin, Trophy, Tv, Briefcase, Calendar, Music, Flame, Handshake } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
 import InstructorDeckCarousel, { instructorsData } from '@/components/InstructorDeckCarousel'
 
-// Timeline data
+// Timeline data — istoria reală a clubului
 const timelineEvents = [
-  { year: '1981', title: 'Începutul', desc: 'Prima sală de dans în Iași — clubul Quasar se naște din pasiune pură pentru mișcare.' },
-  { year: '1995', title: 'Street Dance în România', desc: 'Aducem primele stiluri de street dance în România — Hip-Hop, Breaking, Popping.' },
-  { year: '2003', title: 'Primul Campionat', desc: 'Organizăm prima competiție urbană de dans din Moldova — Quasar Battle.' },
-  { year: '2010', title: 'Școlile Quasar', desc: 'Extindere: deschidere sălii de pe Str. Sărăriei — infrastructură profesională.' },
-  { year: '2018', title: 'K-POP & Commercial', desc: 'Programele se diversifică: K-POP, Commercial Dance, Waacking, Voguing.' },
-  { year: '2024', title: 'Astăzi', desc: 'Peste 500 de elevi activi, 25+ instructori, 3 săli. 43 de ani de dans.' },
+  { year: '1981', title: 'Începutul', desc: 'Clubul ia naștere la Casa de Cultură a Studenților din Iași, sub îndrumarea scriitorului Dan Merișca, pionier al break-dance-ului în România.' },
+  { year: '2000–2004', title: 'Era street-dance', desc: 'Ignat Alexandru (IGi) preia ștafeta și transformă clubul într-un reper al stilurilor street: Hip-Hop, House, Dancehall, Popping, Locking.' },
+  { year: '2015–2020', title: 'Școală independentă', desc: 'Quasar Dance devine o școală de dans independentă, cu propria identitate și direcție.' },
+  { year: '2020 — azi', title: 'O nouă etapă', desc: 'Odată cu alăturarea Roxanei Scantee, Quasar intră într-o etapă de extindere, profesionalizare și consolidare a comunității — astăzi cu 3 puncte de lucru proprii.' },
 ]
 
-// Values
+// Values — ADN-ul Quasar
 const values = [
-  { icon: Heart, title: 'Pasiune autentică', desc: 'Dansul nu e job. E identitate.' },
-  { icon: Users, title: 'Comunitate', desc: 'Quasar e o familie. Nu doar o școală.' },
-  { icon: Award, title: 'Excelență', desc: 'Standard ridicat — de la nivel 1 la pro.' },
-  { icon: Target, title: 'Evoluție', desc: 'Nu repetăm formule. Inovăm constant.' },
+  { icon: Target, title: 'Tu vs. Tu', desc: 'Competiția cu sine însuși. Îi învățăm pe copii să își depășească propriile limite și să fie mai buni față de ei înșiși în fiecare zi.' },
+  { icon: Users, title: 'Echipa ca familie', desc: 'Lucrăm în grupuri care se sincronizează perfect. Exersăm permanent lucrul în echipă — cu bucuriile comune, dar și cu răbdarea din momentele de frustrare.' },
+  { icon: Sparkles, title: 'Entuziasm & Inovație', desc: 'Suntem tineri, curioși și mereu la curent cu noile trenduri. Ne hrănim cu energia cursanților și transformăm fiecare oră într-o experiență memorabilă.' },
 ]
 
 // Instructors data with real photos and bios
@@ -32,10 +29,26 @@ const instructors = instructorsData
 
 // Impact stats
 const impactStats = [
-  { value: '500+', label: 'Elevi activi', icon: Users },
-  { value: '43', label: 'Ani de activitate', icon: TrendingUp },
-  { value: '3', label: 'Săli în Iași', icon: MapPin },
-  { value: '25+', label: 'Instructori', icon: Star },
+  { value: '11.000+', label: 'Tineri introduși la dans', icon: Users },
+  { value: '600+', label: 'Membri activi', icon: Heart },
+  { value: '11', label: 'Instructori dedicați', icon: Star },
+  { value: '3', label: 'Puncte de lucru în Iași', icon: MapPin },
+]
+
+// Performanță & impact
+const internationalScenes = [
+  'Battle of the Year · Grecia',
+  'RedBull BC One',
+  'World of Dance · România & Chișinău',
+  'DanceStar World Masters · Croația',
+]
+
+// Experiența completă de dansator — mai mult decât cursuri
+const experiences = [
+  { icon: Calendar, title: '2 spectacole anuale', desc: 'Producții proprii de Crăciun și la Final de an, pe scene mari din Iași.' },
+  { icon: Music, title: 'Tabere & workshop-uri', desc: 'Tabere de dans și workshop-uri cu invitați speciali de pretutindeni.' },
+  { icon: Flame, title: 'Evenimente & concursuri', desc: 'Evenimente în aer liber, concursuri și flashmob-uri care animă orașul.' },
+  { icon: Handshake, title: 'Parteneriate solide', desc: 'Colaborări cu școli, cluburi educaționale și spații de joacă.' },
 ]
 
 function useInView() {
@@ -62,7 +75,9 @@ function useInView() {
 export default function DespreNoiPage() {
   const [heroRef, heroInView] = useInView()
   const [timelineRef, timelineInView] = useInView()
+  const [perfRef, perfInView] = useInView()
   const [impactRef, impactInView] = useInView()
+  const [moreRef, moreInView] = useInView()
   const [teamRef, teamInView] = useInView()
 
   return (
@@ -90,13 +105,14 @@ export default function DespreNoiPage() {
               className={`text-white text-4xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 reveal ${heroInView ? 'in-view' : ''}`}
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              43 de ani de dans.
+              Pasiune în mișcare
               <br />
-              <span className="text-[#f8ef21]">O singură poveste.</span>
+              <span className="text-[#f8ef21]">din 1981.</span>
             </h1>
             <p className={`text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl reveal ${heroInView ? 'in-view' : ''}`} style={{ transitionDelay: '100ms' }}>
-              De la un club underground în 1981 până la cea mai longevivă școală de dans din România. 
-              Quasar nu e doar dans — e identitate, comunitate, familie.
+              Suntem o comunitate de peste 600 de membri activi și o echipă de 11 instructori dedicați,
+              uniți de o singură filozofie: <span className="text-white font-semibold">„Music is number 1”</span>.
+              La Quasar nu predăm doar pași de dans — creștem încrederea și caracterul fiecărui tânăr care ne trece pragul.
             </p>
           </div>
         </div>
@@ -113,17 +129,17 @@ export default function DespreNoiPage() {
                 className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight mb-6 text-balance"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                Formăm dansatori.
+                Nu doar predăm dans.
                 <br />
-                <span className="text-[#231f20]/40">Construim caracter.</span>
+                <span className="text-[#231f20]/40">Creștem oameni.</span>
               </h2>
               <p className="text-[#6b6b6b] text-base leading-relaxed mb-4">
-                Quasar nu e doar despre pași. E despre disciplină, respect, auto-expresie și comunitate. 
-                Credem că dansul dezvoltă mai mult decât tehnica — dezvoltă încredere, creativitate și reziliență.
+                Nu ne propunem să fim doar o școală de dans, ci un mediu de dezvoltare. La Quasar, fiecare oră
+                construiește mai mult decât tehnica — dezvoltă încredere, caracter, creativitate și reziliență.
               </p>
               <p className="text-[#6b6b6b] text-base leading-relaxed">
-                Fiecare curs e construit să te facă să evoluezi — nu doar ca dansator, ci ca om. 
-                De aceea părinții aleg Quasar și de aceea elevii rămân ani de zile.
+                Filozofia noastră, „Music is number 1”, ne ghidează în fiecare zi. De aceea părinții aleg Quasar
+                și de aceea tinerii rămân ani de zile — pentru că aici cresc odată cu muzica.
               </p>
             </div>
 
@@ -133,7 +149,7 @@ export default function DespreNoiPage() {
                 className="text-[#231f20] text-2xl font-bold mb-8"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                Valorile care ne definesc
+                ADN-ul Quasar
               </h3>
               <div className="grid gap-6">
                 {values.map((val, i) => (
@@ -223,8 +239,93 @@ export default function DespreNoiPage() {
         </div>
       </section>
 
+      {/* Performanță & Impact */}
+      <section ref={perfRef} className="py-20 md:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-5 md:px-8">
+          <div className="mb-12">
+            <div className="mb-4"><SprayLabel>Performanță & impact</SprayLabel></div>
+            <h2
+              className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              Peste 11.000 de tineri
+              <br />
+              <span className="text-[#f8ef21] [-webkit-text-stroke:1px_#231f20]">au dansat cu noi.</span>
+            </h2>
+            <p className="text-[#6b6b6b] mt-4 max-w-2xl text-base leading-relaxed">
+              Rezultatele noastre vorbesc despre seriozitatea cu care tratăm dansul — de la scenele internaționale
+              până la cariere construite în industria profesionistă.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Scene internaționale */}
+            <div className="bg-[#f5f5f5] p-8 rounded-2xl border border-[#e5e5e5] card-lift">
+              <div className="w-12 h-12 rounded-full bg-[#f8ef21] flex items-center justify-center shadow-lg mb-5">
+                <Trophy size={22} className="text-[#231f20]" strokeWidth={2.5} />
+              </div>
+              <h3 className="text-[#231f20] text-lg font-bold mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+                Scene internaționale
+              </h3>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed mb-4">
+                Am reprezentat Iașul și România la competiții de prestigiu:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {internationalScenes.map((scene) => (
+                  <span
+                    key={scene}
+                    className="text-xs font-semibold bg-white text-[#231f20] px-3 py-1.5 rounded-full border border-[#e5e5e5]"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {scene}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Vizibilitate TV */}
+            <div className="bg-[#f5f5f5] p-8 rounded-2xl border border-[#e5e5e5] card-lift">
+              <div className="w-12 h-12 rounded-full bg-[#f8ef21] flex items-center justify-center shadow-lg mb-5">
+                <Tv size={22} className="text-[#231f20]" strokeWidth={2.5} />
+              </div>
+              <h3 className="text-[#231f20] text-lg font-bold mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+                Vizibilitate
+              </h3>
+              <p className="text-[#6b6b6b] text-sm leading-relaxed mb-4">
+                Ne-ați putut urmări evoluțiile la emisiuni de televiziune îndrăgite:
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {['Românii au Talent', 'Dansez pentru Tine'].map((show) => (
+                  <span
+                    key={show}
+                    className="text-xs font-semibold bg-white text-[#231f20] px-3 py-1.5 rounded-full border border-[#e5e5e5]"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {show}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Cariere */}
+            <div className="bg-[#231f20] p-8 rounded-2xl card-lift hover-glow">
+              <div className="w-12 h-12 rounded-full bg-[#f8ef21] flex items-center justify-center shadow-lg mb-5">
+                <Briefcase size={22} className="text-[#231f20]" strokeWidth={2.5} />
+              </div>
+              <h3 className="text-[#f8ef21] text-lg font-bold mb-3" style={{ fontFamily: 'var(--font-display)' }}>
+                Cariere lansate
+              </h3>
+              <p className="text-white/70 text-sm leading-relaxed">
+                Quasar a fost rampa de lansare pentru mulți dansatori care astăzi performează în industria
+                profesionistă din București.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Differentiators (compact) */}
-      <section className="py-20 md:py-28 bg-white">
+      <section className="py-20 md:py-28 bg-[#f5f5f5]">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <div className="mb-12">
             <div className="mb-4"><SprayLabel>De ce Quasar?</SprayLabel></div>
@@ -249,10 +350,10 @@ export default function DespreNoiPage() {
             </div>
             <div className="bg-[#231f20] p-8 rounded-2xl card-lift hover-glow">
               <h3 className="text-[#f8ef21] text-lg font-bold mb-3" style={{ fontFamily: 'var(--font-display)' }}>
-                Metodologie academică
+                Metodologie proprie
               </h3>
               <p className="text-white/70 text-sm leading-relaxed">
-                Structură, progresie, evaluare. Nu improvizăm — construim sistematic.
+                O metodă dezvoltată în ani de practică, care oferă rezultate rapide și o experiență de dansator completă.
               </p>
             </div>
             <div className="bg-[#231f20] p-8 rounded-2xl card-lift hover-glow">
@@ -317,8 +418,43 @@ export default function DespreNoiPage() {
         </div>
       </section>
 
+      {/* Mai mult decât cursuri */}
+      <section ref={moreRef} className="py-20 md:py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-5 md:px-8">
+          <div className="mb-12">
+            <div className="mb-4"><SprayLabel>Mai mult decât cursuri</SprayLabel></div>
+            <h2
+              className="text-[#231f20] text-3xl md:text-5xl font-extrabold leading-tight text-balance"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              O experiență de dansator
+              <br />
+              <span className="text-[#231f20]/40">completă.</span>
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {experiences.map((exp, i) => (
+              <div
+                key={exp.title}
+                className={`bg-[#f5f5f5] p-6 rounded-2xl border border-[#e5e5e5] card-lift reveal ${moreInView ? 'in-view' : ''}`}
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="w-12 h-12 rounded-full bg-[#f8ef21] flex items-center justify-center shadow-lg mb-5">
+                  <exp.icon size={22} className="text-[#231f20]" strokeWidth={2.5} />
+                </div>
+                <h3 className="text-[#231f20] text-lg font-bold mb-2" style={{ fontFamily: 'var(--font-display)' }}>
+                  {exp.title}
+                </h3>
+                <p className="text-[#6b6b6b] text-sm leading-relaxed">{exp.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Team Section - Card Deck Carousel */}
-      <section id="echipa" ref={teamRef} className="py-20 md:py-32 bg-white overflow-hidden">
+      <section id="echipa" ref={teamRef} className="py-20 md:py-32 bg-[#f5f5f5] overflow-hidden">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <div className="mb-12 text-center">
             <div className="mb-4 flex justify-center"><SprayLabel>Echipa Quasar</SprayLabel></div>
@@ -331,7 +467,7 @@ export default function DespreNoiPage() {
               <span className="text-[#231f20]/40">Mentorii tăi.</span>
             </h2>
             <p className="text-[#6b6b6b] mt-4 max-w-2xl mx-auto">
-              Swipe sau folosește săgețile pentru a descoperi întreaga echipă Quasar.
+              11 instructori dedicați și oamenii din spatele scenei. Swipe sau folosește săgețile pentru a descoperi întreaga echipă Quasar.
             </p>
           </div>
 
@@ -349,7 +485,7 @@ export default function DespreNoiPage() {
             Gata să începi?
           </h2>
           <p className="text-[#231f20]/70 text-lg mb-8">
-            Alătură-te celor peste 500 de elevi care dansează la Quasar. Primul pas începe aici.
+            Alătură-te celor peste 600 de membri care dansează la Quasar. Primul pas începe aici.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

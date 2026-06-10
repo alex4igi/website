@@ -78,7 +78,7 @@ const faqs = [
   {
     question: 'Ce cursuri se predau?',
     answer:
-      'Avem 4 cursuri principale: Street Dance (Hip-Hop, breaking, popping, locking), KPOP Dance, Gimnastică artistică și Zumba pentru adulți. Fiecare curs se desfășoară pe 3 dificultăți (Începător, Intermediar, Avansat) și pe grupe de vârstă: Tiny (4–7), Junior (7–10), Varsity (11–15), Teens (15–18), Students (19–25), Adults (25+).',
+      'Avem 4 cursuri principale: Street Dance (Hip-Hop, Dancehall, House, Waacking, Pop & Lock, MTV Commercial), KPOP Dance, Gimnastică acrobatică și Zumba pentru adulți. Fiecare curs se desfășoară pe 3 dificultăți (Începător, Intermediar, Avansat) și pe grupe de vârstă: Tiny (4–7), Junior (7–10), Varsity (11–15), Teens (15–18), Students (19–25), Adults (25+).',
   },
   {
     question: 'Dacă nu mă înscriu online, pot veni direct la sală?',

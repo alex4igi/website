@@ -7,7 +7,7 @@ const navCols = [
     links: [
       { label: 'Street Dance', href: '/cursuri/street-dance' },
       { label: 'KPOP Dance', href: '/cursuri/kpop-dance' },
-      { label: 'Gimnastică artistică', href: '/cursuri/gimnastica' },
+      { label: 'Gimnastică acrobatică', href: '/cursuri/gimnastica' },
       { label: 'Zumba (Adults)', href: '/cursuri/zumba' },
     ],
   },
@@ -59,7 +59,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-white/55 text-sm leading-relaxed max-w-xs">
-              Cea mai longevivă comunitate de dans din Iași. Depuis 1981, formăm dansatori,
+              Cea mai longevivă comunitate de dans din Iași. Din 1981, formăm dansatori,
               construim cariere și conectăm generații prin mișcare.
             </p>
 

@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .filter((v) => v > 0)
   const minMonthly = monthlyPrices.length ? Math.min(...monthlyPrices) : 0
   const title = `Program și Prețuri — Cursuri Dans ${calendar.yearLabel} | Quasar Dance Iași`
-  const description = `Calendar academic ${calendar.yearLabel} și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică artistică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună, taxă rezervare ${pricing.reservationFee} lei.`
+  const description = `Calendar academic ${calendar.yearLabel} și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică acrobatică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună, taxă rezervare ${pricing.reservationFee} lei.`
 
   return {
     title,
@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
       `oferta educațională ${calendar.yearLabel}`,
       'street dance Iași preț',
       'KPOP dance Iași preț',
-      'gimnastică artistică Iași preț',
+      'gimnastică acrobatică Iași preț',
       'zumba Iași preț',
     ],
     alternates: { canonical: '/program-si-preturi' },

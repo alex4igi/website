@@ -11,85 +11,121 @@ import {
 
 export const instructorsData = [
   {
-    name: 'Andrei',
-    slug: 'andrei',
-    role: 'Hip-Hop · Breaking',
-    specialization: 'Street Dance & Urban Choreography',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Andrei-PXdPdsp6SFs2eVUesKfeO47s8DPxxo.jpg',
-    years: '15+ ani',
-    bio: 'Versatilitatea este cuvântul cheie când vine vorba de Andrei! Indiferent dacă vorbim de Hip-hop, House, New-Style sau Breakdance, Andrei stăpânește tehnicile tuturor acestor stiluri. Pasiunea sa pentru muzică și dans îl face să fie mereu la curent cu ultimele trenduri, iar acest lucru se reflectă în cursurile sale. Andrei crede cu tărie că dansul este mai mult decât mișcare - este un mod de exprimare și de conectare cu muzica și cu comunitatea. El pune un accent deosebit pe energie, iar în cursurile sale vei simți mereu o atmosferă vibrantă și plină de viață.',
-  },
-  {
-    name: 'Ioana',
-    slug: 'ioana',
-    role: 'Commercial Dance · Heels',
-    specialization: 'Commercial Dance & Feminine Style',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ioana-WvaR3IMrq1hEswy1rawgFZGntm4Y5u.jpg',
-    years: '10+ ani',
-    bio: 'Ioana sau instructorul care te face să te simți puternic și încrezător pe ringul de dans! Fiecare clasă pe care o predă este plină de energie pozitivă, astfel încât o să fii mereu inspirat de creativitatea și încrederea ei. Pe Ioana o găsiți la cursurile de Ladies Style unde îmbină dans cu elemente de gimnastică, ceea ce face fiecare clasă o provocare fizică, dar și mentală. Ioana crede cu tărie că dansul este despre exprimare și împuternicire și se asigură că fiecare elev își poate găsi stilul propriu în cadrul cursurilor.',
-  },
-  {
     name: 'Igi',
     slug: 'igi',
-    role: 'Coregraf · All Styles',
-    specialization: 'Coregrafie & Battle',
+    role: 'Fondator · All Styles',
+    specialization: 'Street Dance · toate stilurile',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Igi-Ky2f9IvmGM6865GMiA5ya9qyutPEqK.jpg',
-    years: '12+ ani',
-    bio: 'Igi sau coregraf extraordinar. Cu o experiență vastă în dans, Igi are un stil unic care combină mai multe genuri de dans, de la hip-hop la contemporan. Creativitatea și atenția sa la detalii fac din fiecare clasă o experiență de neuitat. Elevii săi apreciază pasiunea și dedicarea cu care predă, iar energia pe care o aduce în fiecare sesiune îi motivează să se depășească pe ei înșiși. Igi nu predă doar pași de dans, ci inspiră o comunitate de dansatori pasionați și devotați.',
+    years: '20+ ani',
+    bio: 'Igi (Alex) este fondatorul și sufletul comunității Quasar Dance. Dansează de peste 20 de ani și a studiat toate stilurile de street dance, așa că poate preda orice stil — de la primii pași ai unui începător până la nivel avansat. Nu vorbește despre trofee, ci despre ceva mai greu de câștigat: a ținut sus steagul street dance-ului în Iași timp de peste două decenii. Sau, cum spunea un prieten, „a scris istoria street dance-ului în Iași". Pentru Igi, dansul e mai mult decât mișcare — e cultura urbană pe care o transmite mai departe, generație după generație. La cursurile lui, fiecare începător se simte binevenit, indiferent de vârstă sau experiență, pentru că el crede cu tărie că oricine poate dansa și că cel mai important e primul pas. Cu răbdare, energie și pasiune, Igi construiește o comunitate în care dansul înseamnă libertate, respect și apartenență.',
   },
   {
-    name: 'Eva',
-    slug: 'eva',
-    role: 'Contemporary · Lyrical',
-    specialization: 'Dans contemporan & expresie artistică',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Eva-IIkBssUfQtT7G1uSLRF13mljPe0gTa.jpg',
-    years: '8+ ani',
-    bio: 'Eva sau dansatoarea care îmbină tehnica cu emoția! Stilul ei contemporan este plin de expresivitate, iar fiecare mișcare spune o poveste. În cursurile sale, Eva te învață să te conectezi cu muzica și să îți exprimi emoțiile prin dans. Atmosfera din clasele ei este calmă, dar intens emotivă, iar elevii ei apreciază modul în care îi ajută să găsească propria lor voce artistică. Pentru Eva, dansul este o formă de terapie și o modalitate de a explora identitatea personală.',
-  },
-  {
-    name: 'Mara',
-    slug: 'mara',
-    role: 'K-Pop · Commercial',
-    specialization: 'K-Pop & Commercial Dance',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mara-csKNoHPfic8ThWuLdoOsgHvd4o0UV3.jpg',
-    years: '7+ ani',
-    bio: 'Mara sau cel mai cool instructor de K-Pop! Dansul K-Pop este mai mult decât mișcare - este o combinație de energie, atitudine și prezență scenică, iar Mara stăpânește perfect aceste elemente. În clasele ei, vei învăța coregrafiile celor mai populare piese K-Pop, dar și tehnici de dans care îți vor crește încrederea și carisma pe scenă. Mara pune accent pe sincronizare și pe lucrul în echipă, iar atmosfera din cursurile ei este mereu plină de distracție și entuziasm.',
-  },
-  {
-    name: 'Roxana',
-    slug: 'roxana',
-    role: 'Girly Hip-Hop · Commercial',
-    specialization: 'Feminine Hip-Hop & Commercial',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Roxana-LGLGA2B2CDwnsm9JaCICQ1AZFQBwCH.jpg',
-    years: '9+ ani',
-    bio: 'Roxana sau instructorul care îți arată că feminitatea și puterea merg mână în mână! În clasele sale de Girly Hip-Hop, vei învăța să îmbini mișcări puternice de hip-hop cu elemente de dans feminin și elegant. Roxana crede că dansul este o modalitate de a-ți celebra individualitatea și de a-ți exprima stilul unic. Atmosfera din cursurile ei este pozitivă și motivantă, iar elevii ei apreciază modul în care îi încurajează să fie ei înșiși și să se simtă încrezători pe ringul de dans.',
-  },
-  {
-    name: 'Alin',
-    slug: 'alin',
-    role: 'Hip-Hop · House',
-    specialization: 'Old School & Hip-Hop Foundations',
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Alin-FneSXWpD1hwq3Nroa8YXV9Hmv4ys46.jpg',
-    years: '13+ ani',
-    bio: 'Alin sau instructorul care îți arată ce înseamnă să ai "flow"! Cu o pasiune profundă pentru hip-hop și house, Alin aduce autenticitate și energie pozitivă în fiecare clasă. Stilul său de predare pune accent pe fundamentele dansului urban și pe dezvoltarea propriului stil. Pentru Alin, dansul este despre libertate de exprimare și bucurie, iar elevii săi apreciază atmosfera relaxată și prietenoasă din cursurile sale. Vei învăța nu doar tehnici, ci și spiritul autentic al culturii hip-hop.',
+    name: 'Andrei',
+    slug: 'andrei',
+    role: 'Choreo Class · Zumba',
+    specialization: 'Coregraf UNIQ Crew & RockOnQ',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Andrei-PXdPdsp6SFs2eVUesKfeO47s8DPxxo.jpg',
+    years: '15+ ani',
+    bio: 'Andrei — pe scenă, ANDRW — este coregraf al trupelor UNIQ Crew și QTheCrew și coordonator al trupei profesionale RockOnQ. Predă grupele noastre de studenți (Choreo Class), unde energia debordantă și coregrafiile dinamice sunt mereu vedeta serii. Este, totodată, instructor de Zumba, cu certificări în Core Training, Afro Rhythms și Cue Like a Pro. La Quasar For Kids îi îndrumă pe cei mici din grupele Tiny și Junior, ajutând, alături de colegii săi, la formarea noilor generații de dansatori. Pentru Andrei, dansul e mult mai mult decât o activitate — este felul lui de a transmite energie, motivație și bucurie. La cursurile lui atmosfera e mereu plină de viață, iar visul lui e ca fiecare om din sală să simtă libertatea și fericirea pe care le aduce dansul.',
   },
   {
     name: 'Bianca',
     slug: 'bianca',
-    role: 'Dans pentru copii',
-    specialization: 'Cursuri pentru copii & Adolescenți',
+    role: 'Instructor adolescenți',
+    specialization: 'Coregrafă MiniQ\'s · RockOnQ',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Bianca-3pOfsgUQDTKnBAeRaTWK7yWGRc2XqY.jpg',
     years: '11+ ani',
-    bio: 'Bianca sau instructorul preferat al copiilor, cum ne mai place nouă să o numim, este dansatoare, coregraf și fondatoare atât a trupei de copii, MiniQ\'s, cat și a trupei de adolescenți, TheQoolKids. Pe Bianca o întâlniți la cursurile pentru copii și adolescenți, unde alege cele mai energice piese, astfel încât le este imposibil copiilor să se plictisească!',
+    bio: 'Bianca este instructorul de suflet al adolescenților. Cu o adevărată armată de peste 80 de fete în jurul ei, reușește de fiecare dată să le cucerească prin coregrafiile sale și să le ofere un vibe bun din clipa în care pășesc în Quasar Dance. Este fondatoarea, coregrafa și liderul trupei de copii MiniQ\'s, care a adunat premii precum Locul 1 la Dance Star București \'25 și Locul 1 la World Dance Masters Croația \'25 — și lista continuă. Bianca este și membră a trupei RockOnQ și te așteaptă să-ți descoperi stilul, corpul și un nou cerc de prieteni la clubul nostru de dans Quasar Dance.',
+  },
+  {
+    name: 'Eva',
+    slug: 'eva',
+    role: 'Dancehall · Tutting',
+    specialization: 'Hip-Hop groove · tehnică & flow',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Eva-IIkBssUfQtT7G1uSLRF13mljPe0gTa.jpg',
+    years: '9 ani',
+    bio: 'Eva are 9 ani de experiență continuă în dans și se regăsește cel mai bine în stiluri bazate pe flow — dancehall și tutting — dar și în groove-ul de hip-hop. Îi place să exploreze creativ forme abstracte și mișcări noi. Primul ei camp de dans, Lemon Dance Camp, a fost experiența care i-a definit pasiunea și a ajutat-o să crească tehnic și să rețină coregrafii și detalii cu ușurință. Punctele ei forte sunt tehnica și acuratețea — execuția precisă a mișcărilor, muzicalitatea și atenția la detalii. Are un flow natural și molipsitor, prin care integrează mișcările armonios și expresiv; așa a acumulat experiență scenică și se adaptează ușor la contexte artistice diferite. Predă dans pentru copii și adolescenți, cu răbdare, creativitate și deschidere. Lucrul cu cei tineri i-a întărit dorința de a învăța mereu și de a crea un spațiu în care dansul devine mod de exprimare, încredere și dezvoltare personală.',
+  },
+  {
+    name: 'Ioana',
+    slug: 'ioana',
+    role: 'Street Dance · Copii',
+    specialization: 'Fondatoare Q Motion · RockOnQ',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ioana-WvaR3IMrq1hEswy1rawgFZGntm4Y5u.jpg',
+    years: '10+ ani',
+    bio: 'Ioana este o tânără plină de energie, pentru care dansul este cel mai autentic mod de a-și exprima vitalitatea și bucuria de a trăi. Instructoare dedicată și iubitoare de copii, ea emană căldură, grijă și o energie molipsitoare, care o transformă repede în prietena și sprijinul celor mici. Cu peste 10 ani de experiență în dans, Ioana a explorat numeroase stiluri, de la dansuri de societate până la dansuri tematice inspirate din culturi diferite, însă cea mai mare pasiune a ei rămâne street dance-ul. Drumul ei artistic a început la Dance Factory Vaslui, iar odată ajunsă la Iași pentru studii, a pornit o colaborare frumoasă și plină de succes cu Quasar Dance. Astăzi este membră a trupei RockOnQ, coordonează mai multe grupe de copii și este fondatoarea Q Motion, una dintre cele mai tinere trupe care au obținut titlul de trupă. Prin energie, empatie și pasiune, Ioana reușește să fie nu doar instructoare, ci și cea mai bună prietenă a celor mici.',
+  },
+  {
+    name: 'Adrian',
+    slug: 'adrian',
+    role: 'Popping · Tutting · House',
+    specialization: 'Hip-Hop · sincroane & tehnică',
+    image: '/placeholder-user.jpg',
+    years: '15 ani',
+    bio: 'Adrian dansează de 15 ani. În România a câștigat locul 1 cu toate momentele solo pregătite pentru concursuri precum BDF, SDF sau Dance Star România și s-a calificat în Finala Dance Star Croația, unde a concurat alături de cei mai buni dansatori ai lumii și a obținut locul 5 din 14. Experiența aceea l-a făcut să înțeleagă cât de multe mai are de învățat — și exact asta își dorește să facă toată viața: să muncească din greu ca să devină unul dintre cei mai buni dansatori ai României. Pe acest drum și-a dat seama că vrea să împărtășească tot ce știe cu toți cei dornici și pasionați să-și exprime emoțiile prin dans, ca să evolueze împreună. Stilurile lui preferate sunt Popping, Tutting, House și Hip-Hop, iar pe scenă se simte cel mai bine creând sincroane cu grupuri mari, cu accent pe tehnică, accente și energie. Îi place să simtă cum muzica îi dictează mișcările și să-și spună povestea și emoțiile prin ceea ce arată publicului — astfel încât oamenii să plece nu doar cu amintirea unei coregrafii faine, ci și cu un mesaj.',
+  },
+  {
+    name: 'Giulia',
+    slug: 'giulia',
+    role: 'K-Pop Covers',
+    specialization: '1-Up Crew · dans pentru copii',
+    image: '/placeholder-user.jpg',
+    years: '15+ ani',
+    bio: 'Giulia este una dintre membrele originare ale trupei de K-pop covers 1-Up Crew și dansează de peste 15 ani. Iubește K-pop-ul din toată inima și pune această pasiune în fiecare coregrafie pe care o predă. Are un talent aparte de a se conecta cu cei mici — intră ușor în lumea lor, le vorbește pe limba lor și transformă fiecare oră într-o joacă plină de energie. Atentă la detalii și mereu în căutarea mișcării perfecte, Giulia este instructorul ideal pentru cei care vor să descopere universul vibrant al K-pop-ului.',
+  },
+  {
+    name: 'Roxana',
+    slug: 'roxana',
+    role: 'Fondatoare Quasar for Kids',
+    specialization: 'Administrativ & comunitate',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Roxana-LGLGA2B2CDwnsm9JaCICQ1AZFQBwCH.jpg',
+    years: '',
+    bio: 'Roxana este mintea administrativă a Quasarului — omul structurat care ține totul la locul lui și dă formă culturii noastre organizaționale. Este fondatoarea Quasar for Kids și a comunității care a crescut în jurul acestuia, iar grija ei se simte în tot: are grijă de angajați, de comunitate și de valorile care ne țin împreună. Iubește felul în care se simte atunci când dansează și pune exact această bucurie în tot ceea ce construiește pentru Quasar.',
+  },
+  {
+    name: 'Alin',
+    slug: 'alin',
+    role: 'Gimnastică acrobatică · Parkour',
+    specialization: 'Absolvent FEFS Iași',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Alin-FneSXWpD1hwq3Nroa8YXV9Hmv4ys46.jpg',
+    years: '15+ ani',
+    bio: 'Alin este instructorul nostru specializat în gimnastică acrobatică și parkour. Absolvent al Facultății de Educație Fizică și Sport din Iași (FEFS), predă dans și gimnastică de peste 15 ani. Și-a început drumul la Roman și Botoșani, înainte să se stabilească la Iași. Diminețile și le petrece dansând prin școli și grădinițe, iar serile și weekendurile, la sediul din Nicolina. Mereu vesel și cu gluma la el, Alin este un membru de nelipsit al comunității Quasar.',
+  },
+  {
+    name: 'Theo',
+    slug: 'theo',
+    role: 'Instructor dans',
+    specialization: 'Muzică & energie bună',
+    image: '/placeholder-user.jpg',
+    years: '',
+    bio: 'Theo este o persoană calmă și foarte răbdătoare, mereu curioasă să descopere lucruri noi, chiar și din domenii complet diferite. Muzica a fost dintotdeauna o parte importantă din viața sa, iar dansul vine firesc odată cu ea. Îi place să creeze, să găsească soluții și să fie alături de cei din jur atunci când au nevoie. Și, mai presus de toate, îi place să aducă energie bună în tot ceea ce face.',
+  },
+  {
+    name: 'Mara',
+    slug: 'mara',
+    role: 'Street Dance',
+    specialization: '1-Up Crew · RockOnQ',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Mara-csKNoHPfic8ThWuLdoOsgHvd4o0UV3.jpg',
+    years: '6+ ani',
+    bio: 'Cunoscută pentru energia ei molipsitoare și pentru felul incredibil în care reușește să jongleze cu un program plin, Mara face totul din pasiune pură pentru dans și pentru comunitatea Quasar. Cu peste 6 ani de experiență în care îmbină street dance-ul cu disciplina sportivă, ea este omul care îi motivează pe cei din jur să-și depășească limitele. După parcursul în trupa 1-Up Crew și succesul actual alături de RockOnQ pe scene internaționale precum World of Dance, Mara te așteaptă în sala din Nicolina ca să descoperi împreună bucuria dansului. Stilul ei de predare e un echilibru perfect între relaxare și ambiție — locul unde fiecare cursant învață să fie activ, pozitiv și sigur pe propriile mișcări.',
   },
   {
     name: 'Ana',
     slug: 'ana',
-    role: 'Hip-Hop · Popping',
-    specialization: 'Hip-Hop & Funk Styles',
+    role: 'Street Dance · Copii',
+    specialization: 'Membră RockOnQ',
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Ana-T9q0FBI0ly5P22wdrFFoWuXJEnb8iB.jpg',
-    years: '6+ ani',
-    bio: 'Ana sau dansatoarea care îți arată că dansul este despre pasiune și dedicare! Cu un stil dinamic și plin de energie, Ana predă hip-hop și popping cu aceeași intensitate și entuziasm. În clasele ei, vei învăța tehnici de dans urban și vei lucra la dezvoltarea propriului flow. Ana crede că fiecare elev are potențialul de a deveni un dansator extraordinar, iar abordarea ei pozitivă și încurajatoare face din fiecare clasă o experiență memorabilă.',
+    years: '10+ ani',
+    bio: 'Ana face parte din familia Quasar Dance de peste 10 ani — a început să danseze chiar în sala din Nicolina. Este membră a trupei RockOnQ, alături de care a participat la numeroase concursuri internaționale, a câștigat premii și a învățat de la coregrafi diferiți. Ana este o fire prietenoasă, calmă și caldă, iar lucrul cu copiii îi aduce multă bucurie. Prin rolul ei de instructoare își dorește să transmită mai departe pasiunea pentru dans și să-i ajute pe cei mici să crească prin mișcare și creativitate.',
+  },
+  {
+    name: 'Petruța',
+    slug: 'petruta',
+    role: 'Recepție · Trupa UniQ',
+    specialization: 'Comunitatea Quasar',
+    image: '/placeholder-user.jpg',
+    years: '',
+    bio: 'Cu un zâmbet cald, voie bună și veșnica întrebare „cash sau card?", Petruța te întâmpină la recepția din Ștefan. A intrat în comunitatea Quasar acum 3 ani, la cursul de studenți, acolo unde dansul a devenit pentru ea o formă de terapie. Pasiunea i-a crescut an de an, iar acum face parte din trupa UniQ.',
   },
 ]
 
@@ -210,10 +246,14 @@ export default function InstructorDeckCarousel({
                       {instructor.bio}
                     </p>
                     <div className="mt-3 flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-[#f8ef21] text-xs font-bold">
-                        <Award size={14} />
-                        {instructor.years} experiență
-                      </div>
+                      {instructor.years ? (
+                        <div className="flex items-center gap-2 text-[#f8ef21] text-xs font-bold">
+                          <Award size={14} />
+                          {instructor.years} experiență
+                        </div>
+                      ) : (
+                        <span />
+                      )}
                       {isActive && (
                         <button
                           onClick={(e) => {
@@ -309,10 +349,12 @@ export default function InstructorDeckCarousel({
                     <div className="text-[#6b6b6b] text-sm mb-3">
                       {selectedInstructor.specialization}
                     </div>
-                    <div className="flex items-center justify-center sm:justify-start gap-2 text-[#231f20] text-sm font-bold">
-                      <Award size={16} />
-                      {selectedInstructor.years} experiență
-                    </div>
+                    {selectedInstructor.years && (
+                      <div className="flex items-center justify-center sm:justify-start gap-2 text-[#231f20] text-sm font-bold">
+                        <Award size={16} />
+                        {selectedInstructor.years} experiență
+                      </div>
+                    )}
                   </div>
                 </div>
 

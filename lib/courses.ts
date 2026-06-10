@@ -52,6 +52,7 @@ export interface CourseConfig {
   heroDesc: string
   heroImage?: string
   heroImageAlt?: string
+  heroVideoId?: string
   stats: { v: string; l: string }[]
   // Interactive picker (styles / elements / rhythms)
   picker?: {
@@ -70,7 +71,7 @@ export interface CourseConfig {
     desc: string
     image?: string
     imageAlt?: string
-    groups: { label: string; age: string }[]
+    groups: { label: string; age: string; theme?: string; desc?: string }[]
   }
   // Progression levels (optional)
   levels?: { label: string; title: string; items: { num: string; title: string; desc: string }[] }
@@ -79,17 +80,6 @@ export interface CourseConfig {
   // CTA
   ctaTitle: string
   ctaDesc: string
-}
-
-const standardLevels = {
-  label: 'Drumul tău',
-  title: 'De la prima oră la scenă',
-  items: [
-    { num: '01', title: 'Începător', desc: 'Fundamente: groove, ritm, coordonare. Grupă prietenoasă, fără presiune.' },
-    { num: '02', title: 'Intermediar', desc: 'Primele coregrafii complexe, stil personal și apariții pe scenă.' },
-    { num: '03', title: 'Avansat', desc: 'Tehnică, freestyle și specializare pe stilul tău preferat.' },
-    { num: '04', title: 'Performanță', desc: 'Concursuri, spectacole Quasar și flashmob-uri. Din sală pe orice scenă.' },
-  ],
 }
 
 const brandStats = [
@@ -102,83 +92,92 @@ const brandStats = [
 
 const streetDance: CourseConfig = {
   slug: 'street-dance',
-  metaTitle: 'Cursuri Street Dance în Iași — Hip-Hop, Breaking & Dans Urban | Quasar Dance',
+  metaTitle: 'Cursuri Street Dance în Iași — Hip-Hop, Dancehall & Dans Urban | Quasar Dance',
   metaDescription:
-    'Cursuri de street dance în Iași pentru copii, adolescenți și adulți: Hip-Hop, Breaking, Popping, Locking, House și Waacking. Școală cu tradiție din 1981, instructori formați în sistem Quasar, grupe de la 4 ani. Ședință de probă disponibilă.',
+    'Cursuri de streetdance în Iași pentru copii și adolescenți: Hip-Hop, Dancehall, House, Waacking, Pop & Lock, Vogueing și MTV Commercial, cu fundament tehnic din Jazz-Dance. Metodologie proprie, grupe de la 4 ani și ședință de probă la Quasar Dance.',
   keywords: [
     'cursuri street dance Iași',
     'street dance Iași',
     'hip hop Iași',
-    'breaking Iași',
+    'dancehall Iași',
     'dans urban Iași',
     'cursuri hip hop copii Iași',
+    'mtv commercial Iași',
     'școală de dans Iași',
     'Quasar Dance',
   ],
   ogTitle: 'Cursuri Street Dance în Iași | Quasar Dance',
   ogDescription:
-    'Hip-Hop, Breaking, Popping, Locking și mai mult. Dansul urban autentic în Iași, pentru toate vârstele. Tradiție din 1981.',
+    'Hip-Hop, Dancehall, House, Waacking, Pop & Lock și MTV Commercial. Dansul urban autentic în Iași, pentru copii și adolescenți. Tradiție din 1981.',
   jsonLdName: 'Cursuri Street Dance — Quasar Dance Iași',
   jsonLdDescription:
-    'Cursuri de street dance în Iași: Hip-Hop, Breaking, Popping, Locking, House și Waacking, pentru copii, adolescenți și adulți, de la nivel începător la performanță.',
+    'Cursuri de streetdance în Iași: Hip-Hop, Dancehall, House, Waacking, Pop & Lock, Vogueing și MTV Commercial, cu fundament din Jazz-Dance, pentru copii și adolescenți.',
   sprayLabel: 'Street Dance',
   heroBadge: 'Din 1981 în Iași',
   heroBadgeIcon: 'flame',
   titleLine1: 'Cursuri de Street Dance',
   titleAccent: 'în Iași',
   heroDesc:
-    'Hip-Hop, Breaking, Popping, Locking și mai mult. Dansul urban autentic, predat de instructori formați în sistem Quasar — pentru copii, adolescenți și adulți. Am adus street dance-ul în România și încă scriem povestea.',
+    'Descoperă magia dansului urban: Hip-Hop, Dancehall, House, Waacking, Pop & Lock și Vogueing, plus MTV Commercial pentru prezență scenică — totul pe un fundament tehnic solid din Jazz-Dance. Mai mult decât mișcare: copiii își descoperă personalitatea, leagă prietenii și învață să lucreze în echipă.',
   heroImage: '/cursuri/studenti.jpg',
   heroImageAlt: 'Grupă de street dance Quasar Dance din Iași într-o poză de echipă',
+  heroVideoId: 'fDFX2OUwC4g',
   stats: brandStats,
   picker: {
-    label: 'Stilurile',
+    label: 'Ce stiluri învățăm',
     title: 'Un univers întreg',
     titleAccent: 'de stiluri urbane',
     intro:
-      'Street dance nu e un singur dans — e o familie de stiluri, fiecare cu propria poveste și energie. Apasă ca să le descoperi.',
+      'La baza cursurilor stă o varietate plină de energie de stiluri de streetdance, toate clădite pe un fundament tehnic din Jazz-Dance — pentru o postură corectă și o bază puternică. Apasă ca să le descoperi.',
     items: [
       {
         id: 'hip-hop',
         name: 'Hip-Hop',
-        kicker: 'New York, anii ’70',
-        desc: 'Stilul-fundament al dansului urban: groove, bounce și rock. Dansul social care a pornit din cartierele din Bronx și a cucerit lumea. De aici începe orice street dancer.',
+        kicker: 'fundamentul · ideal pentru începători',
+        desc: 'Groove, bounce și atitudine. Stilul-fundament cu care începem mereu — accesibil, distractiv și plin de energie. De aici pornește orice street dancer.',
         tags: ['Groove', 'Bounce', 'Freestyle'],
       },
       {
-        id: 'breaking',
-        name: 'Breaking',
-        kicker: 'New York · sport olimpic',
-        desc: 'B-boying & b-girling: toprock, footwork, freezes și power moves. Cel mai spectaculos stil urban, devenit disciplină olimpică la Paris 2024.',
-        tags: ['Toprock', 'Footwork', 'Power moves'],
+        id: 'mtv-commercial',
+        name: 'MTV Commercial',
+        kicker: 'atitudine & prezență scenică',
+        desc: 'Stilul din videoclipuri care îi ajută enorm pe copii să își dezvolte prezența scenică, atitudinea și încrederea în sine. Spectaculos și foarte motivant.',
+        tags: ['Prezență', 'Atitudine', 'Încredere'],
       },
       {
-        id: 'popping',
-        name: 'Popping',
-        kicker: 'California, anii ’70',
-        desc: 'Contracții rapide ale mușchilor („pops" / „hits") pe ritm de funk. Iluzii, robotică și control total al corpului — popularizat de Electric Boogaloos.',
-        tags: ['Hits', 'Robot', 'Waves'],
-      },
-      {
-        id: 'locking',
-        name: 'Locking',
-        kicker: 'Los Angeles · Don Campbell',
-        desc: 'Stil funky, vesel și energic, creat de Don Campbell. Mișcări rapide ale brațelor, „lock"-uri și multă atitudine. Dansul care te face să zâmbești.',
-        tags: ['Locks', 'Points', 'Funk'],
+        id: 'dancehall',
+        name: 'Dancehall',
+        kicker: 'Jamaica · energie & ritm',
+        desc: 'Mișcări vibrante pe ritmuri jamaicane, pline de energie și bună dispoziție. Unul dintre stilurile accesibile cu care încep cei mici.',
+        tags: ['Energie', 'Ritm', 'Vibe'],
       },
       {
         id: 'house',
         name: 'House',
-        kicker: 'Chicago / New York · club scene',
-        desc: 'Footwork rapid, jacking și lofting pe muzică house. Fluiditate, energie și conexiune cu ritmul — dansul cluburilor underground.',
-        tags: ['Footwork', 'Jacking', 'Lofting'],
+        kicker: 'club scene · footwork rapid',
+        desc: 'Footwork rapid, jacking și fluiditate pe muzică house. Conexiune cu ritmul și multă libertate de mișcare.',
+        tags: ['Footwork', 'Jacking', 'Fluiditate'],
       },
       {
         id: 'waacking',
         name: 'Waacking',
-        kicker: 'Los Angeles · disco anii ’70',
-        desc: 'Mișcări dramatice ale brațelor, poze și expresivitate maximă pe muzică disco & funk. Stil teatral, plin de personalitate și încredere.',
-        tags: ['Arms', 'Poses', 'Expresie'],
+        kicker: 'disco anii ’70 · expresie',
+        desc: 'Mișcări dramatice ale brațelor, poze și expresivitate maximă pe muzică disco & funk. Stil teatral, plin de personalitate.',
+        tags: ['Brațe', 'Poze', 'Expresie'],
+      },
+      {
+        id: 'pop-lock',
+        name: 'Pop & Lock',
+        kicker: 'funk · control & iluzii',
+        desc: 'Popping și locking: contracții pe ritm, „lock"-uri energice, robotică și iluzii. Control total al corpului și multă atitudine funky.',
+        tags: ['Hits', 'Locks', 'Control'],
+      },
+      {
+        id: 'vogueing',
+        name: 'Vogueing',
+        kicker: 'ballroom · atitudine',
+        desc: 'Linii dramatice, poze și prezență scenică inspirate din cultura ballroom. Expresie, încredere și caracter pe ritmuri energice.',
+        tags: ['Poze', 'Linii', 'Prezență'],
       },
     ],
   },
@@ -186,39 +185,45 @@ const streetDance: CourseConfig = {
     label: 'De ce street dance',
     title: 'Mai mult decât pași de dans',
     items: [
-      { icon: 'heart', title: 'Condiție fizică', desc: 'Coordonare, forță, rezistență și o postură mai bună — fără să simți că faci sport.' },
-      { icon: 'brain', title: 'Încredere & disciplină', desc: 'Fiecare coregrafie învățată construiește curaj real și răbdare pe scenă și în viață.' },
-      { icon: 'users', title: 'Comunitate', desc: 'Prietenii de la dans devin prietenii pentru viață. Quasar e o familie, nu doar o sală.' },
-      { icon: 'music', title: 'Muzicalitate & stil', desc: 'Înveți să simți ritmul și să-ți construiești propriul stil prin freestyle și coregrafie.' },
+      { icon: 'heart', title: 'Condiție fizică', desc: 'Coordonare, forță și postură corectă — beneficiile mișcării, fără să simtă că face sport.' },
+      { icon: 'brain', title: 'Memorie & disciplină', desc: 'Coregrafiile antrenează memoria, concentrarea și disciplina, reducând în același timp stresul.' },
+      { icon: 'users', title: 'Comunitate & prietenii', desc: 'O comunitate în care copilul se simte integrat și fericit. Prietenii de la dans devin prietenii pentru viață.' },
+      { icon: 'music', title: 'Muzicalitate & cultură', desc: 'Înveți nu doar pașii, ci muzica și cultura din spate — îți construiești un „vocabular” propriu de mișcări.' },
     ],
   },
   ageGroups: {
-    label: 'Pentru toate vârstele',
-    title: 'De la 4 la 99 de ani',
+    label: 'Grupele noastre',
+    title: 'O abordare adaptată fiecărei vârste',
     desc:
-      'Street dance la Quasar are o grupă potrivită pentru fiecare etapă — de la primii pași până la nivel de performanță.',
+      'Fiecare etapă de creștere este unică, așa că adaptăm metoda de predare pentru fiecare grupă de vârstă.',
     image: '/cursuri/cursuri-tiny.jpg',
     imageAlt: 'Copil și instructor Quasar Dance la cursul de street dance pentru cei mici din Iași',
     groups: [
-      { label: 'Tiny', age: '4–7 ani' },
-      { label: 'Junior', age: '7–10 ani' },
-      { label: 'Varsity', age: '11–15 ani' },
-      { label: 'Teens', age: '15–18 ani' },
-      { label: 'Students', age: '19–25 ani' },
-      { label: 'Adults', age: '25+ ani' },
+      { label: 'Tiny', age: '4–7 ani', theme: 'Joacă & Coordonare', desc: 'Totul e o poveste! Prin joculețe muzicale și melodii vesele, cei mici învață ritmul, își coordonează corpul și se îndrăgostesc de mișcare.' },
+      { label: 'Junior', age: '7–10 ani', theme: 'Echipă & Prezență scenică', desc: 'Energia crește! Vocabular vast de mișcări, lucru în echipă și prezență scenică. Învață să aibă curaj și să se susțină reciproc.' },
+      { label: 'Varsity', age: '11–15 ani', theme: 'Personalitate & Curaj', desc: 'Încurajăm puternic dezvoltarea personalității. Introducem freestyle-ul (improvizația), pentru libertatea de a gândi independent și a-și găsi propriul stil.' },
+      { label: 'Teens', age: '15–18 ani', theme: 'Vocabular, Improvizație & Comunitate', desc: 'Focus pe rafinarea tehnicii, improvizație și spirit de echipă, într-un mediu în care tinerii se simt acceptați și ascultați.' },
     ],
   },
-  levels: standardLevels,
+  levels: {
+    label: 'Cum decurge învățarea',
+    title: 'Călătoria pașilor de dans',
+    items: [
+      { num: '01', title: 'ABC-ul dansului', desc: 'Ne împrietenim cu postura și învățăm mișcările de bază prin scurte coregrafii, pe muzică specifică — construim un „vocabular” de mișcări și înțelegem contextul.' },
+      { num: '02', title: 'Diversitate & noutate', desc: 'Copiii se plictisesc repede, așa că aducem mereu ceva nou: informații proaspete și cele mai actuale melodii, pentru entuziasm la cote maxime.' },
+      { num: '03', title: 'Momentul de strălucire', desc: 'Odată stăpânite bazele, compunem coregrafii spectaculoase cu care urcăm pe scenă, la spectacole și concursuri. Momentul lor să strălucească!' },
+    ],
+  },
   faqs: [
-    { q: 'De la ce vârstă se poate începe street dance?', a: 'De la 4 ani, în grupa Tiny. Avem grupe pentru fiecare vârstă, până la adulți (25+ ani) — niciodată nu e prea târziu să începi.' },
-    { q: 'Trebuie să am experiență înainte?', a: 'Deloc. Majoritatea cursanților încep de la zero, în grupele de începători. Te învățăm tot, pas cu pas, într-un mediu relaxat.' },
-    { q: 'Ce trebuie să port la primul curs?', a: 'Haine lejere în care te poți mișca și încălțăminte sport curată, de interior. Apă și energie bună — restul îți arătăm noi.' },
-    { q: 'În ce locații din Iași se țin cursurile de street dance?', a: 'La locațiile Quasar din Iași — Ștefan cel Mare și Nicolina. Vezi orarul complet pentru zile, ore și grupe.' },
-    { q: 'Pot să vin la o oră de probă?', a: 'Da! Contactează-ne și îți programăm o ședință de probă, ca să simți atmosfera Quasar înainte de înscriere.' },
+    { q: 'Trebuie să fi dansat înainte?', a: 'Deloc. Începem mereu cu o bază accesibilă și distractivă — Hip-Hop, MTV Commercial și Dancehall — și construim totul de la zero, pas cu pas.' },
+    { q: 'Care sunt beneficiile dansului pentru copilul meu?', a: 'Pe lângă o condiție fizică excelentă, dansul îmbunătățește memoria și disciplina, reduce stresul și, cel mai important, oferă o comunitate în care copilul se simte integrat și fericit.' },
+    { q: 'Cum trebuie să se îmbrace la cursuri?', a: 'Recomandăm haine lejere (trening, tricou, pantaloni confortabili) și o pereche de adidași curați, folosiți exclusiv în sala de dans, pentru a menține un mediu curat și sigur.' },
+    { q: 'De la ce vârstă se poate începe?', a: 'De la 4 ani, în grupa Tiny. Avem grupe adaptate pentru fiecare etapă, până la adolescenți.' },
+    { q: 'Poate veni la o ședință de probă?', a: 'Bineînțeles! Știm că la început poate exista puțină timiditate. Vă așteptăm cu drag la o primă ședință, ca să cunoașteți instructorii, colegii și energia din sala noastră.' },
   ],
-  ctaTitle: 'Gata să intri în ritm?',
+  ctaTitle: 'Gata să faci primul pas?',
   ctaDesc:
-    'Rezervă-ți locul la cursurile de street dance din Iași. Te ajutăm să alegi grupa, nivelul și locația potrivită.',
+    'Rezervă-ți locul la o ședință de probă de street dance în Iași. Te ajutăm să alegi grupa, nivelul și locația potrivită.',
 }
 
 /* ── KPOP Dance ─────────────────────────────────────────────────────────── */
@@ -227,7 +232,7 @@ const kpopDance: CourseConfig = {
   slug: 'kpop-dance',
   metaTitle: 'Cursuri KPOP Dance în Iași — Coregrafii K-Pop & Dance Cover | Quasar Dance',
   metaDescription:
-    'Cursuri de KPOP dance în Iași pentru copii, adolescenți și tineri: coregrafii K-pop actuale, sincron de grup, dance break și performance. Comunitate vibrantă la Quasar Dance, grupe de la 7 la 25 de ani. Ședință de probă disponibilă.',
+    'Cursuri de K-Pop în Iași pentru copii și adolescenți: stil Dance Cover — coregrafiile consacrate ale trupelor preferate (BTS, BLACKPINK, Stray Kids, NewJeans), sincronizare perfectă și comunitate vibrantă la Quasar Dance. Ședință de probă disponibilă.',
   keywords: [
     'cursuri kpop Iași',
     'kpop dance Iași',
@@ -238,49 +243,52 @@ const kpopDance: CourseConfig = {
     'școală de dans Iași',
     'Quasar Dance',
   ],
-  ogTitle: 'Cursuri KPOP Dance în Iași | Quasar Dance',
+  ogTitle: 'Cursuri K-Pop în Iași | Quasar Dance',
   ogDescription:
-    'Coregrafii K-pop actuale, sincron de grup și energie maximă. Comunitatea KPOP din Iași te așteaptă la Quasar Dance.',
-  jsonLdName: 'Cursuri KPOP Dance — Quasar Dance Iași',
+    'Stil Dance Cover: coregrafiile idolilor (BTS, BLACKPINK, Stray Kids, NewJeans), sincron de grup și energie maximă. Comunitatea K-Pop din Iași te așteaptă la Quasar Dance.',
+  jsonLdName: 'Cursuri K-Pop Dance — Quasar Dance Iași',
   jsonLdDescription:
-    'Cursuri de KPOP dance în Iași: coregrafii K-pop actuale, sincron de grup, dance break și performance, pentru copii, adolescenți și tineri, de la nivel începător la performanță.',
+    'Cursuri de K-Pop în Iași, stil Dance Cover: coregrafiile consacrate ale trupelor K-Pop, sincronizare de grup și performance, pentru copii și adolescenți.',
   sprayLabel: 'KPOP Dance',
-  heroBadge: 'Comunitate vibrantă',
+  heroBadge: 'Stil Dance Cover',
   heroBadgeIcon: 'sparkles',
-  titleLine1: 'Cursuri de KPOP Dance',
+  titleLine1: 'Cursuri de K-Pop',
   titleAccent: 'în Iași',
   heroDesc:
-    'Coregrafii K-pop actuale, energie maximă și sincron de grup ca în videoclipuri. Înveți piese cap-coadă și dance break-uri exact ca idolii tăi, într-o comunitate vibrantă — de la Junior la Students.',
+    'Pasiunea copilului tău prinde viață pe scenă! Cursuri de K-Pop axate pe Dance Cover — învățăm pas cu pas coregrafiile consacrate ale trupelor preferate (BTS, BLACKPINK, Stray Kids, NewJeans și mulți alții), cu sincronizare perfectă și energie de grup. Transformăm timpul din fața ecranelor într-o activitate sănătoasă și o experiență socială extraordinară.',
   heroImage: '/cursuri/k-pop-dance.jpg',
   heroImageAlt: 'Dansatoare KPOP Quasar Dance pe scenă, în spectacol, în Iași',
+  heroVideoId: 'o8T_WL3xmfo',
   stats: brandStats,
   picker: {
-    label: 'Ce înveți',
-    title: 'Coregrafie, sincron',
-    titleAccent: 'și energie de scenă',
+    label: 'Ce învățăm',
+    title: 'Dansăm exact',
+    titleAccent: 'ca idolii noștri',
     intro:
-      'KPOP dance înseamnă mai mult decât pași — e formație, expresie și energie de grup. Apasă ca să vezi ce lucrăm la fiecare oră.',
+      'Spre deosebire de alte stiluri unde coregrafia e creată de instructor, cursurile de K-Pop se concentrează pe Dance Cover. Apasă ca să vezi ce lucrăm la fiecare oră.',
     items: [
-      { id: 'coregrafie', name: 'Coregrafie completă', kicker: 'pe piese K-pop actuale', desc: 'Înveți o piesă cap-coadă, secțiune cu secțiune, exact ca în videoclipul original. De la primii 8 timpi până la coregrafia completă.', tags: ['Memorare', 'Detaliu', 'Stil'] },
-      { id: 'sincron', name: 'Sincron de grup', kicker: 'formație & spacing', desc: 'Secretul KPOP-ului: să te miști ca un singur corp. Lucrăm formații, schimbări de poziție și sincronizare perfectă.', tags: ['Formație', 'Spacing', 'Timing'] },
-      { id: 'dance-break', name: 'Dance break', kicker: 'secțiunile intense', desc: 'Părțile cele mai spectaculoase ale pieselor — energie maximă, atitudine și impact. Momentul în care explodezi pe scenă.', tags: ['Energie', 'Impact', 'Atitudine'] },
-      { id: 'performance', name: 'Expresie & performance', kicker: 'facial & prezență', desc: 'Nu dansezi doar cu corpul. Lucrăm expresia facială, prezența scenică și conexiunea cu publicul — ca un idol adevărat.', tags: ['Facial', 'Prezență', 'Carismă'] },
+      { id: 'dance-cover', name: 'Dance Cover', kicker: 'coregrafiile idolilor', desc: 'Sub îndrumarea instructorilor, învățăm pas cu pas coregrafiile consacrate ale celor mai iubite trupe K-Pop — BTS, BLACKPINK, Stray Kids, NewJeans și mulți alții.', tags: ['BTS', 'BLACKPINK', 'NewJeans'] },
+      { id: 'sincron', name: 'Sincron & formații', kicker: 'ca un singur corp', desc: 'Coregrafiile K-Pop sunt renumite pentru formațiile complexe și sincronizarea perfectă. Învățăm să lucrăm în echipă pentru ca dansul final să arate impecabil.', tags: ['Formație', 'Spacing', 'Timing'] },
+      { id: 'comeback', name: 'Comeback-uri actuale', kicker: 'mereu la curent', desc: 'Cultura K-Pop e dinamică! De fiecare dată când o trupă lansează o piesă nouă (un „comeback”), o aducem direct în sala de dans.', tags: ['Piese noi', 'Trenduri', 'Fresh'] },
+      { id: 'performance', name: 'Detalii & scenă', kicker: 'ca niște idoli', desc: 'Atenție la detalii, prezență scenică și expresie. Cursanții urcă pe scenă la spectacolele și concursurile Quasar și se simt ca niște adevărați idoli.', tags: ['Detaliu', 'Prezență', 'Carismă'] },
     ],
   },
   benefits: {
-    label: 'De ce KPOP',
+    label: 'De ce K-Pop',
     title: 'Mai mult decât o coregrafie',
     items: [
-      { icon: 'brain', title: 'Memorare & coordonare', desc: 'Învățarea coregrafiilor antrenează memoria, atenția la detaliu și coordonarea întregului corp.' },
-      { icon: 'star', title: 'Încredere pe scenă', desc: 'De la prima formație până la spectacol — fiecare apariție construiește curaj și prezență.' },
-      { icon: 'users', title: 'Comunitate K-pop', desc: 'Întâlnești oameni cu aceeași pasiune. Grupa devine repede a doua ta familie.' },
-      { icon: 'heart', title: 'Condiție fizică', desc: 'Coregrafiile intense sunt un workout complet — distractiv și fără să simți că faci sport.' },
+      { icon: 'brain', title: 'Memorie & coordonare', desc: 'Coregrafiile necesită concentrare și reținerea pașilor — antrenând memoria și coordonarea întregului corp.' },
+      { icon: 'star', title: 'Înlătură timiditatea', desc: 'De la prima formație la scenă, fiecare apariție crește încrederea și ajută copilul să își depășească timiditatea.' },
+      { icon: 'users', title: 'Prieteni & comunitate', desc: 'Copilul e înconjurat de prieteni de vârsta lui, cu un subiect comun de pasiune. Cursanții devin o adevărată comunitate.' },
+      { icon: 'heart', title: 'Condiție fizică', desc: 'Transformăm timpul petrecut în fața ecranelor într-o activitate fizică sănătoasă și super distractivă.' },
     ],
   },
   ageGroups: {
     label: 'Grupe de vârstă',
     title: 'De la Junior la Students',
-    desc: 'KPOP dance la Quasar are grupe pentru copii, adolescenți și tineri — fiecare cu nivelul și energia potrivită.',
+    desc: 'Cursurile de K-Pop la Quasar au grupe pentru copii, adolescenți și tineri — fiecare cu nivelul și energia potrivită.',
+    image: '/images/kpop.webp',
+    imageAlt: 'Grupă de cursanți K-Pop Quasar Dance în timpul unei coregrafii Dance Cover în Iași',
     groups: [
       { label: 'Junior', age: '7–10 ani' },
       { label: 'Varsity', age: '11–15 ani' },
@@ -288,78 +296,89 @@ const kpopDance: CourseConfig = {
       { label: 'Students', age: '19–25 ani' },
     ],
   },
-  levels: standardLevels,
+  levels: {
+    label: 'Pe parcursul anului',
+    title: 'Din sala de dans, în comunitate',
+    items: [
+      { num: '01', title: 'K-Pop Random Dance', desc: 'De Ziua Internațională a Dansului organizăm evenimente în aer liber: dăm drumul la muzică, iar fanii sar în mijloc și dansează împreună toate coregrafiile pe care le știu. O explozie de energie și încredere!' },
+      { num: '02', title: 'Spectacole Quasar', desc: 'Cursanții urcă pe scenă, își prezintă munca și se simt ca niște adevărați „idoli” în cadrul spectacolelor noastre.' },
+      { num: '03', title: 'Concursuri', desc: 'Iubim să vedem cum pasiunea dă roade — oferim ocazia de a concura și de a duce coregrafiile învățate la nivelul următor.' },
+    ],
+  },
   faqs: [
-    { q: 'Trebuie să știu deja coregrafii K-pop?', a: 'Nu. Începem de la zero, descompunem fiecare mișcare și o reluăm până iese. Vino cu entuziasm, restul construim împreună.' },
-    { q: 'Pentru ce vârste este KPOP dance?', a: 'Avem grupe de la 7 ani (Junior) până la 25 de ani (Students). Fiecare grupă lucrează piese potrivite vârstei și nivelului.' },
-    { q: 'Ce piese învățăm?', a: 'Coregrafii K-pop actuale și populare, alese împreună cu grupa. Lucrăm spre apariții la spectacolele Quasar și dance cover-uri.' },
+    { q: 'Este potrivit dacă nu a mai dansat?', a: 'Absolut! Coregrafiile K-Pop sunt explicate de instructori cu multă răbdare, pas cu pas. Entuziasmul și dragostea pentru muzică sunt singurele cerințe.' },
+    { q: 'De ce să aleg un curs de K-Pop?', a: 'Dincolo de distracție, K-Pop-ul îmbunătățește memoria, coordonarea și condiția fizică și ajută la înlăturarea timidității. În plus, copilul va fi înconjurat de prieteni de vârsta lui, cu un subiect comun de discuție.' },
+    { q: 'Ce piese învățăm?', a: 'Coregrafiile celor mai iubite trupe K-Pop (BTS, BLACKPINK, Stray Kids, NewJeans și alții). De câte ori apare un „comeback”, îl aducem direct în sala de dans.' },
     { q: 'Ce port la oră?', a: 'Haine lejere în care te poți mișca și încălțăminte sport de interior. Comodul e cheia.' },
-    { q: 'Pot veni la o oră de probă?', a: 'Sigur! Contactează-ne și îți programăm o ședință de probă ca să simți energia grupei.' },
+    { q: 'Pot veni la o ședință de probă?', a: 'Sigur! Contactează-ne și îți programăm o ședință de probă, ca să simți energia grupei.' },
   ],
   ctaTitle: 'Gata să dansezi ca un idol?',
   ctaDesc:
-    'Rezervă-ți locul la cursurile de KPOP dance din Iași. Te ajutăm să alegi grupa și nivelul potrivit.',
+    'Pasiunea copilului tău merită o scenă adevărată. Rezervă-ți locul la cursurile de K-Pop din Iași — te ajutăm să alegi grupa potrivită.',
 }
 
-/* ── Gimnastică artistică ───────────────────────────────────────────────── */
+/* ── Gimnastică acrobatică ──────────────────────────────────────────────── */
 
 const gimnastica: CourseConfig = {
   slug: 'gimnastica',
-  metaTitle: 'Cursuri Gimnastică Artistică în Iași — Copii & Adolescenți | Quasar Dance',
+  metaTitle: 'Cursuri Gimnastică Acrobatică în Iași — Copii & Adolescenți | Quasar Dance',
   metaDescription:
-    'Cursuri de gimnastică artistică în Iași pentru copii și adolescenți: forță, flexibilitate, echilibru și elemente acrobatice (roata, podul, stând în mâini, sfoara). Metodologie profesionistă și cadru sigur la Quasar Dance, grupe de la 4 ani.',
+    'Cursuri de gimnastică acrobatică în Iași pentru copii și adolescenți: forță, mobilitate, echilibru și elemente acrobatice (roata, salturi, trick-uri). Antrenori licențiați FEFS Iași, abordare 100% personalizată și siguranță maximă la Quasar Dance.',
   keywords: [
     'cursuri gimnastica Iași',
-    'gimnastica artistica Iași',
-    'gimnastica copii Iași',
     'gimnastica acrobatica Iași',
-    'cursuri acrobatie Iași',
+    'gimnastica copii Iași',
+    'acrobatie Iași',
+    'cursuri acrobatica copii Iași',
     'școală de dans Iași',
     'Quasar Dance',
   ],
-  ogTitle: 'Cursuri Gimnastică Artistică în Iași | Quasar Dance',
+  ogTitle: 'Cursuri Gimnastică Acrobatică în Iași | Quasar Dance',
   ogDescription:
-    'Forță, flexibilitate, echilibru și curaj. Gimnastică artistică pentru copii și adolescenți în Iași, cu metodologie profesionistă.',
-  jsonLdName: 'Cursuri Gimnastică Artistică — Quasar Dance Iași',
+    'Forță, mobilitate, echilibru și trick-uri spectaculoase. Gimnastică acrobatică pentru copii și adolescenți în Iași, cu antrenori licențiați FEFS.',
+  jsonLdName: 'Cursuri Gimnastică Acrobatică — Quasar Dance Iași',
   jsonLdDescription:
-    'Cursuri de gimnastică artistică în Iași pentru copii și adolescenți: forță, flexibilitate, echilibru și elemente acrobatice, într-un cadru sigur și cu metodologie profesionistă.',
-  sprayLabel: 'Gimnastică',
-  heroBadge: 'Forță & mobilitate',
+    'Cursuri de gimnastică acrobatică în Iași pentru copii și adolescenți: forță, mobilitate, echilibru și elemente acrobatice, cu antrenori licențiați FEFS și siguranță maximă.',
+  sprayLabel: 'Gimnastică acrobatică',
+  heroBadge: 'Forță & control corporal',
   heroBadgeIcon: 'dumbbell',
-  titleLine1: 'Cursuri de Gimnastică artistică',
+  titleLine1: 'Cursuri de Gimnastică acrobatică',
   titleAccent: 'în Iași',
   heroDesc:
-    'Forță, flexibilitate, echilibru și curaj. Program structurat, cu metodologie profesionistă și cadru sigur, unde copilul își testează limitele — de la primii pași până la elemente acrobatice spectaculoase.',
+    'Transformăm energia debordantă a copilului în agilitate, forță și încredere. Într-un mediu organizat, sigur și profesionist, construim control corporal, disciplină și abilități uimitoare de care va fi extrem de mândru — pas cu pas, în deplină siguranță.',
   heroImage: '/cursuri/gimnastica.jpg',
-  heroImageAlt: 'Instructor Quasar Dance care ghidează un copil la un element de gimnastică în Iași',
+  heroImageAlt: 'Instructor Quasar Dance care ghidează un copil la un element de gimnastică acrobatică în Iași',
+  heroVideoId: 'dsuhJptVr4w',
   stats: brandStats,
   picker: {
-    label: 'Ce înveți',
-    title: 'De la primul pod',
-    titleAccent: 'la elemente acrobatice',
+    label: 'Ce lucrăm',
+    title: 'De la fundație',
+    titleAccent: 'la trick-uri spectaculoase',
     intro:
-      'Gimnastica construiește corpul pas cu pas — mobilitate, forță și control. Apasă ca să vezi ce lucrăm la fiecare nivel.',
+      'Construim corpul pas cu pas: înainte de elementele spectaculoase, punem un accent uriaș pe baza fizică — secretul oricărui element acrobatic reușit. Apasă ca să vezi ce lucrăm.',
     items: [
-      { id: 'flexibilitate', name: 'Flexibilitate & mobilitate', kicker: 'podul, sfoara, deschideri', desc: 'Lucrăm gradual și sigur mobilitatea articulară: podul, sfoara, deschiderile. Baza pentru orice element frumos și sănătos.', tags: ['Podul', 'Sfoara', 'Stretching'] },
-      { id: 'forta', name: 'Forță & echilibru', kicker: 'stând în mâini, planșe', desc: 'Forța de bază a corpului și echilibrul: stând în mâini, planșe, susțineri. Controlul care face diferența.', tags: ['Stând în mâini', 'Core', 'Echilibru'] },
-      { id: 'acrobatie', name: 'Elemente acrobatice', kicker: 'roata, rondat, rulări', desc: 'Roata, rondatul, rulările și primele elemente acrobatice — învățate progresiv, cu siguranță și încredere.', tags: ['Roata', 'Rondat', 'Rulări'] },
-      { id: 'coordonare', name: 'Coordonare & control', kicker: 'sărituri & aterizări', desc: 'Sărituri, aterizări sigure și coordonare fină. Corpul învață să se miște precis și controlat.', tags: ['Sărituri', 'Aterizări', 'Precizie'] },
+      { id: 'forta', name: 'Forță & fundație', kicker: 'baza oricărui element', desc: 'Înainte de orice element acrobatic, construim forța de bază a corpului. O fundație solidă și sigură pe care se clădește tot restul.', tags: ['Core', 'Forță', 'Fundație'] },
+      { id: 'mobilitate', name: 'Mobilitate & echilibru', kicker: 'podul, sfoara, stretching', desc: 'Lucrăm gradual mobilitatea articulară și echilibrul — podul, sfoara, deschiderile — pentru mișcări frumoase și sănătoase.', tags: ['Podul', 'Sfoara', 'Echilibru'] },
+      { id: 'acrobatie', name: 'Elemente acrobatice', kicker: 'roata, salturi, trick-uri', desc: 'Roata, salturile și primele trick-uri spectaculoase — învățate progresiv, cu asistență fizică și echipamente de protecție.', tags: ['Roata', 'Salturi', 'Trick-uri'] },
+      { id: 'coordonare', name: 'Coordonare & control', kicker: 'desprindere & aterizări', desc: 'Sărituri, desprinderi și aterizări sigure. Corpul învață să se miște precis și controlat, în deplină siguranță.', tags: ['Desprindere', 'Aterizări', 'Precizie'] },
     ],
   },
   benefits: {
-    label: 'De ce gimnastică',
-    title: 'O bază pentru orice',
+    label: 'De ce gimnastică acrobatică',
+    title: 'Mai mult decât acrobație',
     items: [
-      { icon: 'activity', title: 'Postură & sănătate', desc: 'Spate drept, articulații mobile și un corp puternic — beneficii care rămân pe viață.' },
-      { icon: 'shield', title: 'Disciplină & curaj', desc: 'Fiecare element nou cere răbdare și curaj. Copilul învață să-și depășească fricile, pas cu pas.' },
-      { icon: 'dumbbell', title: 'Bază pentru orice sport', desc: 'Forța, mobilitatea și coordonarea din gimnastică ajută la dans, sport și mișcare în general.' },
-      { icon: 'target', title: 'Coordonare & control', desc: 'Conștientizarea corpului în spațiu se dezvoltă puternic — util în orice activitate.' },
+      { icon: 'dumbbell', title: 'Forță & control corporal', desc: 'Canalizăm energia debordantă în forță, mobilitate și control — abilități de care copilul va fi mândru.' },
+      { icon: 'shield', title: 'Siguranța pe primul loc', desc: 'Totul se învață treptat, cu saltele, echipamente de protecție și supraveghere permanentă. Niciun element nu e forțat.' },
+      { icon: 'star', title: 'Antrenori licențiați FEFS', desc: 'Cursuri susținute exclusiv de absolvenți ai Facultății de Educație Fizică și Sport din Iași, cu diplomă de licență.' },
+      { icon: 'activity', title: 'Completare pentru dansatori', desc: 'Mobilitate, echilibru și trick-uri spectaculoase pe care le pot integra în coregrafiile de Streetdance sau K-Pop.' },
     ],
   },
   ageGroups: {
     label: 'Grupe de vârstă',
     title: 'De la Tiny la Teens',
-    desc: 'Gimnastica artistică la Quasar are grupe pentru fiecare etapă de dezvoltare, de la cei mici la adolescenți.',
+    desc: 'Abordare 100% personalizată: progresul fiecărui copil se măsoară în funcție de capacitățile proprii, prin încurajare — nu prin presiune sau comparații.',
+    image: '/images/gimnastica-acrobatica.jpeg',
+    imageAlt: 'Copil la cursul de gimnastică acrobatică Quasar Dance executând un element, în Iași',
     groups: [
       { label: 'Tiny', age: '4–7 ani' },
       { label: 'Junior', age: '7–10 ani' },
@@ -368,25 +387,25 @@ const gimnastica: CourseConfig = {
     ],
   },
   levels: {
-    label: 'Drumul tău',
-    title: 'Progres sigur, pas cu pas',
+    label: 'Cum decurge o oră',
+    title: 'Structura unui antrenament',
     items: [
-      { num: '01', title: 'Începător', desc: 'Mobilitate de bază, forță și primele elemente — într-un cadru sigur și prietenos.' },
-      { num: '02', title: 'Intermediar', desc: 'Podul, sfoara, stând în mâini și roata se consolidează. Crește încrederea.' },
-      { num: '03', title: 'Avansat', desc: 'Elemente acrobatice combinate și control fin al corpului.' },
-      { num: '04', title: 'Performanță', desc: 'Demonstrații și apariții la spectacolele Quasar. Corpul devine instrument.' },
+      { num: '01', title: 'Încălzire & fundație', desc: 'Încălzire riguroasă și repetarea elementelor de bază. Toți mușchii sunt pregătiți pentru efort — o fundație solidă și sigură.' },
+      { num: '02', title: 'Traseul dinamic', desc: 'Copiii nu așteaptă rândul! Un traseu interactiv cu „stații”, fiecare cu exerciții pentru forță, mobilitate, echilibru și coordonare.' },
+      { num: '03', title: 'Atenție 1-la-1', desc: 'Super-puterea noastră: la stația instructorului, fiecare copil lucrează individual, fix la nivelul lui, asistat fizic la elementele noi.' },
+      { num: '04', title: 'Forță & stretching', desc: 'Final cu un scurt program de forță adaptat vârstei și stretching, pentru relaxarea musculaturii și o dezvoltare armonioasă.' },
     ],
   },
   faqs: [
-    { q: 'De la ce vârstă se poate începe gimnastica?', a: 'De la 4 ani, în grupa Tiny. Lucrăm potrivit vârstei, prin joc și exerciții sigure, până la adolescenți.' },
-    { q: 'Copilul meu nu e flexibil. Poate începe?', a: 'Absolut. Flexibilitatea se construiește la fiecare oră, gradual și fără forțare. Exact pentru asta vii la curs.' },
-    { q: 'Este sigur? Cum preveniți accidentările?', a: 'Da. Lucrăm progresiv, cu saltele și asistență, iar instructorii sunt formați să predea fiecare element în siguranță.' },
-    { q: 'Ce trebuie să poarte copilul?', a: 'Haine lejere și elastice (colanți, tricou) în care se poate mișca liber. Lucrăm desculți sau cu șosete antiderapante.' },
-    { q: 'Pot veni la o oră de probă?', a: 'Da! Contactează-ne și programăm o ședință de probă, ca să vedeți atmosfera și abordarea noastră.' },
+    { q: 'Este periculos pentru copilul meu?', a: 'Siguranța este prioritatea zero. Folosim saltele și echipamente specifice, iar copiii învață mai întâi cum să cadă corect și să se protejeze. Totul este strict supravegheat și asistat de profesioniști.' },
+    { q: 'Cum trebuie să se îmbrace la curs?', a: 'Recomandăm haine mulate și elastice (colanți, bustieră/tricou mulat sau body de gimnastică) și părul prins. Antrenamentele se desfășoară desculț sau în șosete antiderapante, pentru o aderență perfectă.' },
+    { q: 'Poate face gimnastică dacă merge și la cursuri de dans?', a: 'Absolut! Gimnastica acrobatică este o completare fenomenală pentru dansatori: mai multă mobilitate, echilibru și trick-uri spectaculoase pe care le pot introduce în coregrafiile de Streetdance sau K-Pop.' },
+    { q: 'Copilul meu nu e flexibil. Poate începe?', a: 'Da. Mobilitatea se construiește la fiecare oră, gradual și fără forțare. Punem accent pe baza fizică — exact pentru asta vii la curs.' },
+    { q: 'Cine susține cursurile?', a: 'Antrenori cu studii superioare — absolvenți ai FEFS Iași, cu diplomă de licență — care știu să comunice pe limba copiilor, să îi motiveze și să le clădească încrederea în propriile forțe.' },
   ],
-  ctaTitle: 'Gata să-și testeze limitele?',
+  ctaTitle: 'Gata să-și canalizeze energia?',
   ctaDesc:
-    'Rezervă-i un loc la cursurile de gimnastică artistică din Iași. Te ajutăm să alegi grupa potrivită vârstei.',
+    'Rezervă-i un loc la cursurile de gimnastică acrobatică din Iași. Te ajutăm să alegi grupa potrivită vârstei.',
 }
 
 /* ── Zumba (Adults) ─────────────────────────────────────────────────────── */
@@ -407,50 +426,55 @@ const zumba: CourseConfig = {
   ],
   ogTitle: 'Cursuri Zumba în Iași | Quasar Dance',
   ogDescription:
-    'Workout cu ritmuri latino, distractiv și intens. Arzi calorii dansând la Zumba, în Iași, la Quasar Dance.',
+    'Petrecere de fitness de 60 de minute, cu ritmuri Latino și Africane. Arzi calorii dansând la Zumba, în Iași, la Quasar Dance.',
   jsonLdName: 'Cursuri Zumba — Quasar Dance Iași',
   jsonLdDescription:
-    'Cursuri de Zumba în Iași pentru adulți: workout cu ritmuri latino (salsa, reggaeton, merengue, cumbia), distractiv și intens, fără presiune tehnică.',
+    'Cursuri de Zumba în Iași pentru adulți: petrecere de fitness de 60 de minute cu ritmuri Latino și Africane, 100% pentru începători, fără presiune tehnică.',
   sprayLabel: 'Zumba',
-  heroBadge: 'Workout cu ritmuri latino',
+  heroBadge: 'Latino & Afro · 60 min',
   heroBadgeIcon: 'flame',
   titleLine1: 'Cursuri de Zumba',
   titleAccent: 'în Iași',
   heroDesc:
-    'Workout cu ritmuri latino, distractiv și intens. Arzi calorii dansând pe salsa, reggaeton și merengue — fără presiune tehnică, doar energie pură și voie bună. Pentru adulți, la orice nivel de fitness.',
+    'Ora ta de energie, mișcare și deconectare! Am transformat antrenamentul de fitness într-o adevărată petrecere: 60 de minute de ritmuri Latino și Africane care te fac să uiți că faci efort. Pentru adulți, la orice nivel — fără experiență în dans.',
+  heroImage: '/images/zumba.webp',
+  heroImageAlt: 'Clasă de Zumba Quasar Dance în plină mișcare, pe ritmuri Latino, în Iași',
+  heroVideoId: '4r8slr8w3d8',
   stats: brandStats,
   picker: {
     label: 'Ritmurile',
-    title: 'Energie latino',
+    title: 'Energie Latino & Afro',
     titleAccent: 'la fiecare oră',
     intro:
-      'Zumba amestecă ritmuri latino într-un workout care nu se simte ca o sală. Apasă ca să descoperi vibe-ul fiecărui ritm.',
+      'Zumba amestecă ritmuri Latino și Africane într-un workout care nu se simte ca o sală. Apasă ca să descoperi vibe-ul fiecărui ritm.',
     items: [
       { id: 'salsa', name: 'Salsa', kicker: 'ritm latino clasic', desc: 'Pașii vioi și șoldurile care nu stau locului. Ritmul care a făcut Zumba celebră — energic și antrenant.', tags: ['Șolduri', 'Vioi', 'Clasic'] },
       { id: 'reggaeton', name: 'Reggaeton', kicker: 'urban & energic', desc: 'Ritm urban, puternic și plin de atitudine. Partea cea mai „street" a orei de Zumba.', tags: ['Urban', 'Atitudine', 'Beat'] },
       { id: 'merengue', name: 'Merengue', kicker: 'rapid & vesel', desc: 'Ritm rapid, simplu și super vesel. Perfect ca să-ți crești pulsul și buna dispoziție.', tags: ['Rapid', 'Vesel', 'Cardio'] },
       { id: 'cumbia', name: 'Cumbia', kicker: 'groove latino', desc: 'Groove latino relaxat și prietenos, ușor de prins. Te leagănă și te face să zâmbești.', tags: ['Groove', 'Prietenos', 'Fun'] },
+      { id: 'afro', name: 'Afro', kicker: 'ritmuri africane', desc: 'Ritmuri africane pline de energie și bună dispoziție, care aduc o vibrație aparte fiecărei ore de Zumba.', tags: ['Energie', 'Vibe', 'Cardio'] },
     ],
   },
   benefits: {
     label: 'De ce Zumba',
     title: 'Sport care nu pare sport',
     items: [
-      { icon: 'flame', title: 'Arzi calorii', desc: 'Un workout cardio complet de aproape o oră — fără să simți că ești la sală.' },
-      { icon: 'smile', title: 'Fără presiune', desc: 'Nu există pași greșiți. Vii, te miști, te distrezi. Atât. Restul vine de la sine.' },
-      { icon: 'heart', title: 'Inimă sănătoasă', desc: 'Mișcarea ritmică susține sănătatea cardiovasculară și îți încarcă bateriile.' },
-      { icon: 'users', title: 'Energie & voie bună', desc: 'O comunitate caldă de adulți care vin pentru mișcare, muzică și o stare de bine.' },
+      { icon: 'flame', title: 'Arzi calorii', desc: 'O petrecere continuă de 60 de minute — un workout cardio complet, fără să simți că ești la sală.' },
+      { icon: 'smile', title: '100% pentru începători', desc: 'Nu ai nevoie de experiență. Instructorul e mereu în fața ta, cu mișcări repetitive și ușor de memorat.' },
+      { icon: 'sparkles', title: 'Metoda Cueing', desc: 'Ghidare vizuală, fără opriri pentru explicații tehnice — doar o trecere lină și naturală de la o mișcare la alta.' },
+      { icon: 'users', title: 'Energie & deconectare', desc: 'Lași grijile la intrare. Arzi stresul și te umpli de energie pozitivă, cu zâmbetul pe buze.' },
     ],
   },
   faqs: [
-    { q: 'Trebuie să știu să dansez?', a: 'Deloc. Zumba e despre distracție, nu despre tehnică. Urmărești instructorul și te lași purtat de muzică — totul vine natural.' },
-    { q: 'Pentru ce nivel de fitness este?', a: 'Pentru orice nivel. Mergi în ritmul tău, crești intensitatea când te simți pregătit. Fiecare oră e adaptabilă.' },
+    { q: 'Trebuie să știu să dansez?', a: 'Deloc. Zumba e 100% pentru începători. Instructorul e mereu în fața ta și folosește metoda Cueing (ghidare vizuală) — tu doar te lași purtată de muzică și urmezi mișcările.' },
+    { q: 'Pentru ce vârstă și nivel de fitness este?', a: 'Pentru orice vârstă și orice nivel. La Zumba contează doar să te simți bine — mergi în ritmul tău și crești intensitatea când te simți pregătită.' },
+    { q: 'Cine susține clasele?', a: 'Un instructor licențiat Zumba încă din 2020, cu zeci de evenimente și masterclass-uri organizate cu succes în toată zona Moldovei.' },
     { q: 'Ce port la oră?', a: 'Haine sport comode și încălțăminte de interior cu talpă bună. Adu apă și un prosop — vei transpira (în sens bun).' },
-    { q: 'Pot veni la o oră de probă?', a: 'Sigur! Contactează-ne și îți programăm o ședință de probă ca să simți energia.' },
+    { q: 'Pot veni la o oră de probă?', a: 'Sigur! Contactează-ne și îți programăm o ședință de probă ca să simți atmosfera.' },
   ],
   ctaTitle: 'Gata să dansezi pentru tine?',
   ctaDesc:
-    'Rezervă-ți locul la cursurile de Zumba din Iași. Vino să te miști, să arzi calorii și să-ți încarci bateriile.',
+    'Lasă grijile la intrare și rezervă-ți locul la cursurile de Zumba din Iași. Vârsta sau condiția fizică nu contează — contează doar să te simți bine.',
 }
 
 export const courses: Record<string, CourseConfig> = {

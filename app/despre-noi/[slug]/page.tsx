@@ -36,13 +36,13 @@ const instructorsData = [
     role: 'Instructor Principal',
     specialization: 'Gimnastică Artistică · Acrobație',
     bio: 'Fostă gimnastă de performanță, acum instructor de top la Quasar. Metodologia ei îmbină rigoarea sportivă cu bucuria mișcării. Specializată în pregătire tehnică pentru copii 4-12 ani.',
-    longBio: 'Ioana Popescu a fost gimnastă în lotul național până la 18 ani. Când și-a încheiat cariera sportivă, pasiunea pentru mișcare nu s-a stins — s-a transformat. A descoperit că predarea gimnasticii poate fi la fel de împlinitoare ca performanța.\n\nLa Quasar, Ioana a dezvoltat un program unic de gimnastică artistică pentru copii care combină disciplina sportului de performanță cu mediul prietenos al unei școli de dans. Rezultatele sunt vizibile: elevii ei excelează tehnic, dar iubesc ceea ce fac.\n\nMetodologia ei se bazează pe progresie clară, încurajare constantă și atenție la fiecare detaliu. Părinții apreciază comunicarea deschisă și dedicarea cu care Ioana tratează fiecare copil.',
+    longBio: 'Ioana Popescu a fost gimnastă în lotul național până la 18 ani. Când și-a încheiat cariera sportivă, pasiunea pentru mișcare nu s-a stins — s-a transformat. A descoperit că predarea gimnasticii poate fi la fel de împlinitoare ca performanța.\n\nLa Quasar, Ioana a dezvoltat un program unic de gimnastică acrobatică pentru copii care combină disciplina sportului de performanță cu mediul prietenos al unei școli de dans. Rezultatele sunt vizibile: elevii ei excelează tehnic, dar iubesc ceea ce fac.\n\nMetodologia ei se bazează pe progresie clară, încurajare constantă și atenție la fiecare detaliu. Părinții apreciază comunicarea deschisă și dedicarea cu care Ioana tratează fiecare copil.',
     image: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80',
     years: '12+ ani în Quasar',
     courses: [
-      { name: 'Gimnastică artistică · Tiny', level: 'Începător', schedule: 'Marți & Joi 16:00-17:00' },
-      { name: 'Gimnastică artistică · Teens', level: 'Avansat', schedule: 'Luni, Miercuri, Vineri 17:30-19:00' },
-      { name: 'Gimnastică artistică · Varsity', level: 'Intermediar', schedule: 'Sâmbătă 10:00-11:30' },
+      { name: 'Gimnastică acrobatică · Tiny', level: 'Începător', schedule: 'Marți & Joi 16:00-17:00' },
+      { name: 'Gimnastică acrobatică · Teens', level: 'Avansat', schedule: 'Luni, Miercuri, Vineri 17:30-19:00' },
+      { name: 'Gimnastică acrobatică · Varsity', level: 'Intermediar', schedule: 'Sâmbătă 10:00-11:30' },
     ],
     achievements: ['Fostă gimnastă lotul național', 'Certificare FPTR', '500+ elevi formați', 'Specialist pregătire copii 4-12 ani'],
     testimonials: [

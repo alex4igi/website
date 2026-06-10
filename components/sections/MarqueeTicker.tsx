@@ -1,7 +1,7 @@
 const items = [
   'Street Dance',
   'KPOP Dance',
-  'Gimnastică artistică',
+  'Gimnastică acrobatică',
   'Zumba (Adults)',
   'Tiny · Junior · Varsity',
   'Teens · Students · Adults',

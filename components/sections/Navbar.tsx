@@ -10,7 +10,7 @@ type NavLink = { href: string; label: string; num: string; children?: NavChild[]
 const courseLinks: NavChild[] = [
   { href: '/cursuri/street-dance', label: 'Street Dance' },
   { href: '/cursuri/kpop-dance', label: 'KPOP Dance' },
-  { href: '/cursuri/gimnastica', label: 'Gimnastică artistică' },
+  { href: '/cursuri/gimnastica', label: 'Gimnastică acrobatică' },
   { href: '/cursuri/zumba', label: 'Zumba (Adults)' },
 ]
 
@@ -19,8 +19,7 @@ const navLinks: NavLink[] = [
   { href: '/despre-noi', label: 'Despre noi', num: '02' },
   { href: '/program-si-preturi', label: 'Program & Prețuri', num: '03' },
   { href: '/orar', label: 'Orar', num: '04' },
-  { href: '/#locatii', label: 'Locații', num: '05' },
-  { href: '/contact', label: 'Contact', num: '06' },
+  { href: '/contact', label: 'Contact', num: '05' },
 ]
 
 export default function Navbar() {

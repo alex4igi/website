@@ -5,7 +5,7 @@ import { CheckCircle } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 
 const ageGroups = ['Tiny (4–7)', 'Junior (7–10)', 'Varsity (11–15)', 'Teens (15–18)', 'Students (19–25)', 'Adults (25+)']
-const interestTypes = ['Street Dance', 'KPOP Dance', 'Gimnastică artistică', 'Zumba (Adults)', 'Nu știu încă']
+const interestTypes = ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică', 'Zumba (Adults)', 'Nu știu încă']
 const locationsList = ['Quasar Centru', 'Quasar Nicolina', 'Quasar for Kids', 'Orice locație']
 
 export default function LeadFormSection() {

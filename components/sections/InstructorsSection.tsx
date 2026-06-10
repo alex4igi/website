@@ -6,7 +6,7 @@ import InstructorDeckCarousel from '@/components/InstructorDeckCarousel'
 import { useInView } from '@/hooks/use-in-view'
 
 export default function InstructorsSection() {
-  const [sectionRef, sectionInView] = useInView()
+  const [sectionRef, sectionInView] = useInView<HTMLElement>()
 
   return (
     <section id="instructori" ref={sectionRef} className="bg-white py-20 md:py-32 overflow-hidden">

@@ -6,7 +6,7 @@ const groups = [
     desc: 'Primii pași în dans prin joc, muzică și mișcare liberă. Grupuri mici, instructori dedicați.',
     color: '#f8ef21',
     textColor: '#231f20',
-    courses: ['Street Dance', 'Gimnastică artistică'],
+    courses: ['Street Dance', 'Gimnastică acrobatică'],
   },
   {
     id: 'junior',
@@ -15,7 +15,7 @@ const groups = [
     desc: 'Baza tehnică se consolidează. Ritm, coordonare, primele coregrafii de grup.',
     color: '#231f20',
     textColor: '#ffffff',
-    courses: ['Street Dance', 'KPOP Dance', 'Gimnastică artistică'],
+    courses: ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică'],
   },
   {
     id: 'varsity',
@@ -24,7 +24,7 @@ const groups = [
     desc: 'Stil personal, expresie artistică și primele competiții. Energia la maximum.',
     color: '#3a3637',
     textColor: '#ffffff',
-    courses: ['Street Dance', 'KPOP Dance', 'Gimnastică artistică'],
+    courses: ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică'],
   },
   {
     id: 'teens',
@@ -33,7 +33,7 @@ const groups = [
     desc: 'Performanță, spectacole Quasar și concursuri naționale. Comunitate strânsă.',
     color: '#f8ef21',
     textColor: '#231f20',
-    courses: ['Street Dance', 'KPOP Dance', 'Gimnastică artistică'],
+    courses: ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică'],
   },
   {
     id: 'students',

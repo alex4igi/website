@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   ArrowRight,
@@ -47,96 +47,130 @@ const icons: Record<CourseIcon, LucideIcon> = {
   star: Star,
 }
 
+// 16:9 background-video embed, autoplay + muted + looped, mobile-safe (playsinline).
+function ytEmbedSrc(id: string, start = 0) {
+  return (
+    `https://www.youtube.com/embed/${id}` +
+    `?autoplay=1&mute=1&loop=1&playlist=${id}` +
+    `&start=${start}&controls=0&showinfo=0&rel=0` +
+    `&modestbranding=1&playsinline=1&iv_load_policy=3` +
+    `&disablekb=1&fs=0&cc_load_policy=0&enablejsapi=0`
+  )
+}
+
 export default function CoursePage({ course }: { course: CourseConfig }) {
   const firstPicker = course.picker?.items[0]?.id ?? ''
   const [activeItem, setActiveItem] = useState(firstPicker)
   const [pickerRef, pickerIn] = useInView<HTMLDivElement>({ threshold: 0.15 })
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   const BadgeIcon = icons[course.heroBadgeIcon]
   const current = course.picker?.items.find((i) => i.id === activeItem) ?? course.picker?.items[0]
+  const hasGroupDesc = !!course.ageGroups?.groups.some((g) => g.theme || g.desc)
+  const levelCols = course.levels && course.levels.items.length === 3 ? 'md:grid-cols-3' : 'md:grid-cols-4'
 
   return (
     <div className="min-h-screen bg-white">
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-[#231f20] overflow-hidden">
-        <div className="absolute inset-0 opacity-25 pointer-events-none" aria-hidden="true">
-          <div className="absolute top-10 -left-24 w-96 h-96 bg-[#f8ef21] rounded-full blur-[150px]" />
-          <div className="absolute bottom-0 right-0 w-[28rem] h-[28rem] bg-[#f8ef21] rounded-full blur-[170px]" />
+        {/* ── Background video (same principle as homepage hero) ───────── */}
+        <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Poster — shown before the iframe mounts to avoid a flash of black */}
+          {!mounted && (
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url('${course.heroImage ?? '/images/quasar-team.jpg'}')` }}
+            />
+          )}
+
+          {/* iframe — client-only, sized to cover (16:9 cover math) */}
+          {mounted && course.heroVideoId && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: 'max(100vw, 177.78vh)',
+                height: 'max(56.25vw, 100vh)',
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
+              <iframe
+                src={ytEmbedSrc(course.heroVideoId)}
+                title={`${course.sprayLabel} — background video`}
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                style={{ width: '100%', height: '100%', border: 'none', opacity: 0.5 }}
+              />
+            </div>
+          )}
         </div>
 
+        {/* ── Gradient overlay — keeps the text readable over the video ── */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(35,31,32,0.82) 0%, rgba(35,31,32,0.55) 38%, rgba(35,31,32,0.68) 72%, rgba(35,31,32,0.97) 100%)',
+          }}
+        />
+
         <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-8">
-          <div
-            className={`grid items-center gap-10 ${course.heroImage ? 'lg:grid-cols-[1.1fr_0.9fr]' : ''}`}
-          >
-            <div className={course.heroImage ? '' : 'max-w-3xl'}>
-              <div className="mb-6 flex flex-wrap items-center gap-3">
-                <SprayLabel>{course.sprayLabel}</SprayLabel>
-                <span
-                  className="inline-flex items-center gap-1.5 text-[#f8ef21] text-xs font-bold uppercase tracking-widest border border-[#f8ef21]/30 rounded-full px-3 py-1"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  <BadgeIcon size={12} /> {course.heroBadge}
-                </span>
-              </div>
-              <h1
-                className="text-white text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6"
+          <div className="max-w-3xl">
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              <SprayLabel>{course.sprayLabel}</SprayLabel>
+              <span
+                className="inline-flex items-center gap-1.5 text-[#f8ef21] text-xs font-bold uppercase tracking-widest border border-[#f8ef21]/30 rounded-full px-3 py-1"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                {course.titleLine1}
-                <br />
-                <span className="text-[#f8ef21]">{course.titleAccent}</span>
-              </h1>
-              <p className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
-                {course.heroDesc}
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center gap-2 bg-[#f8ef21] text-[#231f20] font-extrabold text-sm md:text-base px-7 py-3.5 rounded-full hover:bg-white transition-colors shadow-xl shadow-[#f8ef21]/20"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  Înscrie-te acum
-                  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  href="/orar"
-                  className="inline-flex items-center gap-2 border-2 border-white/30 text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full hover:bg-white hover:text-[#231f20] hover:border-white transition-all"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  <Clock size={17} /> Vezi orarul
-                </Link>
-              </div>
-
-              {/* Mini stats */}
-              <div className="flex flex-wrap gap-x-8 gap-y-3 mt-10">
-                {course.stats.map((s) => (
-                  <div key={s.l}>
-                    <div
-                      className="text-[#f8ef21] text-2xl md:text-3xl font-extrabold leading-none"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      {s.v}
-                    </div>
-                    <div className="text-white/50 text-xs font-semibold mt-1">{s.l}</div>
-                  </div>
-                ))}
-              </div>
+                <BadgeIcon size={12} /> {course.heroBadge}
+              </span>
+            </div>
+            <h1
+              className="text-white text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              {course.titleLine1}
+              <br />
+              <span className="text-[#f8ef21]">{course.titleAccent}</span>
+            </h1>
+            <p className="text-white/80 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
+              {course.heroDesc}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-2 bg-[#f8ef21] text-[#231f20] font-extrabold text-sm md:text-base px-7 py-3.5 rounded-full hover:bg-white transition-colors shadow-xl shadow-[#f8ef21]/20"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                Înscrie-te acum
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/orar"
+                className="inline-flex items-center gap-2 border-2 border-white/30 text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full hover:bg-white hover:text-[#231f20] hover:border-white transition-all"
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                <Clock size={17} /> Vezi orarul
+              </Link>
             </div>
 
-            {/* Hero image */}
-            {course.heroImage && (
-              <div className="relative">
-                <div className="rounded-3xl overflow-hidden ring-1 ring-white/10 shadow-2xl aspect-[4/5] lg:aspect-auto">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={course.heroImage}
-                    alt={course.heroImageAlt ?? course.sprayLabel}
-                    className="w-full h-full object-cover"
-                    fetchPriority="high"
-                  />
+            {/* Mini stats */}
+            <div className="flex flex-wrap gap-x-8 gap-y-3 mt-10">
+              {course.stats.map((s) => (
+                <div key={s.l}>
+                  <div
+                    className="text-[#f8ef21] text-2xl md:text-3xl font-extrabold leading-none"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {s.v}
+                  </div>
+                  <div className="text-white/60 text-xs font-semibold mt-1">{s.l}</div>
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -289,21 +323,36 @@ export default function CoursePage({ course }: { course: CourseConfig }) {
                   {course.ageGroups.title}
                 </h2>
                 <p className="text-white/60 mt-4 mb-8 max-w-xl">{course.ageGroups.desc}</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className={`grid gap-3 ${hasGroupDesc ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2 md:grid-cols-3'}`}>
                   {course.ageGroups.groups.map((g) => (
                     <div
                       key={g.label + g.age}
-                      className="rounded-2xl bg-white/5 border border-white/10 p-5 flex flex-col gap-1 hover:bg-[#f8ef21] hover:border-[#f8ef21] transition-colors duration-200 group"
+                      className="rounded-2xl bg-white/5 border border-white/10 p-5 flex flex-col gap-1.5 hover:bg-[#f8ef21] hover:border-[#f8ef21] transition-colors duration-200 group"
                     >
-                      <span
-                        className="text-white group-hover:text-[#231f20] text-xl font-extrabold transition-colors"
-                        style={{ fontFamily: 'var(--font-display)' }}
-                      >
-                        {g.label}
-                      </span>
-                      <span className="text-white/50 group-hover:text-[#231f20]/70 text-sm font-semibold transition-colors">
-                        {g.age}
-                      </span>
+                      <div className="flex items-baseline justify-between gap-2">
+                        <span
+                          className="text-white group-hover:text-[#231f20] text-xl font-extrabold transition-colors"
+                          style={{ fontFamily: 'var(--font-display)' }}
+                        >
+                          {g.label}
+                        </span>
+                        <span className="text-white/50 group-hover:text-[#231f20]/70 text-sm font-semibold transition-colors whitespace-nowrap">
+                          {g.age}
+                        </span>
+                      </div>
+                      {g.theme && (
+                        <span
+                          className="text-[#f8ef21] group-hover:text-[#231f20] text-sm font-bold transition-colors"
+                          style={{ fontFamily: 'var(--font-display)' }}
+                        >
+                          {g.theme}
+                        </span>
+                      )}
+                      {g.desc && (
+                        <p className="text-white/55 group-hover:text-[#231f20]/80 text-sm leading-relaxed transition-colors">
+                          {g.desc}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -326,7 +375,7 @@ export default function CoursePage({ course }: { course: CourseConfig }) {
                 {course.levels.title}
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className={`grid grid-cols-1 ${levelCols} gap-4`}>
               {course.levels.items.map((l) => (
                 <div
                   key={l.num}
