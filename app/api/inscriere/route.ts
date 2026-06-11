@@ -60,8 +60,12 @@ export async function POST(req: Request) {
   const locatia = body.locatia?.trim() || null
   const grupaLabel = body.grupa_varsta?.trim() || null
 
-  // Trimitem lead-ul la CRM — FĂRĂ email (confirmarea o trimitem noi, branded,
-  // ca să evităm dublarea cu emailul automat al CRM-ului).
+  const emailInput = body.email?.trim()
+  const email = emailInput && isValidEmail(emailInput) ? emailInput : null
+
+  // Trimitem lead-ul la CRM, inclusiv email (cerut de client). CRM-ul trimite
+  // propriul email de confirmare; pe lângă acesta trimitem și confirmarea
+  // branded prin Resend (mai jos) — clientul a ales să le păstrăm pe ambele.
   let crmData: { created?: boolean; leadId?: string; reason?: string } = {}
   try {
     const crmRes = await fetch(CRM_ENDPOINT, {
@@ -70,6 +74,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         nume,
         telefon,
+        email,
         interes,
         grupa_varsta: grupaLabel ? ageGroupToEnum[grupaLabel] || null : null,
         locatia,
@@ -95,8 +100,7 @@ export async function POST(req: Request) {
   }
 
   // Confirmare branded prin Resend (best-effort — nu blocăm lead-ul dacă pică emailul).
-  const email = body.email?.trim()
-  if (email && isValidEmail(email)) {
+  if (email) {
     try {
       const { subject, html } = inscriereConfirmationEmail({
         name: nume,
