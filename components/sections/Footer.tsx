@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react'
+import CookieSettingsLink from '@/components/CookieSettingsLink'
 
 // TikTok nu există în lucide-react — icon custom cu aceeași interfață (size).
 function TiktokIcon({ size = 15 }: { size?: number }) {
@@ -182,6 +183,7 @@ export default function Footer() {
                   {item.label}
                 </a>
               ))}
+              <CookieSettingsLink className="text-white/30 hover:text-white/60 text-xs transition-colors" />
             </div>
           </div>
         </div>

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Sora, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import ConsentMode from '@/components/ConsentMode'
+import CookieConsent from '@/components/CookieConsent'
 import './globals.css'
 
 const sora = Sora({
@@ -54,9 +56,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ro" className={`${sora.variable} ${inter.variable}`}>
+      <head>
+        <ConsentMode />
+      </head>
       <body className="antialiased">
         {children}
         <WhatsAppButton />
+        <CookieConsent />
         <Analytics />
       </body>
     </html>
