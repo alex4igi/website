@@ -128,12 +128,40 @@ export default function ContactPage() {
     email: '',
     phone: '',
     message: '',
+    company: '', // honeypot anti-spam
   })
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Form submission logic here
-    console.log('[v0] Contact form submitted:', formData)
+    setError(null)
+
+    // Anti-spam: honeypot completat → ne prefacem că am trimis.
+    if (formData.company) {
+      setSubmitted(true)
+      return
+    }
+
+    setLoading(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        setError(data?.error || 'A apărut o eroare. Te rugăm să încerci din nou.')
+      }
+    } catch {
+      setError('Nu am putut trimite mesajul. Verifică conexiunea și încearcă din nou.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -280,91 +308,141 @@ export default function ContactPage() {
                 Completează formularul de mai jos și îți vom răspunde în cel mai scurt timp posibil.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-[#231f20] font-bold text-sm mb-2"
+              {submitted ? (
+                <div className="flex flex-col items-center gap-4 text-center bg-[#f5f5f5] rounded-2xl py-12 px-6">
+                  <div className="w-16 h-16 rounded-full bg-[#f8ef21] flex items-center justify-center">
+                    <Send size={28} className="text-[#231f20]" />
+                  </div>
+                  <h3
+                    className="text-[#231f20] text-2xl font-extrabold"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    Nume complet *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
-                    placeholder="Ion Popescu"
-                  />
+                    Mesaj trimis!
+                  </h3>
+                  <p className="text-[#6b6b6b] text-sm max-w-xs leading-relaxed">
+                    Îți mulțumim! Ți-am trimis o confirmare pe email și îți vom răspunde în cel mai
+                    scurt timp posibil.
+                  </p>
                 </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="block text-[#231f20] font-bold text-sm mb-2"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      Nume complet *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
+                      placeholder="Ion Popescu"
+                    />
+                  </div>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-[#231f20] font-bold text-sm mb-2"
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-[#231f20] font-bold text-sm mb-2"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
+                      placeholder="ion@email.ro"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="block text-[#231f20] font-bold text-sm mb-2"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      Telefon
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
+                      placeholder="07XX XXX XXX"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="message"
+                      className="block text-[#231f20] font-bold text-sm mb-2"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      Mesajul tău *
+                    </label>
+                    <textarea
+                      id="message"
+                      required
+                      rows={6}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors resize-none"
+                      placeholder="Spune-ne cum te putem ajuta..."
+                    />
+                  </div>
+
+                  {/* Honeypot anti-spam — ascuns pentru utilizatori */}
+                  <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    <label htmlFor="contact-company">Companie</label>
+                    <input
+                      id="contact-company"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    />
+                  </div>
+
+                  {error && (
+                    <p
+                      role="alert"
+                      className="text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3"
+                    >
+                      {error}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#f8ef21] text-[#231f20] font-black text-base px-6 py-4 rounded-full hover:bg-[#231f20] hover:text-[#f8ef21] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
-                    placeholder="ion@email.ro"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-[#231f20] font-bold text-sm mb-2"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    Telefon
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
-                    placeholder="07XX XXX XXX"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-[#231f20] font-bold text-sm mb-2"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    Mesajul tău *
-                  </label>
-                  <textarea
-                    id="message"
-                    required
-                    rows={6}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors resize-none"
-                    placeholder="Spune-ne cum te putem ajuta..."
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#f8ef21] text-[#231f20] font-black text-base px-6 py-4 rounded-full hover:bg-[#231f20] hover:text-[#f8ef21] transition-all duration-200 shadow-lg hover:shadow-xl"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  <Send size={18} />
-                  Trimite mesajul
-                </button>
-              </form>
+                    {loading ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-[#231f20]/30 border-t-[#231f20] rounded-full animate-spin" />
+                        Se trimite...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={18} />
+                        Trimite mesajul
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
 
               {/* Alternative contact */}
               <div className="mt-8 p-6 bg-[#f5f5f5] rounded-2xl">

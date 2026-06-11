@@ -1,5 +1,20 @@
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Instagram, Facebook, Youtube } from 'lucide-react'
+import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react'
+
+// TikTok nu există în lucide-react — icon custom cu aceeași interfață (size).
+function TiktokIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M16.5 3c.36 2.5 1.86 4 4.5 4.2v2.9c-1.53.15-2.86-.35-4.4-1.28v5.62c0 5.7-6.22 7.5-8.72 3.42-1.6-2.62-.62-7.22 4.52-7.4v3.06c-.39.06-.81.16-1.2.29-1.17.4-1.83 1.14-1.65 2.45.35 2.5 4.94 3.24 4.56-1.65V3h2.39z" />
+    </svg>
+  )
+}
 
 const navCols = [
   {
@@ -35,9 +50,10 @@ const navCols = [
 ]
 
 const socials = [
-  { label: 'Instagram', href: 'https://instagram.com', icon: Instagram },
-  { label: 'Facebook', href: 'https://facebook.com', icon: Facebook },
-  { label: 'YouTube', href: 'https://youtube.com', icon: Youtube },
+  { label: 'Instagram', href: 'https://www.instagram.com/quasar_dance/', icon: Instagram },
+  { label: 'Facebook', href: 'https://www.facebook.com/quasardanceIasi', icon: Facebook },
+  { label: 'Facebook Quasar for Kids', href: 'https://www.facebook.com/quasarforkids', icon: Facebook },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@quasar.dance', icon: TiktokIcon },
 ]
 
 export default function Footer() {
@@ -135,17 +151,35 @@ export default function Footer() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-white/30 text-xs">
-              © {new Date().getFullYear()} Quasar Dance. Toate drepturile rezervate.
-            </p>
-            <div className="flex items-center gap-5">
-              {['Politică de confidențialitate', 'Termeni & condiții', 'GDPR'].map((item) => (
+            <div className="flex flex-col items-center sm:items-start gap-1">
+              <p className="text-white/30 text-xs">
+                © {new Date().getFullYear()} Quasar Dance. Toate drepturile rezervate.
+              </p>
+              <p className="text-white/30 text-xs">
+                Made with 💛 by{' '}
                 <a
-                  key={item}
-                  href="#"
+                  href="https://websitefactory.ro"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/50 hover:text-[#f8ef21] transition-colors font-semibold"
+                >
+                  Website Factory
+                </a>
+              </p>
+            </div>
+            <div className="flex items-center gap-5">
+              {[
+                { label: 'Politică de confidențialitate', href: '/politica-de-confidentialitate' },
+                { label: 'Politică cookies', href: '/politica-cookies' },
+                { label: 'Termeni & condiții', href: '#' },
+                { label: 'GDPR', href: '/politica-de-confidentialitate' },
+              ].map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
                   className="text-white/30 hover:text-white/60 text-xs transition-colors"
                 >
-                  {item}
+                  {item.label}
                 </a>
               ))}
             </div>

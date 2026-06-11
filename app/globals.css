@@ -263,3 +263,61 @@ html { scroll-behavior: smooth; }
   border-color: #231f20;
   box-shadow: 0 0 0 1px #231f20;
 }
+
+/* ─── Legal / policy pages prose ─────────────────────────────────── */
+.legal-prose {
+  color: #4b4748;
+  font-size: 0.975rem;
+  line-height: 1.75;
+}
+.legal-prose h2 {
+  font-family: var(--font-display);
+  color: #231f20;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.legal-prose h3 {
+  font-family: var(--font-display);
+  color: #231f20;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.legal-prose h4 {
+  font-family: var(--font-display);
+  color: #231f20;
+  font-size: 1.02rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.legal-prose p {
+  margin-bottom: 1.1rem;
+}
+.legal-prose ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.1rem;
+}
+.legal-prose li {
+  margin-bottom: 0.4rem;
+}
+.legal-prose a {
+  color: #231f20;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+  transition: color 0.15s;
+}
+.legal-prose a:hover {
+  color: #a89a00;
+}
+.legal-prose h2:first-child,
+.legal-prose h3:first-child {
+  margin-top: 0;
+}
