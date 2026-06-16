@@ -41,7 +41,7 @@ const CATEGORY_INFO: {
   {
     key: 'marketing',
     title: 'Marketing',
-    desc: 'Folosite pentru a măsura impactul campaniilor noastre de publicitate și a afișa conținut relevant.',
+    desc: 'Folosite pentru a măsura impactul campaniilor noastre de publicitate și a afișa conținut relevant. Ex: Meta (Facebook) Pixel.',
   },
 ]
 

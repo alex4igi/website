@@ -16,19 +16,6 @@ function formatPrice(lei: number) {
   return lei.toLocaleString('ro-RO')
 }
 
-// Preț lunar afișat mare. Fallback: preț anual / 10 luni (sept–iunie).
-function monthlyPrice(plan: { priceMonthly?: number; priceStandard: number }) {
-  return plan.priceMonthly && plan.priceMonthly > 0
-    ? plan.priceMonthly
-    : Math.round(plan.priceStandard / 10)
-}
-
-// Preț per ședință — „ca la magazine, preț/100g": preț anual / nr. ședințe.
-function pricePerSession(plan: { priceStandard: number; sessionsPerYear: number }) {
-  if (!plan.sessionsPerYear) return 0
-  return Math.round(plan.priceStandard / plan.sessionsPerYear)
-}
-
 export default async function PricingSection() {
   const data = await fetchPricing()
   const sortedPlans = [...data.plans].sort((a, b) => a.displayOrder - b.displayOrder)
@@ -48,8 +35,7 @@ export default async function PricingSection() {
             <span className="text-[#231f20]/40">{data.academicYearLabel}</span>
           </h2>
           <p className="text-[#6b6b6b] mt-4 max-w-2xl">
-            Prețuri afișate <strong className="text-[#231f20]">lunar</strong>, cu prețul per
-            ședință alături — transparent, ca să compari ușor. Taxă rezervare loc în grupă:{' '}
+            Prețuri transparente, ca să compari ușor. Taxă rezervare loc în grupă:{' '}
             <strong className="text-[#231f20]">{formatPrice(data.reservationFee)} lei</strong>.
           </p>
         </div>
@@ -66,7 +52,7 @@ export default async function PricingSection() {
                   className="text-xs font-bold uppercase tracking-wider text-[#6b6b6b] mb-1"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >
-                  {plan.ageGroup} · {plan.level}
+                  {plan.level ? `${plan.ageGroup} · ${plan.level}` : plan.ageGroup}
                 </div>
                 <h3
                   className="text-[#231f20] text-xl font-extrabold leading-tight"
@@ -79,13 +65,13 @@ export default async function PricingSection() {
               <p className="text-[#6b6b6b] text-sm leading-relaxed flex-1">{plan.description}</p>
 
               <div className="border-t border-[#e5e5e5] pt-4 flex flex-col gap-1">
-                {/* Preț lunar — headline */}
+                {/* Preț principal — headline (lunar sau per ședință) */}
                 <div className="flex items-baseline gap-1.5">
                   <span
                     className="text-4xl font-extrabold text-[#231f20] leading-none"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    {formatPrice(monthlyPrice(plan))}
+                    {formatPrice(plan.priceMonthly)}
                   </span>
                   <span
                     className="text-base font-bold text-[#231f20]"
@@ -93,12 +79,14 @@ export default async function PricingSection() {
                   >
                     lei
                   </span>
-                  <span className="text-sm font-semibold text-[#6b6b6b]">/ lună</span>
+                  <span className="text-sm font-semibold text-[#6b6b6b]">
+                    {plan.priceMode === 'sedinta' ? '/ ședință' : '/ lună'}
+                  </span>
                 </div>
-                {/* Preț per ședință — unitate transparentă, ca preț/100g */}
-                <div className="text-sm font-medium text-[#6b6b6b]">
-                  ≈ {formatPrice(pricePerSession(plan))} lei / ședință
-                </div>
+                {/* Subtitlu preț — text liber scris manual de admin */}
+                {plan.priceNote && (
+                  <div className="text-sm font-medium text-[#6b6b6b]">{plan.priceNote}</div>
+                )}
               </div>
 
               <a

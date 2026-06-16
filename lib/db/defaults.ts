@@ -1,9 +1,10 @@
 import type { CalendarData, PricingData, ScheduleClass, ScheduleData } from './types'
 
 // Initial seed reflecting Anexa 1 (Oferta educațională sept 2026 – iunie 2027).
-// priceMonthly = preț lunar afișat public (font mare). priceStandard = preț anual
-// (folosit la calculul preț/ședință). priceEarlyBird = preț reînscriere (intern,
-// nu se afișează public — pagină separată în mai).
+// priceMode = unitatea prețului principal (lunar / sedinta). priceMonthly = prețul
+// principal afișat (font mare), cu unitatea dată de priceMode. priceNote = subtitlu
+// de preț scris manual. priceStandard/sessionsPerYear = informative (nu se
+// calculează nimic). priceEarlyBird = preț reînscriere (intern, pagină separată mai).
 
 export const defaultPricingData: PricingData = {
   academicYearLabel: 'sept 2026 – iunie 2027',
@@ -16,9 +17,11 @@ export const defaultPricingData: PricingData = {
       description: '4–7 ani; 55 min; 35 ședințe (1 ședință/săptămână)',
       ageGroup: 'Tiny / Junior',
       level: 'Începător',
+      priceMode: 'lunar',
       sessionsPerYear: 35,
       durationMinutes: 55,
       priceMonthly: 180,
+      priceNote: '≈ 51 lei / ședință',
       priceStandard: 1800,
       priceEarlyBird: 1700,
       displayOrder: 1,
@@ -29,9 +32,11 @@ export const defaultPricingData: PricingData = {
       description: '4–7 ani; 55 min; 70 ședințe (2 ședințe/săptămână)',
       ageGroup: 'Tiny',
       level: 'Începător',
+      priceMode: 'lunar',
       sessionsPerYear: 70,
       durationMinutes: 55,
       priceMonthly: 270,
+      priceNote: '≈ 39 lei / ședință',
       priceStandard: 2700,
       priceEarlyBird: 2600,
       displayOrder: 2,
@@ -42,9 +47,11 @@ export const defaultPricingData: PricingData = {
       description: '7–10 ani; 55 min; 70 ședințe (2 ședințe/săptămână)',
       ageGroup: 'Junior',
       level: 'Începător & Intermediar',
+      priceMode: 'lunar',
       sessionsPerYear: 70,
       durationMinutes: 55,
       priceMonthly: 270,
+      priceNote: '≈ 39 lei / ședință',
       priceStandard: 2700,
       priceEarlyBird: 2600,
       displayOrder: 3,
@@ -55,9 +62,11 @@ export const defaultPricingData: PricingData = {
       description: '11–15 ani, 15+ ani; 55 min; 70 ședințe (2 ședințe/săptămână)',
       ageGroup: 'Varsity / Teens',
       level: 'Începător & Intermediar',
+      priceMode: 'lunar',
       sessionsPerYear: 70,
       durationMinutes: 55,
       priceMonthly: 270,
+      priceNote: '≈ 39 lei / ședință',
       priceStandard: 2700,
       priceEarlyBird: 2600,
       displayOrder: 4,
@@ -68,9 +77,11 @@ export const defaultPricingData: PricingData = {
       description: '11–15 ani; 55 min; 70 ședințe (2 ședințe/săptămână)',
       ageGroup: 'Varsity',
       level: 'Avansat',
+      priceMode: 'lunar',
       sessionsPerYear: 70,
       durationMinutes: 55,
       priceMonthly: 270,
+      priceNote: '≈ 39 lei / ședință',
       priceStandard: 2700,
       priceEarlyBird: 2600,
       displayOrder: 5,

@@ -124,6 +124,7 @@ export default function PoliticaCookiesPage() {
               <strong>Cookie-uri de marketing.</strong> Acestea sunt utilizate pentru a colecta
               informații despre impactul campaniilor noastre de publicitate (ex: câți utilizatori
               înregistrați au accesat o reclamă; câți utilizatori neînregistrați au accesat o reclamă).
+              Ex: Meta (Facebook) Pixel.
             </li>
           </ul>
         </article>

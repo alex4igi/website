@@ -7,17 +7,25 @@ export const pricingPlanSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
   ageGroup: z.string().min(1),
-  level: z.string().min(1),
-  sessionsPerYear: z.number().int().positive(),
-  durationMinutes: z.number().int().positive(),
-  // Public headline price (large font on the card).
+  // Level/difficulty. Optional — for summer per-session courses (Open, KPOP,
+  // Zumba) the level may not apply, so the admin can leave it blank.
+  level: z.string().default(''),
+  // Headline price unit. 'lunar' shows „/ lună", 'sedinta' shows „/ ședință".
+  priceMode: z.enum(['lunar', 'sedinta']).default('lunar'),
+  // Headline price (large font on the card). Meaning follows priceMode:
+  // lei/lună for 'lunar', lei/ședință for 'sedinta'.
   priceMonthly: z.number().int().nonnegative().default(0),
-  // Annual price — source for the computed preț/ședință and detailed by the
-  // admin inside the plan description.
-  priceStandard: z.number().int().nonnegative(),
+  // Manual price subtitle shown under the headline (e.g. „≈ 45 lei / ședință").
+  // Free text written by the admin — nothing is computed. Empty = hidden.
+  priceNote: z.string().default(''),
+  // Annual price + sessions/year — informational only, detailed by the admin
+  // inside the description. No longer drive any displayed value.
+  sessionsPerYear: z.number().int().positive().optional(),
+  durationMinutes: z.number().int().positive(),
+  priceStandard: z.number().int().nonnegative().optional(),
   // Re-enrollment ("early-bird") price. Not shown publicly — reserved for the
   // separate re-enrollment landing page (May). Kept so the data persists.
-  priceEarlyBird: z.number().int().nonnegative(),
+  priceEarlyBird: z.number().int().nonnegative().default(0),
   displayOrder: z.number().int(),
 })
 

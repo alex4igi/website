@@ -100,9 +100,14 @@ export function applyConsent(categories: ConsentCategories) {
   const w = window as unknown as {
     gtag?: (...args: unknown[]) => void
     dataLayer?: unknown[]
+    fbq?: (...args: unknown[]) => void
   }
   if (typeof w.gtag === 'function') {
     w.gtag('consent', 'update', toGoogleConsent(categories))
+  }
+  // Meta Pixel — categoria „marketing” controlează tracking-ul (grant/revoke).
+  if (typeof w.fbq === 'function') {
+    w.fbq('consent', categories.marketing ? 'grant' : 'revoke')
   }
   w.dataLayer = w.dataLayer || []
   w.dataLayer.push({ event: 'cookie_consent_update', consent: categories })

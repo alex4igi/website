@@ -11,9 +11,11 @@ function newPlan(order: number): PricingPlan {
     description: '',
     ageGroup: '',
     level: 'Începător',
+    priceMode: 'lunar',
     sessionsPerYear: 70,
     durationMinutes: 55,
     priceMonthly: 0,
+    priceNote: '',
     priceStandard: 0,
     priceEarlyBird: 0,
     displayOrder: order,
@@ -74,8 +76,8 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
             Prețuri
           </h1>
           <p className="text-[#6b6b6b] text-sm mt-1">
-            Editează planurile, prețul lunar afișat și taxa de rezervare. Prețul
-            per ședință se calculează automat din prețul anual.
+            Editează planurile, prețul afișat și taxa de rezervare. Alege tipul de
+            preț (lunar sau per ședință) și scrie manual subtitlul de preț.
           </p>
         </div>
         <SaveButton status={status} onClick={save} />
@@ -197,27 +199,31 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
               </Field>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Field label="Tip preț">
+                  <select
+                    value={plan.priceMode}
+                    onChange={(e) =>
+                      updatePlan(plan.id, { priceMode: e.target.value as PricingPlan['priceMode'] })
+                    }
+                    className="admin-input"
+                  >
+                    <option value="lunar">Lunar (/ lună)</option>
+                    <option value="sedinta">Per ședință (/ ședință)</option>
+                  </select>
+                </Field>
                 <Field label="Dificultate">
                   <select
                     value={plan.level}
                     onChange={(e) => updatePlan(plan.id, { level: e.target.value })}
                     className="admin-input"
                   >
+                    <option value="">— (fără nivel)</option>
                     <option>Începător</option>
                     <option>Intermediar</option>
                     <option>Avansat</option>
                     <option>Începător & Intermediar</option>
                     <option>Toate dificultățile</option>
                   </select>
-                </Field>
-                <Field label="Ședințe/an">
-                  <input
-                    type="number"
-                    min={1}
-                    value={plan.sessionsPerYear}
-                    onChange={(e) => updatePlan(plan.id, { sessionsPerYear: Number(e.target.value) || 0 })}
-                    className="admin-input"
-                  />
                 </Field>
                 <Field label="Durată (min)">
                   <input
@@ -240,7 +246,7 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
 
               {/* Prețuri afișate public */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label="Preț lunar (lei) · afișat mare">
+                <Field label="Preț principal (lei) · afișat mare">
                   <input
                     type="number"
                     min={0}
@@ -248,19 +254,45 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
                     onChange={(e) => updatePlan(plan.id, { priceMonthly: Number(e.target.value) || 0 })}
                     className="admin-input"
                   />
+                  <span className="text-[11px] text-[#6b6b6b]">
+                    Se afișează cu „{plan.priceMode === 'sedinta' ? '/ ședință' : '/ lună'}".
+                  </span>
                 </Field>
-                <Field label="Preț anual (lei) · calculează preț/ședință">
+                <Field label="Subtitlu preț (manual)">
+                  <input
+                    type="text"
+                    value={plan.priceNote ?? ''}
+                    onChange={(e) => updatePlan(plan.id, { priceNote: e.target.value })}
+                    className="admin-input"
+                    placeholder="≈ 45 lei / ședință"
+                  />
+                  <span className="text-[11px] text-[#6b6b6b]">
+                    Text liber sub preț. Lasă gol ca să nu apară nimic.
+                  </span>
+                </Field>
+              </div>
+
+              {/* Date anuale — opționale, informative (nu se calculează nimic) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Field label="Ședințe/an (opțional, informativ)">
                   <input
                     type="number"
                     min={0}
-                    value={plan.priceStandard}
-                    onChange={(e) => updatePlan(plan.id, { priceStandard: Number(e.target.value) || 0 })}
+                    value={plan.sessionsPerYear ?? 0}
+                    onChange={(e) => updatePlan(plan.id, { sessionsPerYear: Number(e.target.value) || undefined })}
+                    className="admin-input"
+                  />
+                </Field>
+                <Field label="Preț anual (lei) (opțional, informativ)">
+                  <input
+                    type="number"
+                    min={0}
+                    value={plan.priceStandard ?? 0}
+                    onChange={(e) => updatePlan(plan.id, { priceStandard: Number(e.target.value) || undefined })}
                     className="admin-input"
                   />
                   <span className="text-[11px] text-[#6b6b6b]">
-                    {plan.sessionsPerYear > 0 && plan.priceStandard > 0
-                      ? `≈ ${Math.round(plan.priceStandard / plan.sessionsPerYear)} lei / ședință (afișat public)`
-                      : 'Detaliază prețul anual și în descriere.'}
+                    Nu se afișează automat. Detaliază-l, dacă vrei, în descriere.
                   </span>
                 </Field>
               </div>

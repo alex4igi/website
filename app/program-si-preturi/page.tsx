@@ -30,7 +30,7 @@ async function safePricing() {
 export async function generateMetadata(): Promise<Metadata> {
   const [pricing, calendar] = await Promise.all([safePricing(), safeCalendar()])
   const monthlyPrices = pricing.plans
-    .map((p) => (p.priceMonthly && p.priceMonthly > 0 ? p.priceMonthly : Math.round(p.priceStandard / 10)))
+    .map((p) => p.priceMonthly ?? 0)
     .filter((v) => v > 0)
   const minMonthly = monthlyPrices.length ? Math.min(...monthlyPrices) : 0
   const title = `Program și Prețuri — Cursuri Dans ${calendar.yearLabel} | Quasar Dance Iași`
