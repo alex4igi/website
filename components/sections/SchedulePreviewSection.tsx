@@ -73,8 +73,6 @@ export default async function SchedulePreviewSection() {
               style={{ fontFamily: 'var(--font-display)' }}
             >
               Calendar cursuri
-              <br />
-              <span className="text-[#231f20]/40">{data.yearLabel}</span>
             </h2>
             <p className="text-[#6b6b6b] mt-4 max-w-2xl">
               Începem pe <strong className="text-[#231f20]">{formatDate(data.startDate)}</strong> și terminăm pe{' '}
@@ -84,8 +82,8 @@ export default async function SchedulePreviewSection() {
 
           <CalendarLightbox
             src="/2026-2027-calendar.jpeg"
-            title={`Calendar ${data.yearLabel}`}
-            alt={`Calendar cursuri Quasar Dance ${data.yearLabel}`}
+            title="Calendar cursuri"
+            alt="Calendar cursuri Quasar Dance"
             triggerLabel="Vezi calendar"
           />
         </div>

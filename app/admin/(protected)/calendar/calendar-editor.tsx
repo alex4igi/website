@@ -122,18 +122,9 @@ export default function CalendarEditor({ initialData }: { initialData: CalendarD
       {/* General */}
       <section className="bg-white border border-[#e5e5e5] rounded-2xl p-6 flex flex-col gap-5">
         <h2 className="text-[#231f20] text-lg font-bold" style={{ fontFamily: 'var(--font-display)' }}>
-          An școlar
+          Perioada anului școlar
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Field label="Etichetă an">
-            <input
-              type="text"
-              value={data.yearLabel}
-              onChange={(e) => update({ yearLabel: e.target.value })}
-              className="admin-input"
-              placeholder="2026 – 2027"
-            />
-          </Field>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Field label="Început">
             <input
               type="date"

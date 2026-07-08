@@ -18,14 +18,14 @@ export default async function AdminDashboard() {
       title: 'Prețuri',
       icon: Wallet,
       summary: `${pricing.plans.length} planuri · taxă rezervare ${pricing.reservationFee} lei`,
-      detail: `An școlar: ${pricing.academicYearLabel}`,
+      detail: 'Planuri, prețuri și taxă de rezervare',
     },
     {
       href: '/admin/calendar',
       title: 'Calendar',
       icon: CalendarDays,
       summary: `${calendar.modules.length} module · ${calendar.events.length} evenimente · ${calendar.vacations.length} vacanțe`,
-      detail: `An: ${calendar.yearLabel}`,
+      detail: 'Module, vacanțe și evenimente',
     },
     {
       href: '/admin/schedule',

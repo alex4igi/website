@@ -30,7 +30,8 @@ export const pricingPlanSchema = z.object({
 })
 
 export const pricingDataSchema = z.object({
-  academicYearLabel: z.string().min(1),
+  // Anul școlar nu se mai afișează public — păstrat opțional pentru compat.
+  academicYearLabel: z.string().default(''),
   earlyBirdDeadline: z.string(),
   reservationFee: z.number().int().nonnegative(),
   plans: z.array(pricingPlanSchema),
@@ -66,7 +67,8 @@ export const calendarEventSchema = z.object({
 })
 
 export const calendarDataSchema = z.object({
-  yearLabel: z.string().min(1),
+  // Anul școlar nu se mai afișează public — păstrat opțional pentru compat.
+  yearLabel: z.string().default(''),
   startDate: z.string(),
   endDate: z.string(),
   modules: z.array(calendarModuleSchema),

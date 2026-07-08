@@ -107,6 +107,15 @@ export default function ScheduleEditor({ initialData }: { initialData: ScheduleD
       return next
     })
 
+  // Copiază toate orele dintr-o zi în altă zi (aceleași ore, id-uri noi).
+  const copyDay = (locId: string, stId: string, fromDay: ScheduleDay, toDay: ScheduleDay) =>
+    mutateClasses(locId, stId, (c) => {
+      const source = c.filter((cl) => cl.day === fromDay)
+      if (source.length === 0) return c
+      const copies = source.map((cl) => ({ ...cl, id: uid('cls'), day: toDay }))
+      return [...c, ...copies]
+    })
+
   async function save() {
     setStatus('saving')
     setErrorMsg(null)
@@ -202,6 +211,7 @@ export default function ScheduleEditor({ initialData }: { initialData: ScheduleD
             onUpdateClass={(stId, clId, patch) => updateClass(loc.id, stId, clId, patch)}
             onRemoveClass={(stId, clId) => removeClass(loc.id, stId, clId)}
             onDuplicateClass={(stId, cl) => duplicateClass(loc.id, stId, cl)}
+            onCopyDay={(stId, fromDay, toDay) => copyDay(loc.id, stId, fromDay, toDay)}
           />
         ))}
       </div>
@@ -222,6 +232,7 @@ function LocationCard({
   onUpdateClass,
   onRemoveClass,
   onDuplicateClass,
+  onCopyDay,
 }: {
   loc: ScheduleLocation
   onUpdate: (patch: Partial<ScheduleLocation>) => void
@@ -233,6 +244,7 @@ function LocationCard({
   onUpdateClass: (stId: string, clId: string, patch: Partial<ScheduleClass>) => void
   onRemoveClass: (stId: string, clId: string) => void
   onDuplicateClass: (stId: string, cl: ScheduleClass) => void
+  onCopyDay: (stId: string, fromDay: ScheduleDay, toDay: ScheduleDay) => void
 }) {
   const [open, setOpen] = useState(true)
   const classCount = loc.studios.reduce((n, s) => n + s.classes.length, 0)
@@ -325,6 +337,7 @@ function LocationCard({
               onUpdateClass={(clId, patch) => onUpdateClass(st.id, clId, patch)}
               onRemoveClass={(clId) => onRemoveClass(st.id, clId)}
               onDuplicateClass={(cl) => onDuplicateClass(st.id, cl)}
+              onCopyDay={(fromDay, toDay) => onCopyDay(st.id, fromDay, toDay)}
             />
           ))}
         </div>
@@ -342,6 +355,7 @@ function StudioCard({
   onUpdateClass,
   onRemoveClass,
   onDuplicateClass,
+  onCopyDay,
 }: {
   studio: ScheduleStudio
   canRemove: boolean
@@ -351,6 +365,7 @@ function StudioCard({
   onUpdateClass: (clId: string, patch: Partial<ScheduleClass>) => void
   onRemoveClass: (clId: string) => void
   onDuplicateClass: (cl: ScheduleClass) => void
+  onCopyDay: (fromDay: ScheduleDay, toDay: ScheduleDay) => void
 }) {
   return (
     <div className="border border-[#e5e5e5] rounded-xl p-4 flex flex-col gap-4 bg-[#fafafa]">
@@ -393,13 +408,37 @@ function StudioCard({
                     {items.length} {items.length === 1 ? 'oră' : 'ore'}
                   </span>
                 </span>
-                <button
-                  onClick={() => onAddClass(day)}
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-[#231f20] hover:text-[#6b6b6b] transition-colors"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  <Plus size={12} /> Adaugă oră
-                </button>
+                <div className="flex items-center gap-3">
+                  {items.length > 0 && (
+                    <select
+                      aria-label={`Copiază ${dayLabels[day]} în altă zi`}
+                      title="Copiază toate orele acestei zile în altă zi"
+                      className="admin-input w-auto py-1 text-[11px]"
+                      value=""
+                      onChange={(e) => {
+                        const target = e.target.value as ScheduleDay
+                        if (target) onCopyDay(day, target)
+                        e.currentTarget.value = ''
+                      }}
+                    >
+                      <option value="">Copiază în…</option>
+                      {scheduleDays
+                        .filter((d) => d !== day)
+                        .map((d) => (
+                          <option key={d} value={d}>
+                            {dayLabels[d]}
+                          </option>
+                        ))}
+                    </select>
+                  )}
+                  <button
+                    onClick={() => onAddClass(day)}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-[#231f20] hover:text-[#6b6b6b] transition-colors whitespace-nowrap"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    <Plus size={12} /> Adaugă oră
+                  </button>
+                </div>
               </div>
 
               {items.length > 0 && (

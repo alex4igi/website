@@ -33,8 +33,8 @@ export async function generateMetadata(): Promise<Metadata> {
     .map((p) => p.priceMonthly ?? 0)
     .filter((v) => v > 0)
   const minMonthly = monthlyPrices.length ? Math.min(...monthlyPrices) : 0
-  const title = `Program și Prețuri — Cursuri Dans ${calendar.yearLabel} | Quasar Dance Iași`
-  const description = `Calendar academic ${calendar.yearLabel} și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică acrobatică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună, taxă rezervare ${pricing.reservationFee} lei.`
+  const title = `Program și Prețuri — Cursuri Dans | Quasar Dance Iași`
+  const description = `Calendar academic și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică acrobatică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună, taxă rezervare ${pricing.reservationFee} lei.`
 
   return {
     title,
@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'program cursuri dans Iași',
       'prețuri Quasar Dance',
       'tarife școală dans Iași',
-      `oferta educațională ${calendar.yearLabel}`,
+      'oferta educațională Quasar Dance',
       'street dance Iași preț',
       'KPOP dance Iași preț',
       'gimnastică acrobatică Iași preț',
@@ -87,9 +87,7 @@ export default async function ProgramSiPreturiPage() {
               className="text-white text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] mb-6"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              Program și prețuri
-              <br />
-              <span className="text-[#f8ef21]">{calendar.yearLabel}</span>
+              Program și <span className="text-[#f8ef21]">prețuri</span>
             </h1>
             <p className="text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
               Tot ce ai nevoie pentru a-ți alege cursul potrivit: calendarul anului școlar, modulele, evenimentele importante și tarifele complete.

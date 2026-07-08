@@ -22,10 +22,35 @@ function newPlan(order: number): PricingPlan {
   }
 }
 
+const byOrder = (a: PricingPlan, b: PricingPlan) => a.displayOrder - b.displayOrder
+
+// Verifică local aceleași reguli ca schema de pe server și întoarce o listă de
+// probleme lizibile (ce plan și ce câmp) — ca adminul să știe exact ce lipsește
+// în loc de „câmpuri invalide" fără detalii.
+function validate(data: PricingData): string[] {
+  const problems: string[] = []
+  data.plans.forEach((p, i) => {
+    const missing: string[] = []
+    if (!p.name.trim()) missing.push('Nume program')
+    if (!p.description.trim()) missing.push('Descriere')
+    if (!p.ageGroup.trim()) missing.push('Grupă')
+    if (!Number.isFinite(p.durationMinutes) || p.durationMinutes < 1) missing.push('Durată (min)')
+    if (missing.length) {
+      const label = p.name.trim() ? `„${p.name.trim()}"` : `#${i + 1}`
+      problems.push(`Plan ${label}: completează ${missing.join(', ')}.`)
+    }
+  })
+  return problems
+}
+
 export default function PricingEditor({ initialData }: { initialData: PricingData }) {
-  const [data, setData] = useState<PricingData>(initialData)
+  const [data, setData] = useState<PricingData>(() => ({
+    ...initialData,
+    plans: [...initialData.plans].sort(byOrder),
+  }))
   const [status, setStatus] = useState<'idle' | 'saving' | 'ok' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [problems, setProblems] = useState<string[]>([])
 
   const update = (patch: Partial<PricingData>) => setData((d) => ({ ...d, ...patch }))
 
@@ -39,9 +64,24 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
     setData((d) => ({ ...d, plans: d.plans.filter((p) => p.id !== id) }))
 
   const addPlan = () =>
-    setData((d) => ({ ...d, plans: [...d.plans, newPlan(d.plans.length + 1)] }))
+    setData((d) => {
+      const nextOrder = d.plans.reduce((max, p) => Math.max(max, p.displayOrder), 0) + 1
+      return { ...d, plans: [...d.plans, newPlan(nextOrder)] }
+    })
+
+  // Reordonează cardurile după „Ordine" (ca la orar, care se sortează după oră).
+  // Rulează la blur ca lista să nu sară în timp ce scrii numărul.
+  const reorderPlans = () =>
+    setData((d) => ({ ...d, plans: [...d.plans].sort(byOrder) }))
 
   async function save() {
+    const found = validate(data)
+    setProblems(found)
+    if (found.length) {
+      setErrorMsg('Verifică câmpurile de mai jos înainte de salvare:')
+      setStatus('error')
+      return
+    }
     setStatus('saving')
     setErrorMsg(null)
     try {
@@ -85,7 +125,14 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
 
       {errorMsg && (
         <div className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-          {errorMsg}
+          <p className="font-semibold">{errorMsg}</p>
+          {problems.length > 0 && (
+            <ul className="list-disc pl-5 mt-2 space-y-1">
+              {problems.map((p, i) => (
+                <li key={i}>{p}</li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 
@@ -97,15 +144,7 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
         >
           Setări generale
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Field label="An școlar">
-            <input
-              type="text"
-              value={data.academicYearLabel}
-              onChange={(e) => update({ academicYearLabel: e.target.value })}
-              className="admin-input"
-            />
-          </Field>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Field label="Deadline reînscriere (intern)">
             <input
               type="date"
@@ -239,8 +278,12 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
                     type="number"
                     value={plan.displayOrder}
                     onChange={(e) => updatePlan(plan.id, { displayOrder: Number(e.target.value) || 0 })}
+                    onBlur={reorderPlans}
                     className="admin-input"
                   />
+                  <span className="text-[11px] text-[#6b6b6b]">
+                    Planurile se reordonează după acest număr.
+                  </span>
                 </Field>
               </div>
 

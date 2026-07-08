@@ -6,7 +6,7 @@ import SprayLabel from '@/components/ui/spray-label'
 export const metadata: Metadata = {
   title: 'Politica de confidențialitate | Quasar Dance',
   description:
-    'Află cum Quasar Dance SRL colectează, folosește și protejează datele tale cu caracter personal, în conformitate cu GDPR.',
+    'Află cum Quasar Dance Studio S.R.L. colectează, folosește și protejează datele tale cu caracter personal, în conformitate cu GDPR.',
 }
 
 const LAST_REVISED = '20.08.2024'
@@ -43,16 +43,33 @@ export default function PoliticaConfidentialitatePage() {
       {/* Content */}
       <section className="py-16 md:py-24 bg-white">
         <article className="max-w-3xl mx-auto px-5 md:px-8 legal-prose">
+          <h2>Operatorul datelor</h2>
           <p>
-            Quasar Dance SRL tratează cu seriozitate confidențialitatea datelor vizitatorilor săi.
+            Operatorul datelor cu caracter personal este <strong>QUASAR DANCE STUDIO S.R.L.</strong>,
+            cu următoarele date de identificare:
+          </p>
+          <ul>
+            <li>CUI: RO49361270</li>
+            <li>Nr. Reg. Com.: J22/15/2024</li>
+            <li>Sediul social: Str. Vasile Lupu 96, Bl. G2, Et. 7, Ap. 20, Iași 700360</li>
+            <li>
+              E-mail: <a href="mailto:office@quasardance.ro">office@quasardance.ro</a>
+            </li>
+            <li>
+              Telefon: <a href="tel:+40730534172">0730 534 172</a>
+            </li>
+          </ul>
+
+          <p>
+            Quasar Dance Studio S.R.L. tratează cu seriozitate confidențialitatea datelor vizitatorilor săi.
             În acest scop, această Politică de confidențialitate („Politica de confidențialitate”,
-            „GDPR”) descrie modul în care („Quasar Dance SRL”, „noi”, „al nostru” sau „noi”),
+            „GDPR”) descrie modul în care („Quasar Dance Studio S.R.L.”, „noi”, „al nostru” sau „noi”),
             colectăm, folosim și distribuim informațiile dumneavoastră personale, precum și o
             explicație a drepturilor dumneavoastră asupra datelor pe care le puteți avea în acele
             „Informații personale”. Această politică de confidențialitate se aplică tuturor
             utilizatorilor noștri, inclusiv vizitatorilor neînregistrați, utilizatorilor înregistrați
             și alți utilizatori (în mod colectiv, „Utilizatori”, „dumneavoastră” sau „voi”) și tuturor
-            serviciilor Quasar Dance SRL, inclusiv site-ul nostru (inclusiv oricare dintre subdomeniile
+            serviciilor Quasar Dance Studio S.R.L., inclusiv site-ul nostru (inclusiv oricare dintre subdomeniile
             lui) și sau servicii conexe (în mod colectiv, „serviciile”). Această politică de
             confidențialitate nu are scopul de a anula termenii oricărui contract pe care îl aveți cu
             noi și nici alte drepturi pe care le puteți avea în temeiul altor legi aplicabile privind
@@ -122,7 +139,7 @@ export default function PoliticaConfidentialitatePage() {
           </p>
 
           <h2>Utilizarea datelor</h2>
-          <p>Quasar Dance SRL utilizează datele colectate în diverse scopuri:</p>
+          <p>Quasar Dance Studio S.R.L. utilizează datele colectate în diverse scopuri:</p>
           <ul>
             <li>Pentru a furniza și întreține serviciile</li>
             <li>Pentru a vă anunța cu privire la modificările aduse serviciilor noastre</li>
@@ -156,7 +173,7 @@ export default function PoliticaConfidentialitatePage() {
             dumneavoastră cu privire la acest transfer.
           </p>
           <p>
-            Quasar Dance SRL va lua toate măsurile rezonabile necesare pentru a se asigura că datele
+            Quasar Dance Studio S.R.L. va lua toate măsurile rezonabile necesare pentru a se asigura că datele
             dumneavoastră sunt stocate și utilizate în siguranță și în conformitate cu această Politică
             de confidențialitate și niciun transfer al datelor dumneavoastră cu caracter personal nu va
             avea loc către o organizație sau o țară decât dacă există verificări adecvate, inclusiv
@@ -165,12 +182,12 @@ export default function PoliticaConfidentialitatePage() {
 
           <h2>Dezvăluirea datelor</h2>
           <p>
-            Quasar Dance SRL poate dezvălui datele dumneavoastră cu caracter personal cu bună-credință
+            Quasar Dance Studio S.R.L. poate dezvălui datele dumneavoastră cu caracter personal cu bună-credință
             că o astfel de acțiune este necesară:
           </p>
           <ul>
             <li>Pentru a respecta o obligație legală</li>
-            <li>Pentru a proteja și a apăra drepturile sau proprietatea Quasar Dance SRL</li>
+            <li>Pentru a proteja și a apăra drepturile sau proprietatea Quasar Dance Studio S.R.L.</li>
             <li>Pentru a preveni sau a investiga posibile abateri în legătură cu serviciile</li>
             <li>Pentru a proteja siguranța personală a utilizatorilor serviciilor sau a publicului</li>
             <li>Pentru a se proteja împotriva răspunderii legale</li>
@@ -282,7 +299,7 @@ export default function PoliticaConfidentialitatePage() {
               La numărul de telefon: <a href="tel:+40730534172">0730 534 172</a>
             </li>
           </ul>
-          <p>Aprobat de directorul executiv al Quasar Dance SRL la {LAST_REVISED}.</p>
+          <p>Aprobat de directorul executiv al Quasar Dance Studio S.R.L. la {LAST_REVISED}.</p>
         </article>
       </section>
 

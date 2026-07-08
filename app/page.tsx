@@ -18,6 +18,11 @@ import QuizCtaSection from '@/components/sections/QuizCtaSection'
 import LeadFormSection from '@/components/sections/LeadFormSection'
 import Footer from '@/components/sections/Footer'
 
+// Homepage-ul citește prețurile și calendarul din DB (PricingSection,
+// SchedulePreviewSection). Fără asta pagina rămâne prerandată static și
+// modificările din admin nu apar decât pe /program-si-preturi și /orar.
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Quasar Dance - Cursuri de dans în Iași',
   description:

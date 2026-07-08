@@ -31,8 +31,6 @@ export default async function PricingSection() {
             style={{ fontFamily: 'var(--font-display)' }}
           >
             Oferta educațională
-            <br />
-            <span className="text-[#231f20]/40">{data.academicYearLabel}</span>
           </h2>
           <p className="text-[#6b6b6b] mt-4 max-w-2xl">
             Prețuri transparente, ca să compari ușor. Taxă rezervare loc în grupă:{' '}
