@@ -3,6 +3,7 @@ import { Sora, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import ConsentMode from '@/components/ConsentMode'
+import GoogleTagManager, { GTMNoScript } from '@/components/GoogleTagManager'
 import MetaPixel from '@/components/MetaPixel'
 import CookieConsent from '@/components/CookieConsent'
 import './globals.css'
@@ -59,9 +60,11 @@ export default function RootLayout({
     <html lang="ro" className={`${sora.variable} ${inter.variable}`}>
       <head>
         <ConsentMode />
+        <GoogleTagManager />
         <MetaPixel />
       </head>
       <body className="antialiased">
+        <GTMNoScript />
         {children}
         <WhatsAppButton />
         <CookieConsent />
