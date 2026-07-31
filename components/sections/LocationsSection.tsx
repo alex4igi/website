@@ -1,38 +1,6 @@
-import { MapPin, Clock, Users } from 'lucide-react'
+import { MapPin, Phone } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
-
-const locations = [
-  {
-    id: 'centru',
-    name: 'Quasar Centru',
-    address: 'Strada Lăpușneanu 14, Iași',
-    desc: 'Sediul principal. Cel mai mare spațiu, cu săli multiple, vestiare complete și echipament profesionist.',
-    courses: ['Street Dance', 'KPOP', 'Dans Studenți', 'Dans Adulți'],
-    schedule: 'Lun–Sâm: 15:00–21:00',
-    highlight: true,
-    mapLink: '#',
-  },
-  {
-    id: 'nicolina',
-    name: 'Quasar Nicolina',
-    address: 'Bulevardul Nicolina 50, Iași',
-    desc: 'Locație modernă în cartierul Nicolina, ideală pentru familiile din sudul orașului.',
-    courses: ['Street Dance Kids', 'Gimnastică', 'KPOP'],
-    schedule: 'Lun–Vin: 15:00–20:00',
-    highlight: false,
-    mapLink: '#',
-  },
-  {
-    id: 'kids',
-    name: 'Quasar for Kids',
-    address: 'Strada Sfântul Lazăr 7, Iași',
-    desc: 'Spațiu dedicat exclusiv copiilor mici. Mediu sigur, colorat, adaptat pentru vârste 4–10 ani.',
-    courses: ['Tiny Dance', 'Gimnastică Mică', 'Junior Street'],
-    schedule: 'Lun–Sâm: 09:00–18:00',
-    highlight: false,
-    mapLink: '#',
-  },
-]
+import { locations, mapUrl, telHref } from '@/lib/locations'
 
 export default function LocationsSection() {
   return (
@@ -62,62 +30,51 @@ export default function LocationsSection() {
                   : 'bg-white border-[#e5e5e5]'
               }`}
             >
-              <div>
-                <h3
-                  className={`text-xl font-bold mb-1 ${loc.highlight ? 'text-white' : 'text-[#231f20]'}`}
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  {loc.name}
-                </h3>
+              <h3
+                className={`text-xl font-bold ${loc.highlight ? 'text-white' : 'text-[#231f20]'}`}
+                style={{ fontFamily: 'var(--font-display)' }}
+              >
+                {loc.name}
+              </h3>
+
+              <div className="flex flex-col gap-3">
                 <div
-                  className={`flex items-center gap-1.5 text-xs ${
-                    loc.highlight ? 'text-white/50' : 'text-[#6b6b6b]'
+                  className={`flex items-start gap-2 text-sm ${
+                    loc.highlight ? 'text-white/60' : 'text-[#6b6b6b]'
                   }`}
                 >
-                  <MapPin size={11} />
-                  <span>{loc.address}</span>
-                </div>
-              </div>
-
-              <p
-                className={`text-sm leading-relaxed ${
-                  loc.highlight ? 'text-white/70' : 'text-[#6b6b6b]'
-                }`}
-              >
-                {loc.desc}
-              </p>
-
-              {/* Courses */}
-              <div className="flex flex-wrap gap-1.5">
-                {loc.courses.map((c) => (
-                  <span
-                    key={c}
-                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                      loc.highlight
-                        ? 'bg-white/10 text-white/80'
-                        : 'bg-[#f5f5f5] text-[#231f20]'
-                    }`}
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    {c}
+                  <MapPin size={14} className="flex-shrink-0 mt-0.5" />
+                  <span>
+                    {loc.address}
+                    <br />
+                    {loc.city}
                   </span>
-                ))}
-              </div>
+                </div>
 
-              {/* Schedule */}
-              <div
-                className={`flex items-center gap-2 text-xs ${
-                  loc.highlight ? 'text-white/50' : 'text-[#6b6b6b]'
-                }`}
-              >
-                <Clock size={11} />
-                <span>{loc.schedule}</span>
+                <div className="flex items-center gap-2 text-sm">
+                  <Phone
+                    size={14}
+                    className={`flex-shrink-0 ${loc.highlight ? 'text-white/60' : 'text-[#6b6b6b]'}`}
+                  />
+                  <a
+                    href={telHref(loc)}
+                    className={`font-semibold transition-colors ${
+                      loc.highlight
+                        ? 'text-white hover:text-[#f8ef21]'
+                        : 'text-[#231f20] hover:text-[#6b6b6b]'
+                    }`}
+                  >
+                    {loc.phone}
+                  </a>
+                </div>
               </div>
 
               {/* CTA */}
               <div className="flex gap-3 mt-auto pt-2">
                 <a
-                  href={loc.mapLink}
+                  href={mapUrl(loc)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`flex-1 text-center text-xs font-bold py-2.5 rounded-full transition-all duration-200 border ${
                     loc.highlight
                       ? 'border-white/20 text-white hover:border-[#f8ef21] hover:text-[#f8ef21]'

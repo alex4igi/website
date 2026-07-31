@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { CheckCircle } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import { normalizePhoneRO } from '@/lib/validation'
+import { locationOptions } from '@/lib/locations'
 
 const ageGroups = ['Tiny (4–6)', 'Junior (7–10)', 'Varsity (11–14)', 'Teens (15–19)', 'Students (20–25)', 'Adulți (>25)']
 const interestTypes = ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică', 'Zumba (Adulți)', 'Nu știu încă']
-const locationsList = ['Quasar Centru', 'Quasar Nicolina', 'Quasar for Kids', 'Orice locație']
 
 export default function LeadFormSection() {
   const [submitted, setSubmitted] = useState(false)
@@ -282,7 +282,7 @@ export default function LeadFormSection() {
                     Locație preferată
                   </span>
                   <div className="flex flex-wrap gap-2">
-                    {locationsList.map((loc) => (
+                    {locationOptions.map((loc) => (
                       <button
                         key={loc}
                         type="button"
