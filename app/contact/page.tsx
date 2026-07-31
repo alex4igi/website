@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle } from 'lucide-react'
+import Link from 'next/link'
+import { MapPin, Phone, Mail, Send, MessageCircle } from 'lucide-react'
 import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
 import SprayLabel from '@/components/ui/spray-label'
+import { locations, mapUrl, telHref } from '@/lib/locations'
 import {
   Accordion,
   AccordionContent,
@@ -12,38 +13,11 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 
-const locations = [
-  {
-    id: 'stefan',
-    name: 'Quasar Dance - Ștefan cel Mare',
-    address: 'Blvd. Ștefan cel Mare și Sfânt, Nr. 10, et. 1',
-    city: 'Galerii Comerciale, Iași',
-    phone: '0730 534 172',
-    coordinates: { lat: 47.1635894529357, lng: 27.5810635107931 },
-  },
-  {
-    id: 'nicolina',
-    name: 'Quasar Dance - Nicolina',
-    address: 'Strada Izvor 14',
-    city: 'Iași',
-    phone: '0770 227 580',
-    coordinates: { lat: 47.14095492580996, lng: 27.583403997298678 },
-  },
-  {
-    id: 'kids',
-    name: 'Quasar for Kids',
-    address: 'Strada Clopoțari 24',
-    city: 'Nicolina, Iași',
-    phone: '0745 371 200',
-    coordinates: { lat: 47.13719333961962, lng: 27.580221653120905 },
-  },
-]
-
 const faqs = [
   {
     question: 'Cum mă pot înscrie la cursuri?',
     answer:
-      'Înscrierile la cursurile de dans se pot face direct de pe site, completând acest formular, telefonic la 0730 534 172 sau direct la sală.',
+      'Înscrierile la cursurile de dans se pot face direct de pe site, completând formularul de programare a ședinței demo, telefonic la 0730 534 172 sau direct la sală.',
   },
   {
     question: 'Oferiți cursuri private?',
@@ -123,47 +97,6 @@ const faqs = [
 ]
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    company: '', // honeypot anti-spam
-  })
-  const [loading, setLoading] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-
-    // Anti-spam: honeypot completat → ne prefacem că am trimis.
-    if (formData.company) {
-      setSubmitted(true)
-      return
-    }
-
-    setLoading(true)
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      })
-      const data = await res.json().catch(() => ({}))
-      if (res.ok) {
-        setSubmitted(true)
-      } else {
-        setError(data?.error || 'A apărut o eroare. Te rugăm să încerci din nou.')
-      }
-    } catch {
-      setError('Nu am putut trimite mesajul. Verifică conexiunea și încearcă din nou.')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -202,7 +135,7 @@ export default function ContactPage() {
               <span className="font-semibold text-sm">0730 534 172</span>
             </a>
             <a
-              href="mailto:contact@quasardance.ro"
+              href="mailto:office@quasardance.ro"
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-5 py-3 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-all duration-200 border border-white/20"
             >
               <Mail size={16} />
@@ -267,7 +200,7 @@ export default function ContactPage() {
                   <div className="flex items-center gap-3">
                     <Phone size={18} className="text-[#f8ef21] flex-shrink-0" />
                     <a
-                      href={`tel:${location.phone.replace(/\s/g, '')}`}
+                      href={telHref(location)}
                       className="text-[#231f20] font-semibold text-sm hover:text-[#f8ef21] transition-colors"
                     >
                       {location.phone}
@@ -275,7 +208,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${location.coordinates.lat},${location.coordinates.lng}`}
+                  href={mapUrl(location)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-[#231f20] text-white font-bold text-sm px-4 py-3 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-all duration-200"
@@ -293,156 +226,44 @@ export default function ContactPage() {
       <section className="py-20 md:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Contact Form */}
+            {/* Înscriere → ședință demo (singura cale care creează lead în CRM) */}
             <div>
               <div className="mb-6">
-                <SprayLabel>Trimite-ne un mesaj</SprayLabel>
+                <SprayLabel>Vrei să te înscrii?</SprayLabel>
               </div>
               <h2
                 className="text-[#231f20] text-3xl md:text-4xl font-extrabold leading-tight mb-4"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
-                Hai să începem o conversație!
+                Începe cu o ședință demo gratuită!
               </h2>
               <p className="text-[#6b6b6b] mb-8">
-                Completează formularul de mai jos și îți vom răspunde în cel mai scurt timp posibil.
+                Completează formularul de înscriere și te contactăm în maximum 24 de ore ca să
+                stabilim prima ta ședință demo — gratuită și fără niciun angajament.
               </p>
 
-              {submitted ? (
-                <div className="flex flex-col items-center gap-4 text-center bg-[#f5f5f5] rounded-2xl py-12 px-6">
-                  <div className="w-16 h-16 rounded-full bg-[#f8ef21] flex items-center justify-center">
-                    <Send size={28} className="text-[#231f20]" />
-                  </div>
-                  <h3
-                    className="text-[#231f20] text-2xl font-extrabold"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    Mesaj trimis!
-                  </h3>
-                  <p className="text-[#6b6b6b] text-sm max-w-xs leading-relaxed">
-                    Îți mulțumim! Ți-am trimis o confirmare pe email și îți vom răspunde în cel mai
-                    scurt timp posibil.
-                  </p>
+              <div className="bg-[#231f20] rounded-2xl p-8 md:p-10">
+                <div className="w-14 h-14 rounded-full bg-[#f8ef21] flex items-center justify-center mb-5">
+                  <Send size={26} className="text-[#231f20]" />
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-[#231f20] font-bold text-sm mb-2"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      Nume complet *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
-                      placeholder="Ion Popescu"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-[#231f20] font-bold text-sm mb-2"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
-                      placeholder="ion@email.ro"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-[#231f20] font-bold text-sm mb-2"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      Telefon
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors"
-                      placeholder="07XX XXX XXX"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-[#231f20] font-bold text-sm mb-2"
-                      style={{ fontFamily: 'var(--font-display)' }}
-                    >
-                      Mesajul tău *
-                    </label>
-                    <textarea
-                      id="message"
-                      required
-                      rows={6}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border-2 border-[#e5e5e5] focus:border-[#f8ef21] focus:outline-none transition-colors resize-none"
-                      placeholder="Spune-ne cum te putem ajuta..."
-                    />
-                  </div>
-
-                  {/* Honeypot anti-spam — ascuns pentru utilizatori */}
-                  <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
-                    <label htmlFor="contact-company">Companie</label>
-                    <input
-                      id="contact-company"
-                      type="text"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    />
-                  </div>
-
-                  {error && (
-                    <p
-                      role="alert"
-                      className="text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3"
-                    >
-                      {error}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-[#f8ef21] text-[#231f20] font-black text-base px-6 py-4 rounded-full hover:bg-[#231f20] hover:text-[#f8ef21] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="w-4 h-4 border-2 border-[#231f20]/30 border-t-[#231f20] rounded-full animate-spin" />
-                        Se trimite...
-                      </>
-                    ) : (
-                      <>
-                        <Send size={18} />
-                        Trimite mesajul
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
+                <h3
+                  className="text-white text-2xl font-extrabold mb-3"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                >
+                  Programează ședința demo
+                </h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-7">
+                  Îți alegi cursul, grupa de vârstă și locația, iar noi ne ocupăm de rest. Durează
+                  mai puțin de un minut.
+                </p>
+                <Link
+                  href="/#inscriere"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#f8ef21] text-[#231f20] font-black text-base px-6 py-4 rounded-full hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                >
+                  Mă înscriu la ședința demo
+                </Link>
+              </div>
 
               {/* Alternative contact */}
               <div className="mt-8 p-6 bg-[#f5f5f5] rounded-2xl">

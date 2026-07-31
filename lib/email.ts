@@ -13,9 +13,6 @@ function getResend(): Resend {
 // Adresa expeditor — un domeniu verificat în Resend (ex: noreply@websitefactory.ro).
 export const EMAIL_FROM = process.env.EMAIL_FROM || 'Quasar Dance <noreply@websitefactory.ro>'
 
-// Inbox-ul care primește mesajele de la formularul de contact.
-export const CONTACT_INBOX = process.env.CONTACT_INBOX || 'contact@quasardance.ro'
-
 type SendArgs = {
   to: string | string[]
   subject: string

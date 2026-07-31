@@ -94,8 +94,8 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5 text-white/55 text-sm">
                 <Mail size={14} className="flex-shrink-0" />
-                <a href="mailto:contact@quasardance.ro" className="hover:text-[#f8ef21] transition-colors">
-                  contact@quasardance.ro
+                <a href="mailto:office@quasardance.ro" className="hover:text-[#f8ef21] transition-colors">
+                  office@quasardance.ro
                 </a>
               </div>
             </div>

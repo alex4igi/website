@@ -6,7 +6,7 @@ const YELLOW = '#f8ef21'
 const SITE_URL = 'https://quasardance.ro'
 
 const CONTACT_PHONE = '0730 534 172'
-const CONTACT_EMAIL = 'contact@quasardance.ro'
+const CONTACT_EMAIL = 'office@quasardance.ro'
 
 // Escape minimal pentru a preveni injectarea de HTML din inputul utilizatorului.
 function esc(value: string): string {
@@ -123,70 +123,6 @@ export function inscriereConfirmationEmail({ name, interest, ageGroup, location 
     html: baseLayout({
       preheader: 'Te contactăm în maximum 24 de ore pentru ședința demo gratuită.',
       heading: 'Cererea ta a fost înregistrată! 🎉',
-      bodyHtml,
-    }),
-  }
-}
-
-// ─── 2. Confirmare contact → către vizitator ──────────────────────────────
-export function contactConfirmationEmail({ name }: { name: string }) {
-  const bodyHtml = `
-    <p style="margin:0 0 16px 0;color:#444;font-size:15px;line-height:1.6;">
-      Salut${name ? ` ${esc(name)}` : ''}, 👋
-    </p>
-    <p style="margin:0 0 16px 0;color:#444;font-size:15px;line-height:1.6;">
-      Îți mulțumim că ne-ai scris! Am primit mesajul tău și îți vom răspunde în cel mai scurt timp posibil,
-      de regulă în câteva ore în intervalul nostru de program.
-    </p>
-    <p style="margin:0 0 24px 0;color:#444;font-size:15px;line-height:1.6;">
-      Dacă e ceva urgent, ne poți suna direct la <a href="tel:+40730534172" style="color:${DARK};font-weight:600;">${CONTACT_PHONE}</a>
-      (Luni–Sâmbătă, 15:00–21:00).
-    </p>
-    <a href="${SITE_URL}" style="display:inline-block;background-color:${YELLOW};color:${DARK};font-size:15px;font-weight:700;text-decoration:none;padding:12px 28px;border-radius:999px;">Înapoi la site</a>
-  `
-
-  return {
-    subject: 'Am primit mesajul tău — Quasar Dance',
-    html: baseLayout({
-      preheader: 'Îți răspundem în cel mai scurt timp posibil.',
-      heading: 'Mulțumim pentru mesaj! ✉️',
-      bodyHtml,
-    }),
-  }
-}
-
-// ─── 3. Notificare contact → către echipa Quasar ──────────────────────────
-type ContactNotificationArgs = {
-  name: string
-  email: string
-  phone?: string | null
-  message: string
-}
-
-export function contactNotificationEmail({ name, email, phone, message }: ContactNotificationArgs) {
-  const rows = [
-    detailRow('Nume', name),
-    detailRow('Email', email),
-    phone ? detailRow('Telefon', phone) : '',
-  ].join('')
-
-  const bodyHtml = `
-    <p style="margin:0 0 20px 0;color:#444;font-size:15px;line-height:1.6;">
-      Ai primit un mesaj nou prin formularul de contact de pe site:
-    </p>
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8f8f8;border-radius:12px;padding:8px 16px;margin:0 0 20px 0;">${rows}</table>
-    <p style="margin:0 0 8px 0;color:#6b6b6b;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700;">Mesaj</p>
-    <div style="background-color:#ffffff;border:1px solid #e8e8e8;border-radius:12px;padding:16px;color:${DARK};font-size:14px;line-height:1.6;white-space:pre-wrap;">${esc(message)}</div>
-    <p style="margin:20px 0 0 0;color:#6b6b6b;font-size:13px;line-height:1.6;">
-      Poți răspunde direct la acest email pentru a-i scrie lui ${esc(name)}.
-    </p>
-  `
-
-  return {
-    subject: `Mesaj nou de contact: ${name}`,
-    html: baseLayout({
-      preheader: `${name} ți-a trimis un mesaj prin formularul de contact.`,
-      heading: 'Mesaj nou de contact 📬',
       bodyHtml,
     }),
   }
