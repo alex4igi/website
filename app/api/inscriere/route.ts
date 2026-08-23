@@ -109,9 +109,9 @@ export async function POST(req: Request) {
   const emailInput = body.email?.trim()
   const email = emailInput && isValidEmail(emailInput) ? emailInput : null
 
-  // Trimitem lead-ul la CRM, inclusiv email (cerut de client). CRM-ul trimite
-  // propriul email de confirmare; pe lângă acesta trimitem și confirmarea
-  // branded prin Resend (mai jos) — clientul a ales să le păstrăm pe ambele.
+  // Trimitem lead-ul la CRM, inclusiv email (cerut de client). CRM-ul are auto-reply-ul
+  // dezactivat intenționat (`intake-website-lead`), tocmai pentru că trimitem noi
+  // confirmarea mai jos — deci e singurul email pe care îl primește cel înscris.
   let crmData: { created?: boolean; leadId?: string; reason?: string } = {}
   try {
     const crmRes = await fetch(CRM_ENDPOINT, {
@@ -146,7 +146,10 @@ export async function POST(req: Request) {
     )
   }
 
-  // Confirmare branded prin Resend (best-effort — nu blocăm lead-ul dacă pică emailul).
+  // Confirmare branded prin theMarketer. Best-effort: un email picat nu pierde lead-ul,
+  // care e deja în CRM. Dar nu îl înghițim tăcut — `emailSent: false` în răspuns și o
+  // linie de log distinctă, ca eșecul să fie vizibil fără să sape cineva prin Vercel.
+  let emailSent: boolean | null = null
   if (email) {
     try {
       const { subject, html } = inscriereConfirmationEmail({
@@ -156,13 +159,19 @@ export async function POST(req: Request) {
         location: locatia,
       })
       await sendEmail({ to: email, subject, html })
+      emailSent = true
     } catch (err) {
-      console.error('[inscriere] Trimiterea emailului de confirmare a eșuat:', err)
+      emailSent = false
+      console.error(
+        `[inscriere] EMAIL EȘUAT — lead ${crmData.leadId ?? '(fără id)'} nu a primit confirmarea:`,
+        err instanceof Error ? err.message : err,
+      )
     }
   }
 
   return NextResponse.json({
     created: crmData.created ?? true,
     leadId: crmData.leadId,
+    emailSent,
   })
 }

@@ -50,8 +50,10 @@ La descărcare apar literal ca `[SENSITIVE]`.
 | `NEXT_PUBLIC_GA_ID` | encrypted | da |
 | `ADMIN_PASSWORD` | sensitive | nu |
 | `ADMIN_AUTH_SECRET` | sensitive | nu |
-| `RESEND_API_KEY` | sensitive | nu |
+| `THEMARKETER_REST_KEY` | sensitive | nu |
+| `THEMARKETER_CUSTOMER_ID` | sensitive | nu |
 | `EMAIL_FROM` | sensitive | nu |
+| `EMAIL_REPLY_TO` | sensitive | nu |
 | `CONTACT_INBOX` | sensitive | nu |
 | `DATABASE_PGPASSWORD`, `DATABASE_POSTGRES_*` | sensitive | nu |
 
@@ -148,10 +150,10 @@ Nu există comandă de modificare — se șterge și se adaugă la loc. Pentru S
 |---|---|
 | 5 × MX Google | email primit pe `@quasardance.ro` — **critic** |
 | TXT SPF, `_dmarc` | autorizare și raportare expeditori |
-| `nwl` — MX + TXT | subdomeniu de trimitere în masă (Amazon SES) |
-| 6 × CNAME `*._domainkey` | chei DKIM Amazon SES |
+| `nwl` — MX + TXT | subdomeniu de bounce theMarketer (prin Amazon SES) |
+| 6 × CNAME `*._domainkey` | chei DKIM Amazon SES — validarea domeniului în theMarketer |
 | TXT `x._domainkey` | cheie DKIM separată, RSA |
-| CNAME `mktr` | platformă de marketing (theMarketer) |
+| CNAME `mktr` | tracking theMarketer (`api7.mktr2.com`) |
 | 4 × A: `ftp`, `mail`, `pop`, `smtp` | resturi de la o găzduire veche |
 | CAA × 3, ALIAS apex, wildcard | create automat de Vercel |
 
@@ -173,14 +175,28 @@ verifici de două ori — o greșeală acolo oprește tot ce vine pe `office@`.
 
 ### Trimis din aplicație
 
-`lib/email.ts` folosește Resend. Singurul apelant e `app/api/inscriere/route.ts`
-— confirmările de înscriere.
+`lib/email.ts` folosește API-ul tranzacțional theMarketer — **același cont ca
+qapp v2**, care îl apelează identic din `supabase/functions/_shared/messaging.ts`.
+Singurul apelant de aici e `app/api/inscriere/route.ts` — confirmările de înscriere.
 
-> **De rezolvat.** Cheia și expeditorul sunt din contul furnizorului care a
-> construit site-ul, nu al nostru. Dacă se revocă cheia, formularul eșuează
-> **tăcut**. De înlocuit fie cu un cont Resend propriu, fie prin theMarketer,
-> care oferă API tranzacțional (`POST /api/v1/transactional/send-email`) și e
-> deja folosit pe domeniu.
+```
+POST https://t.themarketer.com/api/v1/transactional/send-email?k={REST_KEY}&u={CUSTOMER_ID}
+  body: { to, subject, from, body, reply_to }
+  succes: { result: 'success', message_id }
+```
+
+Două capcane: **HTTP 200 nu înseamnă trimis** — eșecul vine în câmpul `result`,
+deci se verifică acolo, nu doar codul de status. Și apelul e pe drumul critic al
+formularului, de aceea are timeout de 8s.
+
+> **Emailul acesta e singura confirmare pe care o primește cel înscris.** CRM-ul
+> are auto-reply-ul dezactivat intenționat (`intake-website-lead`) tocmai ca să nu
+> dubleze mesajul. Dacă pică, lead-ul tot ajunge în CRM — dar omul nu află nimic.
+> De aceea răspunsul de la `/api/inscriere` conține `emailSent`, iar eșecul se
+> loghează cu prefixul `[inscriere] EMAIL EȘUAT`.
+
+Până în august 2026 trimiterea mergea prin Resend, pe cheia și domeniul
+furnizorului (`noreply@websitefactory.ro`). A fost înlocuită complet.
 
 ### SPF
 
@@ -242,9 +258,13 @@ nicio regulă, niciun Worker și nu cacha nimic.
 
 ### Rămas de făcut
 
-- Înlocuirea cheii de trimitere a emailurilor (vezi secțiunea Email)
 - Revizuirea accesului la echipa Vercel — mai există un membru din partea
   furnizorului
-- Clarificarea cine administrează și cine plătește infrastructura de newsletter
-  (`nwl` + `mktr`)
 - Opțional: curățarea directivelor `+a` și `+mx` din SPF
+
+Rezolvate de atunci:
+
+- ~~Înlocuirea cheii de trimitere a emailurilor~~ → mutat pe theMarketer, cont propriu
+- ~~Clarificarea cine administrează infrastructura de newsletter (`nwl` + `mktr`)~~ →
+  sunt înregistrările de validare ale contului nostru theMarketer, cel folosit și de
+  qapp v2. Nu erau ale furnizorului.
