@@ -7,7 +7,10 @@ import { inscriereConfirmationEmail } from '@/lib/email-templates'
 const CRM_ENDPOINT =
   'https://cbftxkwvoboqahzsldcp.supabase.co/functions/v1/intake-website-lead'
 
-// Maparea grupelor afișate la enum-ul exact (case-sensitive) cerut de CRM.
+// Enum-ul `grupa_lead` din CRM, în forma exactă (case-sensitive) pe care o acceptă.
+const ageGroupEnum = ['Tiny', 'Junior', 'Varsity', 'Teens', 'Students', 'Adults']
+
+// Maparea etichetelor afișate în formularul de pe homepage la enum-ul de mai sus.
 const ageGroupToEnum: Record<string, string> = {
   'Tiny (4–6)': 'Tiny',
   'Junior (7–10)': 'Junior',
@@ -17,6 +20,37 @@ const ageGroupToEnum: Record<string, string> = {
   'Adulți (>25)': 'Adults',
 }
 
+// Formularele trimit fie eticheta afișată („Junior (7–10)” — homepage), fie direct
+// valoarea de enum („Junior” — landing page-ul de campanie, care o are deja normalizată).
+// Le acceptăm pe amândouă: până acum a doua variantă cădea pe `undefined` și lead-ul
+// ajungea în CRM fără grupă, fără nicio eroare vizibilă în formular.
+function toAgeGroupEnum(value: string | null): string | null {
+  if (!value) return null
+  if (ageGroupToEnum[value]) return ageGroupToEnum[value]
+  return ageGroupEnum.includes(value) ? value : null
+}
+
+// Campania implicită, pentru formularele care nu trimit `campanie`.
+const DEFAULT_CAMPAIGN = 'Website – Înscriere'
+
+// Campaniile pe care le poate declara clientul. Valoarea ajunge în `campanii_promovare`
+// din CRM, care creează automat intrarea dacă lipsește — deci fără listă fixă oricine
+// poate umple tabelul cu un POST. Ca să adaugi o campanie nouă, adaugă o linie aici
+// și folosește exact același text în configurația landing page-ului.
+const ALLOWED_CAMPAIGNS = [
+  DEFAULT_CAMPAIGN,
+  'ZPD 2026', // Back to Dance School — Săptămâna Porților Deschise, 7–11 sept. 2026
+]
+
+// Plafoane pentru textele libere: CRM-ul le stochează ca atare, iar endpoint-ul e public.
+const MAX_MESAJ = 1000
+const MAX_SHORT = 200
+
+function trimTo(value: string | undefined, max: number): string | null {
+  const v = (value || '').trim()
+  return v ? v.slice(0, max) : null
+}
+
 type Body = {
   nume?: string
   telefon?: string
@@ -24,6 +58,8 @@ type Body = {
   interes?: string
   grupa_varsta?: string
   locatia?: string
+  mesaj?: string
+  campanie?: string
   utm_source?: string
   utm_medium?: string
   utm_campaign?: string
@@ -56,9 +92,19 @@ export async function POST(req: Request) {
     )
   }
 
-  const interes = body.interes?.trim() || null
-  const locatia = body.locatia?.trim() || null
-  const grupaLabel = body.grupa_varsta?.trim() || null
+  const interes = trimTo(body.interes, MAX_SHORT)
+  const locatia = trimTo(body.locatia, MAX_SHORT)
+  const grupaLabel = trimTo(body.grupa_varsta, MAX_SHORT)
+  const mesaj = trimTo(body.mesaj, MAX_MESAJ)
+
+  // O campanie necunoscută nu blochează lead-ul — l-am pierde degeaba. Cade pe cea
+  // implicită, iar linia din log spune de ce lead-ul n-a ajuns sub campania așteptată.
+  const campanieCeruta = trimTo(body.campanie, MAX_SHORT)
+  if (campanieCeruta && !ALLOWED_CAMPAIGNS.includes(campanieCeruta)) {
+    console.warn('[inscriere] Campanie necunoscută, ignorată:', campanieCeruta)
+  }
+  const campanie =
+    campanieCeruta && ALLOWED_CAMPAIGNS.includes(campanieCeruta) ? campanieCeruta : DEFAULT_CAMPAIGN
 
   const emailInput = body.email?.trim()
   const email = emailInput && isValidEmail(emailInput) ? emailInput : null
@@ -76,9 +122,10 @@ export async function POST(req: Request) {
         telefon,
         email,
         interes,
-        grupa_varsta: grupaLabel ? ageGroupToEnum[grupaLabel] || null : null,
+        grupa_varsta: toAgeGroupEnum(grupaLabel),
         locatia,
-        campanie: 'Website – Înscriere',
+        mesaj,
+        campanie,
         utm_source: body.utm_source || null,
         utm_medium: body.utm_medium || null,
         utm_campaign: body.utm_campaign || null,
