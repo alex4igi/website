@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react'
 import CookieSettingsLink from '@/components/CookieSettingsLink'
+import { MEMBER_PORTAL_URL, MEMBER_PORTAL_LEGAL_LABEL } from '@/lib/portal'
 
 // TikTok nu există în lucide-react — icon custom cu aceeași interfață (size).
 function TiktokIcon({ size = 15 }: { size?: number }) {
@@ -168,8 +169,11 @@ export default function Footer() {
                 </a>
               </p>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
               {[
+                // Informarea comercială cerută de procesatorul de plăți al portalului
+                // de membri. Stă în rândul legal, unde o caută și utilizatorii, și el.
+                { label: MEMBER_PORTAL_LEGAL_LABEL, href: MEMBER_PORTAL_URL },
                 { label: 'Politică de confidențialitate', href: '/politica-de-confidentialitate' },
                 { label: 'Politică cookies', href: '/politica-cookies' },
                 { label: 'Termeni & condiții', href: '#' },

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, UserRound } from 'lucide-react'
+import { MEMBER_PORTAL_URL, MEMBER_PORTAL_LABEL } from '@/lib/portal'
 
 type NavChild = { href: string; label: string }
 type NavLink = { href: string; label: string; num: string; children?: NavChild[] }
@@ -111,6 +112,22 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Portalul de membri: alt public decât restul meniului (membri actuali, nu
+                vizitatori noi), de aceea stă discret, lângă CTA, nu între linkurile 01–05.
+                Sub `lg` rămâne doar iconița — la 768px bara e deja plină. */}
+            <a
+              href={MEMBER_PORTAL_URL}
+              className="flex items-center gap-1.5 text-sm font-semibold text-white/60 hover:text-[#f8ef21] transition-colors duration-200"
+              style={{ fontFamily: 'var(--font-display)' }}
+              title={MEMBER_PORTAL_LABEL}
+            >
+              <UserRound size={16} aria-hidden="true" />
+              <span className="hidden lg:inline">{MEMBER_PORTAL_LABEL}</span>
+              <span className="lg:hidden sr-only">{MEMBER_PORTAL_LABEL}</span>
+            </a>
+            {/* Separator: dincolo de el sunt CTA-urile pentru vizitatori noi. Fără el,
+                „Contul meu” și „Găsește cursul tău” se citesc ca o pereche. */}
+            <span className="h-4 w-px bg-white/15" aria-hidden="true" />
             <Link
               href="/quiz"
               className="text-sm font-semibold text-white/70 hover:text-[#f8ef21] transition-colors duration-200"
@@ -296,6 +313,17 @@ export default function Navbar() {
             >
               Înscrie-te acum
             </Link>
+            {/* Cel mai discret element din meniu: cine caută plata abonamentului îl
+                găsește, dar nu concurează cu CTA-ul de înscriere. */}
+            <a
+              href={MEMBER_PORTAL_URL}
+              className="flex items-center justify-center gap-2 text-white/45 hover:text-[#f8ef21] text-sm font-semibold py-1 transition-colors duration-200"
+              style={{ fontFamily: 'var(--font-display)' }}
+              onClick={() => setOpen(false)}
+            >
+              <UserRound size={15} aria-hidden="true" />
+              {MEMBER_PORTAL_LABEL}
+            </a>
           </div>
         </div>
       </div>
