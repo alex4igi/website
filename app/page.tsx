@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Navbar from '@/components/sections/Navbar'
 import HeroSection from '@/components/sections/HeroSection'
 import MarqueeTicker from '@/components/sections/MarqueeTicker'
+import CampaignStripSection from '@/components/sections/CampaignStripSection'
 import PathsSection from '@/components/sections/PathsSection'
 import WhyParentsSection from '@/components/sections/WhyParentsSection'
 import JourneySection from '@/components/sections/JourneySection'
@@ -52,6 +53,9 @@ export default function HomePage() {
 
       {/* Marquee ticker — seamless scroll of course/brand names */}
       <MarqueeTicker />
+
+      {/* Banda campaniei — apare doar în fereastra din lib/campaign-promo.ts */}
+      <CampaignStripSection />
 
       {/* 2. Choose your path — 4 course categories */}
       <PathsSection />

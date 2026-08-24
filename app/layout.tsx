@@ -7,6 +7,7 @@ import ConsentMode from '@/components/ConsentMode'
 import GoogleTagManager, { GTMNoScript } from '@/components/GoogleTagManager'
 import MetaPixel from '@/components/MetaPixel'
 import CookieConsent from '@/components/CookieConsent'
+import CampaignPopup from '@/components/CampaignPopup'
 import './globals.css'
 
 const sora = Sora({
@@ -69,6 +70,8 @@ export default function RootLayout({
         {children}
         <WhatsAppButton />
         <CookieConsent />
+        {/* Se deschide singur doar în fereastra din lib/campaign-promo.ts. */}
+        <CampaignPopup />
         <Analytics />
         {/* Core Web Vitals măsurate la vizitatorii reali (RUM), nu în laborator. */}
         <SpeedInsights />

@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronDown, UserRound } from 'lucide-react'
+import { ChevronDown, Sparkles, UserRound } from 'lucide-react'
 import { MEMBER_PORTAL_URL, MEMBER_PORTAL_LABEL } from '@/lib/portal'
+import { PROMO_COPY, promoHref, trackPromo, useCampaignPromo } from '@/lib/campaign-promo'
 
 type NavChild = { href: string; label: string }
 type NavLink = { href: string; label: string; num: string; children?: NavChild[] }
@@ -24,6 +25,9 @@ const navLinks: NavLink[] = [
 ]
 
 export default function Navbar() {
+  // Linkul campaniei apare doar în fereastra din lib/campaign-promo.ts; în rest meniul
+  // rămâne exact cum e, fără link mort către o campanie încheiată.
+  const promo = useCampaignPromo()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
@@ -112,6 +116,21 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
+            {promo && (
+              <>
+                <Link
+                  href={promoHref('meniu')}
+                  onClick={() => trackPromo('btds_promo_click', 'meniu')}
+                  className="hidden lg:inline-flex items-center gap-1.5 rounded-full border border-[#f8ef21]/40 bg-[#f8ef21]/10 px-3.5 py-1.5 text-sm font-bold text-[#f8ef21] transition-colors hover:bg-[#f8ef21] hover:text-[#231f20]"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                  title={`${PROMO_COPY.title} · ${PROMO_COPY.eyebrow}`}
+                >
+                  <Sparkles size={14} aria-hidden="true" />
+                  {PROMO_COPY.navLabel}
+                </Link>
+                <span className="hidden lg:inline h-4 w-px bg-white/15" aria-hidden="true" />
+              </>
+            )}
             {/* Portalul de membri: alt public decât restul meniului (membri actuali, nu
                 vizitatori noi), de aceea stă discret, lângă CTA, nu între linkurile 01–05.
                 Sub `lg` rămâne doar iconița — la 768px bara e deja plină. */}
@@ -297,6 +316,20 @@ export default function Navbar() {
               transition: `transform 0.5s cubic-bezier(0.22,1,0.36,1) 480ms, opacity 0.4s ease 480ms`,
             }}
           >
+            {promo && (
+              <Link
+                href={promoHref('meniu')}
+                className="flex items-center justify-center gap-2 text-center border border-[#f8ef21]/40 bg-[#f8ef21]/10 text-[#f8ef21] text-sm font-bold py-3.5 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-colors duration-200"
+                style={{ fontFamily: 'var(--font-display)' }}
+                onClick={() => {
+                  trackPromo('btds_promo_click', 'meniu')
+                  setOpen(false)
+                }}
+              >
+                <Sparkles size={15} aria-hidden="true" />
+                {PROMO_COPY.navLabel} · {PROMO_COPY.eyebrow}
+              </Link>
+            )}
             <Link
               href="/quiz"
               className="block text-center border border-white/20 text-white text-sm font-bold py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-colors duration-200"
