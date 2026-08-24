@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { getCalendar, saveCalendar } from '@/lib/db'
 import { calendarDataSchema } from '@/lib/db/types'
 
@@ -22,6 +22,8 @@ export async function PUT(req: Request) {
   }
 
   await saveCalendar(parsed.data)
-  revalidateTag('calendar', 'max')
+  // <SchedulePreviewSection /> e randată în ambele pagini.
+  revalidatePath('/')
+  revalidatePath('/program-si-preturi')
   return NextResponse.json({ ok: true })
 }

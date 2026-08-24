@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { getPricing, savePricing } from '@/lib/db'
 import { pricingDataSchema } from '@/lib/db/types'
 
@@ -22,6 +22,8 @@ export async function PUT(req: Request) {
   }
 
   await savePricing(parsed.data)
-  revalidateTag('pricing', 'max')
+  // <PricingSection /> e randată în ambele pagini — altfel una rămâne cu prețuri vechi.
+  revalidatePath('/')
+  revalidatePath('/program-si-preturi')
   return NextResponse.json({ ok: true })
 }

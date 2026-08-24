@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 import { getSchedule, saveSchedule } from '@/lib/db'
 import { scheduleDataSchema } from '@/lib/db/types'
 
@@ -22,6 +22,7 @@ export async function PUT(req: Request) {
   }
 
   await saveSchedule(parsed.data)
-  revalidateTag('schedule', 'max')
+  // Orarul e randat doar aici; împingem noua versiune în cache-ul de edge imediat.
+  revalidatePath('/orar')
   return NextResponse.json({ ok: true })
 }

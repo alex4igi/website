@@ -19,9 +19,11 @@ import LeadFormSection from '@/components/sections/LeadFormSection'
 import Footer from '@/components/sections/Footer'
 
 // Homepage-ul citește prețurile și calendarul din DB (PricingSection,
-// SchedulePreviewSection). Fără asta pagina rămâne prerandată static și
-// modificările din admin nu apar decât pe /program-si-preturi și /orar.
-export const dynamic = 'force-dynamic'
+// SchedulePreviewSection). Pagina se prerandează și se reîmprospătează singură la
+// 5 minute, iar salvările din admin o împing imediat prin revalidatePath('/')
+// (vezi app/api/admin/pricing|calendar/route.ts). Așa nu mai plătim un drum până
+// la baza de date la fiecare vizitator, dar modificările apar tot instant.
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Quasar Dance - Cursuri de dans în Iași',

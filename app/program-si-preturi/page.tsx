@@ -9,7 +9,9 @@ import SprayLabel from '@/components/ui/spray-label'
 import { getCalendar, getPricing } from '@/lib/db'
 import { defaultCalendarData, defaultPricingData } from '@/lib/db/defaults'
 
-export const dynamic = 'force-dynamic'
+// Prerandată, reîmprospătată la 5 minute. Salvările de prețuri/calendar din admin
+// o împing imediat prin revalidatePath — vezi app/api/admin/{pricing,calendar}/route.ts.
+export const revalidate = 300
 
 async function safeCalendar() {
   try {

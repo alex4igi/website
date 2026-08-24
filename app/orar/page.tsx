@@ -7,7 +7,9 @@ import { getSchedule } from '@/lib/db'
 import { defaultScheduleData } from '@/lib/db/defaults'
 import type { ScheduleData } from '@/lib/db/types'
 
-export const dynamic = 'force-dynamic'
+// Prerandată, reîmprospătată la 5 minute. Salvarea orarului din admin o împinge
+// imediat prin revalidatePath('/orar') — vezi app/api/admin/schedule/route.ts.
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'Orar săptămânal — Cursuri pe locații | Quasar Dance Iași',
