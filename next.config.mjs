@@ -12,9 +12,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
-  },
+  // `unoptimized` a fost scos, dar atenție: azi nu schimbă nimic, fiindcă nicio
+  // componentă nu folosește next/image — toate imaginile sunt <img> brute sau
+  // background-image în CSS, iar optimizatorul nu e invocat niciodată. Sursele din
+  // public/ au fost redimensionate și recomprimate manual (scripts/optimize-images.mjs).
+  // Dacă cineva introduce next/image cu surse externe (blob-ul v0), va trebui adăugat
+  // și `images.remotePatterns`.
   // `permanent: false` (307) intenționat: sunt linkuri de campanie. Un 308 ar rămâne
   // în cache-ul browserelor la nesfârșit și n-am mai putea redirecta altundeva la anul.
   async redirects() {
