@@ -18,7 +18,7 @@ const courseLinks: NavChild[] = [
 const navLinks: NavLink[] = [
   { href: '/#cursuri', label: 'Cursuri', num: '01', children: courseLinks },
   { href: '/despre-noi', label: 'Despre noi', num: '02' },
-  { href: '/program-si-preturi', label: 'Program & Prețuri', num: '03' },
+  { href: '/program-si-preturi', label: 'Prețuri & Calendar', num: '03' },
   { href: '/orar', label: 'Orar', num: '04' },
   { href: '/contact', label: 'Contact', num: '05' },
 ]

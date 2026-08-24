@@ -27,7 +27,7 @@ const faqs = [
   {
     question: 'Care este prețul?',
     answer:
-      'Prețurile variază în funcție de tipul de curs, frecvența și durata sesiunilor. Verifică secțiunea "Program & Prețuri" sau contactează-ne direct pentru o ofertă personalizată.',
+      'Prețurile variază în funcție de tipul de curs, frecvența și durata sesiunilor. Verifică secțiunea "Prețuri & Calendar" sau contactează-ne direct pentru o ofertă personalizată.',
   },
   {
     question: 'Nu am dansat niciodată până acum, pot să mă înscriu chiar și așa?',

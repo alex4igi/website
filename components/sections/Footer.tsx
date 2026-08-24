@@ -33,8 +33,8 @@ const navCols = [
     links: [
       { label: 'Despre noi', href: '/despre-noi' },
       { label: 'Echipa noastră', href: '/despre-noi#echipa' },
-      { label: 'Program', href: '/program-si-preturi#program' },
       { label: 'Prețuri', href: '/program-si-preturi#preturi' },
+      { label: 'Calendar', href: '/program-si-preturi#program' },
       { label: 'Locații', href: '/#locatii' },
       { label: 'Contact', href: '/contact' },
     ],
