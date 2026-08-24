@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Sora, Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import ConsentMode from '@/components/ConsentMode'
 import GoogleTagManager, { GTMNoScript } from '@/components/GoogleTagManager'
@@ -69,6 +70,8 @@ export default function RootLayout({
         <WhatsAppButton />
         <CookieConsent />
         <Analytics />
+        {/* Core Web Vitals măsurate la vizitatorii reali (RUM), nu în laborator. */}
+        <SpeedInsights />
       </body>
     </html>
   )
