@@ -49,7 +49,8 @@ const WHATSAPP_ASK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 /** Intervalul de vârstă al fiecărei grupe, ca orarul să nu-l repete de mână. */
 const AGE_BY_GROUP = new Map<string, string>(AGE_GROUPS.map((group) => [group.name, group.ageShort]));
 
-const NICOLINA_ONLY_STYLE = STYLES.find((s) => s.onlyAt === "nicolina")!.value;
+/** Stilurile care se țin doar la Nicolina: bifarea oricăruia fixează locația în formular. */
+const NICOLINA_ONLY_STYLES: string[] = STYLES.filter((s) => s.onlyAt === "nicolina").map((s) => s.value);
 const NICOLINA_VALUE = LOCATIONS.find((l) => l.key === "nicolina")!.value;
 
 type FormState = {
@@ -85,7 +86,7 @@ export default function BackToDanceSchoolLanding() {
   const [error, setError] = useState<string | null>(null);
   const [showStickyCta, setShowStickyCta] = useState(false);
 
-  const gymSelected = form.interests.includes(NICOLINA_ONLY_STYLE);
+  const nicolinaOnlyPicked = form.interests.filter((value) => NICOLINA_ONLY_STYLES.includes(value));
 
   /** Bifează/debifează un stil. „Nu știu încă" se exclude reciproc cu stilurile concrete. */
   const toggleInterest = (value: string) => {
@@ -99,8 +100,8 @@ export default function BackToDanceSchoolLanding() {
       } else {
         interests = [...prev.interests.filter((item) => item !== UNSURE_STYLE_VALUE), value];
       }
-      const picksGym = !has && value === NICOLINA_ONLY_STYLE;
-      return { ...prev, interests, ...(picksGym ? { location: NICOLINA_VALUE } : {}) };
+      const picksNicolinaOnly = !has && NICOLINA_ONLY_STYLES.includes(value);
+      return { ...prev, interests, ...(picksNicolinaOnly ? { location: NICOLINA_VALUE } : {}) };
     });
     setError(null);
   };
@@ -413,11 +414,11 @@ export default function BackToDanceSchoolLanding() {
             Fiecare vârstă are ora ei.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#6b6b6b]">
-            În Săptămâna Porților Deschise organizăm ore demonstrative separate pentru fiecare grupă, ca fiecare copil
-            să danseze alături de cei de vârsta lui.
+            În Săptămâna Porților Deschise organizăm ore demonstrative separate pentru fiecare grupă, ca fiecare să
+            danseze alături de cei de vârsta lui.
           </p>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {AGE_GROUPS.map((group) => (
               <div
                 key={group.key}
@@ -450,10 +451,10 @@ export default function BackToDanceSchoolLanding() {
         <div className="mx-auto max-w-6xl">
           <SectionLabel>Ce se dansează</SectionLabel>
           <h2 className="mt-4 max-w-2xl text-3xl leading-tight font-extrabold text-balance text-[#231f20] md:text-5xl" style={display}>
-            Trei cursuri pe care le poți încerca gratuit.
+            Patru cursuri pe care le poți încerca gratuit.
           </h2>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {STYLES.map((style) => (
               <div key={style.key} className="group flex flex-col gap-4 rounded-2xl bg-[#f5f5f5] p-7 transition-colors hover:bg-[#231f20]">
                 <div className="flex flex-wrap items-center gap-2">
@@ -832,7 +833,11 @@ export default function BackToDanceSchoolLanding() {
                             {slots.length ? (
                               <ul className="mt-4 flex flex-col gap-4">
                                 {slots.map((slot) => {
-                                  const age = slot.group ? AGE_BY_GROUP.get(slot.group) : null;
+                                  /* O oră comună mai multor grupe le arată împreună; vârsta rămâne
+                                     doar unde e o singură grupă, deci un singur interval de afișat. */
+                                  const groups =
+                                    slot.group == null ? [] : Array.isArray(slot.group) ? slot.group : [slot.group];
+                                  const age = groups.length === 1 ? AGE_BY_GROUP.get(groups[0]) : null;
 
                                   return (
                                     <li key={slot.time}>
@@ -840,8 +845,10 @@ export default function BackToDanceSchoolLanding() {
                                         <Clock className="h-3.5 w-3.5 flex-shrink-0 text-[#6b6b6b]" aria-hidden="true" />
                                         {slot.time}
                                       </p>
-                                      <p className="mt-1.5 text-sm font-bold text-[#231f20]">{slot.group ?? slot.style}</p>
-                                      {slot.group ? (
+                                      <p className="mt-1.5 text-sm font-bold text-[#231f20]">
+                                        {groups.length ? groups.join(" + ") : slot.style}
+                                      </p>
+                                      {groups.length ? (
                                         <p className="text-xs leading-relaxed text-[#6b6b6b]">
                                           {age ? `${age} · ${slot.style}` : slot.style}
                                         </p>
@@ -1044,8 +1051,10 @@ export default function BackToDanceSchoolLanding() {
               selected={form.location}
               onSelect={(value) => update({ location: value })}
               hint={
-                gymSelected
-                  ? "Gimnastica acrobatică se ține doar la Nicolina, așa că am selectat locația pentru tine."
+                nicolinaOnlyPicked.length
+                  ? `${nicolinaOnlyPicked.join(" și ")} ${
+                      nicolinaOnlyPicked.length > 1 ? "se țin" : "se ține"
+                    } doar la Nicolina, așa că am selectat locația pentru tine.`
                   : undefined
               }
             />

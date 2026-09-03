@@ -74,6 +74,24 @@ export const AGE_GROUPS = [
     blurb:
       "Performanță, spectacole Quasar și concursuri naționale, într-o comunitate strânsă.",
   },
+  {
+    key: "students",
+    value: "Students",
+    name: "Studenți",
+    age: "20 – 25 ani",
+    ageShort: "20–25 ani",
+    blurb:
+      "Oră de seară, după cursuri: coregrafii pe muzica momentului, într-un grup de aceeași vârstă.",
+  },
+  {
+    key: "adults",
+    value: "Adults",
+    name: "Adulți",
+    age: "peste 25 de ani",
+    ageShort: "25+ ani",
+    blurb:
+      "Fără experiență anterioară și fără competiție. Vii după program, dansezi o oră și pleci cu energia refăcută.",
+  },
 ] as const;
 
 export const LOCATIONS = [
@@ -100,7 +118,7 @@ export const LOCATIONS = [
     access: "Stradă laterală din cartierul Nicolina, cu loc de parcare în fața sălii.",
     phone: "0770 227 580",
     phoneTel: "+40770227580",
-    styles: ["Street Dance", "KPOP Dance", "Gimnastică acrobatică"],
+    styles: ["Street Dance", "KPOP Dance", "Gimnastică acrobatică", "MTV Comercial"],
     maps: "https://www.google.com/maps/search/?api=1&query=Quasar+Dance+Nicolina+Strada+Izvor+14+Iasi",
   },
 ] as const;
@@ -115,8 +133,12 @@ export const LOCATIONS = [
  */
 export type ScheduleSlot = {
   time: string;
-  /** Grupa, exact ca `name` din AGE_GROUPS — de acolo se ia intervalul de vârstă afișat. */
-  group: string | null;
+  /**
+   * Grupa — sau grupele, la o oră comună — exact ca `name` din AGE_GROUPS: de acolo se ia
+   * intervalul de vârstă afișat. La o oră comună orarul arată doar numele, nu și vârstele:
+   * două intervale lipite („20–25 ani · 25+ ani") nu spun nimic în plus.
+   */
+  group: string | string[] | null;
   /** Stilul, exact ca `name` din STYLES. */
   style: string;
   instructor: string;
@@ -162,7 +184,15 @@ export const SCHEDULE: Record<string, Record<string, ScheduleSlot[]>> = {
       { time: "18:30", group: "Tiny", style: "Street Dance", instructor: "Ana" },
       { time: "19:30", group: null, style: "KPOP Dance", instructor: "Ana" },
     ],
-    vin: [{ time: "18:30", group: "Varsity", style: "Street Dance", instructor: "Mara" }],
+    vin: [
+      { time: "18:30", group: "Varsity", style: "Street Dance", instructor: "Mara" },
+      {
+        time: "19:30",
+        group: ["Studenți", "Adulți"],
+        style: "MTV Comercial",
+        instructor: "Mara",
+      },
+    ],
   },
 };
 
@@ -212,6 +242,15 @@ export const STYLES = [
     blurb:
       "Stând în mâini, roata, salturi și flick-uri, învățate în siguranță, cu antrenori licențiați FEFS.",
     ages: "7 – 19 ani",
+    onlyAt: "nicolina",
+  },
+  {
+    key: "mtv",
+    value: "MTV Comercial",
+    name: "MTV Comercial",
+    blurb:
+      "Coregrafii pe hiturile din clipuri, pentru studenți și adulți. Se dansează de plăcere, nu pentru concurs.",
+    ages: "20+ ani",
     onlyAt: "nicolina",
   },
 ] as const;
