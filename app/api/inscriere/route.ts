@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { normalizePhoneRO, isValidEmail } from '@/lib/validation'
 import { sendEmail } from '@/lib/email'
 import { inscriereConfirmationEmail } from '@/lib/email-templates'
+import { metaCapiEnabled, readCookie, sendLeadToMeta } from '@/lib/meta-capi'
 
 // Endpoint-ul public al CRM-ului Quasar Dance (Qapp).
 const CRM_ENDPOINT =
@@ -64,7 +65,14 @@ type Body = {
   utm_medium?: string
   utm_campaign?: string
   company?: string // honeypot
+  /** ID-ul cu care browserul a trimis Lead la Meta Pixel; îl refolosim la CAPI pentru deduplicare. */
+  event_id?: string
+  /** `true` doar dacă persoana a acceptat cookie-urile de marketing. Fără el nu trimitem nimic la Meta. */
+  marketing_consent?: boolean
 }
+
+/** Formatul acceptat pentru event_id: UUID sau ce produce `newEventId()` din lib/track.ts. */
+const EVENT_ID_RE = /^[A-Za-z0-9-]{8,64}$/
 
 export async function POST(req: Request) {
   let body: Body = {}
@@ -146,6 +154,26 @@ export async function POST(req: Request) {
     )
   }
 
+  // Meta Conversions API, în paralel cu emailul. Doar cu consimțământ de marketing și
+  // doar dacă tokenul e setat (vezi lib/meta-capi.ts). Un eșec aici nu afectează
+  // răspunsul — lead-ul e deja în CRM — dar apare în `metaSent` și în log.
+  const eventId = body.event_id && EVENT_ID_RE.test(body.event_id) ? body.event_id : crypto.randomUUID()
+  const metaPromise =
+    metaCapiEnabled && body.marketing_consent === true
+      ? sendLeadToMeta({
+          eventId,
+          phone: telefon,
+          email,
+          fullName: nume,
+          clientIp: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip'),
+          userAgent: req.headers.get('user-agent'),
+          fbp: readCookie(req.headers.get('cookie'), '_fbp'),
+          fbc: readCookie(req.headers.get('cookie'), '_fbc'),
+          sourceUrl: req.headers.get('referer'),
+          contentName: campanie === DEFAULT_CAMPAIGN ? 'homepage' : campanie,
+        })
+      : null
+
   // Confirmare branded prin theMarketer. Best-effort: un email picat nu pierde lead-ul,
   // care e deja în CRM. Dar nu îl înghițim tăcut — `emailSent: false` în răspuns și o
   // linie de log distinctă, ca eșecul să fie vizibil fără să sape cineva prin Vercel.
@@ -169,9 +197,17 @@ export async function POST(req: Request) {
     }
   }
 
+  let metaSent: boolean | null = null
+  if (metaPromise) {
+    const meta = await metaPromise
+    metaSent = meta.ok
+    if (!meta.ok) console.error(`[inscriere] META CAPI EȘUAT — lead ${crmData.leadId ?? '(fără id)'}:`, meta.reason)
+  }
+
   return NextResponse.json({
     created: crmData.created ?? true,
     leadId: crmData.leadId,
     emailSent,
+    metaSent,
   })
 }

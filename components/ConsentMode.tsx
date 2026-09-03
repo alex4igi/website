@@ -7,6 +7,10 @@ import Script from 'next/script'
 // Actualizarea pe `granted` o face componenta CookieConsent prin gtag('consent','update').
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID
+// Conversia Google Ads („AW-XXXXXXXXX/eticheta") merge prin același gtag.js, dar gtag
+// ignoră `event: conversion` dacă nu are contul AW configurat — de aici `config` mai jos.
+const ADS_ID = (process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION || '').split('/')[0]
+const GTAG_ID = GA_ID || ADS_ID
 
 export default function ConsentMode() {
   return (
@@ -32,17 +36,18 @@ export default function ConsentMode() {
         `}
       </Script>
 
-      {GA_ID ? (
+      {GTAG_ID ? (
         <>
           <Script
             id="ga-src"
             strategy="afterInteractive"
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${GTAG_ID}`}
           />
           <Script id="ga-init" strategy="afterInteractive">
             {`
               gtag('js', new Date());
-              gtag('config', '${GA_ID}');
+              ${GA_ID ? `gtag('config', '${GA_ID}');` : ''}
+              ${ADS_ID ? `gtag('config', '${ADS_ID}');` : ''}
             `}
           </Script>
         </>

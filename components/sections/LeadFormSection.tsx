@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { newEventId, trackLead } from '@/lib/track'
+import { loadConsent } from '@/lib/consent'
 import { CheckCircle } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import { normalizePhoneRO } from '@/lib/validation'
@@ -52,10 +54,15 @@ export default function LeadFormSection() {
       const params =
         typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
 
+      // Același ID pleacă la Meta din browser (mai jos) și de pe server (CAPI), ca lead-ul
+      // să fie numărat o singură dată.
+      const eventId = newEventId()
       const res = await fetch('/api/inscriere', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          event_id: eventId,
+          marketing_consent: loadConsent()?.categories.marketing ?? false,
           nume: form.name.trim(),
           telefon: phone,
           email: form.email.trim() || null,
@@ -74,6 +81,20 @@ export default function LeadFormSection() {
       if (res.ok) {
         // created: true (lead nou) sau false (telefon deja existent) — ambele OK.
         setSubmitted(true)
+        // `reason: 'ignored'` = honeypot-ul a prins un bot; API-ul răspunde 200 ca botul
+        // să nu afle, dar nu e un lead și nu-l trimitem la Meta/GA4.
+        if (data?.reason !== 'ignored') {
+          trackLead({
+            source: 'homepage',
+            lead_new: data?.created !== false,
+            interes: form.interest || null,
+            grupa_varsta: form.ageGroup || null,
+            locatia: form.location || null,
+            utm_source: params?.get('utm_source') || null,
+            utm_medium: params?.get('utm_medium') || null,
+            utm_campaign: params?.get('utm_campaign') || null,
+          }, eventId)
+        }
       } else {
         setError(data?.error || 'A apărut o eroare. Te rugăm să încerci din nou.')
       }

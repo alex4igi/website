@@ -56,6 +56,9 @@ La descărcare apar literal ca `[SENSITIVE]`.
 | `EMAIL_REPLY_TO` | sensitive | nu |
 | `CONTACT_INBOX` | sensitive | nu |
 | `DATABASE_PGPASSWORD`, `DATABASE_POSTGRES_*` | sensitive | nu |
+| `META_CAPI_ACCESS_TOKEN` | sensitive | nu |
+| `META_CAPI_TEST_EVENT_CODE` | plain, temporar | da |
+| `NEXT_PUBLIC_GOOGLE_ADS_CONVERSION` | plain | da |
 
 Variabilele `DATABASE_*` cu prefix sunt generate de integrarea Neon și conțin
 aceleași credențiale ca `DATABASE_URL`, în alte formate. Dacă ai nevoie de o
@@ -211,8 +214,55 @@ complet SPF-ul.
 
 - Google Analytics 4: `G-XJ1LVQKJS0` (din variabila `NEXT_PUBLIC_GA_ID`)
 - Google Tag Manager: `GTM-NCPGG3N7` (în cod)
+- Meta Pixel: `318398430675684` (în cod, `components/MetaPixel.tsx`)
 
-Ambele se încarcă prin Consent Mode — vezi `lib/consent.ts`.
+Toate se încarcă prin Consent Mode — vezi `lib/consent.ts`.
+
+### Evenimente
+
+Toate evenimentele de marketing pleacă din `lib/track.ts`, simultan în dataLayer
+(GTM), GA4 și Meta Pixel — echivalentul PixelYourSite de pe vechiul WordPress.
+
+| Eveniment | Când | dataLayer / GA4 | Meta |
+|---|---|---|---|
+| Lead | formular trimis (homepage, LP) | `lead` / `generate_lead` | `Lead` |
+| Contact | click pe `tel:`, `mailto:`, `wa.me` (oriunde) | `contact_click` | `Contact` |
+| PageView | fiecare pagină, inclusiv navigare internă | automat (GA4 Enhanced Measurement) | automat (`fbevents.js` urmărește `pushState`) |
+| Promo | pop-up / linkuri campanie | `btds_promo_*` | — |
+
+`Contact` e automat (`components/SiteTracking.tsx`); `Lead` se cheamă explicit din
+formulare. **Nu adăuga PageView manual la navigare** — Meta îl trimite singur și s-ar
+dubla (verificat pe producție, 3 sept 2026).
+
+Atenție la consimțământ: `fbevents.js` golește coada stub-ului doar cât timp
+consimțământul nu e revocat. Din 3 sept 2026 `MetaPixel.tsx` citește consimțământul
+salvat sincron și nu mai revocă pentru cine a acceptat deja, iar `applyConsent()`
+repetă `grant`-ul după ce se încarcă biblioteca. Înainte, vizitatorii care reveneau
+cu consimțământ salvat nu trimiteau nimic la Meta.
+
+### Google Ads
+
+Conversia de lead se trimite când e setată `NEXT_PUBLIC_GOOGLE_ADS_CONVERSION`, în
+formatul `AW-XXXXXXXXX/AbC-D_efG` (Ads › Goals › Conversions › acțiunea de lead ›
+Tag setup › Use Google tag: conversion ID + conversion label). Din ea se derivă și
+contul `AW-…` pe care `ConsentMode.tsx` îl configurează în gtag. Goală = Ads nu
+primește nimic; GA4 și Meta merg oricum. Cere republicare (variabilă `NEXT_PUBLIC_`).
+
+### Meta Conversions API
+
+`app/api/inscriere/route.ts` trimite `Lead` și de pe server (`lib/meta-capi.ts`),
+ca să nu pierdem lead-urile blocate de adblockere/iOS în browser. Se activează
+setând `META_CAPI_ACCESS_TOKEN` (Events Manager › Data sources › pixelul › Settings
+› Conversions API › Generate access token). Fără token, codul e inert.
+
+- Datele personale pleacă hash-uite SHA-256; IP și user-agent în clar (așa cere Meta).
+- Se trimite **doar** dacă persoana a acceptat cookie-urile de marketing
+  (`marketing_consent` în corpul cererii, calculat din `lib/consent.ts`).
+- Browserul și serverul folosesc același `event_id`, deci Meta numără o singură dată.
+- Pentru verificare: `META_CAPI_TEST_EVENT_CODE` cu codul din Events Manager › Test
+  events; evenimentele apar acolo live. **Se șterge după**, altfel nu intră în rapoarte.
+- Un eșec CAPI nu afectează formularul: lead-ul e deja în CRM. Apare ca
+  `metaSent: false` în răspuns și `[inscriere] META CAPI EȘUAT` în logul Vercel.
 
 ---
 

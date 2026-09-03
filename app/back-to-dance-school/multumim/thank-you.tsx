@@ -78,6 +78,8 @@ type LeadFlag = {
   ts?: number;
   /** Marcat după ce evenimentele s-au trimis, ca un refresh să nu numere conversia a doua oară. */
   fired?: boolean;
+  /** ID-ul trimis și serverului; Meta deduplică Lead-ul din browser cu cel din CAPI după el. */
+  event_id?: string;
   grupa_varsta?: string;
   locatia?: string;
   utm_source?: string;
@@ -140,7 +142,8 @@ export default function ThankYou() {
     if (GOOGLE_ADS_CONVERSION) {
       window.gtag?.("event", "conversion", { send_to: GOOGLE_ADS_CONVERSION });
     }
-    window.fbq?.("track", "Lead", { content_name: CAMPAIGN_ID });
+    if (lead.event_id) window.fbq?.("track", "Lead", { content_name: CAMPAIGN_ID }, { eventID: lead.event_id });
+    else window.fbq?.("track", "Lead", { content_name: CAMPAIGN_ID });
     window.dataLayer?.push({ event: "btds_lead", ...payload });
   }, []);
 

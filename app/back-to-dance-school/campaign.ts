@@ -22,10 +22,11 @@ export const SITE_URL = "https://www.quasardance.ro";
 export const LEAD_ENDPOINT = "/api/inscriere";
 
 /**
- * ID-ul de conversie Google Ads, format "AW-XXXXXXXXX/AbC-D_efG".
- * Lăsat gol => evenimentul Google Ads nu se declanșează (GA4 și Meta merg oricum).
+ * ID-ul de conversie Google Ads, format "AW-XXXXXXXXX/AbC-D_efG". Vine din variabila
+ * NEXT_PUBLIC_GOOGLE_ADS_CONVERSION (Vercel), aceeași pe care o folosește și formularul de
+ * pe homepage — vezi lib/track.ts. Goală => Ads nu primește nimic (GA4 și Meta merg oricum).
  */
-export const GOOGLE_ADS_CONVERSION = "";
+export { GOOGLE_ADS_CONVERSION } from "@/lib/track";
 
 /** Cheia sub care marcăm un lead trimis, ca pagina de mulțumire să numere doar conversiile reale. */
 export const LEAD_FLAG_KEY = "qd_btds_lead";

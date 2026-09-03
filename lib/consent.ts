@@ -18,7 +18,8 @@ export const CONSENT_VERSION = 1
 // Re-întrebăm utilizatorul după 6 luni (recomandarea CNIL/EU).
 export const CONSENT_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 30 * 6
 
-const STORAGE_KEY = 'qd-cookie-consent'
+// Exportată pentru MetaPixel.tsx, care citește consimțământul sincron, înainte de init.
+export const STORAGE_KEY = 'qd-cookie-consent'
 
 // Eveniment custom prin care footer-ul (sau orice link) redeschide setările.
 export const OPEN_SETTINGS_EVENT = 'qd:open-cookie-settings'
@@ -108,7 +109,31 @@ export function applyConsent(categories: ConsentCategories) {
   // Meta Pixel — categoria „marketing” controlează tracking-ul (grant/revoke).
   if (typeof w.fbq === 'function') {
     w.fbq('consent', categories.marketing ? 'grant' : 'revoke')
+    if (categories.marketing) regrantMetaAfterLoad()
   }
   w.dataLayer = w.dataLayer || []
   w.dataLayer.push({ event: 'cookie_consent_update', consent: categories })
+}
+
+/**
+ * Ocolește un blocaj din fbevents.js: biblioteca golește coada stub-ului doar cât timp
+ * consimțământul nu e revocat. Dacă `grant` a intrat în coadă ÎNAINTE să se încarce
+ * biblioteca (vizitator care apasă „Accept” foarte repede), rămâne după `revoke` și nu e
+ * procesat niciodată — pixelul nu se mai inițializează deloc. Un `grant` dat DUPĂ ce
+ * biblioteca e încărcată (când `fbq.callMethod` există) deblochează coada. Deci, dacă
+ * biblioteca nu e încă aici, repetăm grant-ul când apare.
+ */
+function regrantMetaAfterLoad() {
+  const w = window as unknown as { fbq?: { (...args: unknown[]): void; callMethod?: unknown } }
+  if (w.fbq?.callMethod) return
+  let attempts = 0
+  const timer = window.setInterval(() => {
+    attempts += 1
+    if (w.fbq?.callMethod) {
+      window.clearInterval(timer)
+      w.fbq('consent', 'grant')
+    } else if (attempts >= 60) {
+      window.clearInterval(timer) // 15 s: biblioteca e blocată (adblocker) — nu mai insistăm
+    }
+  }, 250)
 }

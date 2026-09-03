@@ -8,6 +8,7 @@ import GoogleTagManager, { GTMNoScript } from '@/components/GoogleTagManager'
 import MetaPixel from '@/components/MetaPixel'
 import CookieConsent from '@/components/CookieConsent'
 import CampaignPopup from '@/components/CampaignPopup'
+import SiteTracking from '@/components/SiteTracking'
 import './globals.css'
 
 const sora = Sora({
@@ -72,6 +73,8 @@ export default function RootLayout({
         <CookieConsent />
         {/* Se deschide singur doar în fereastra din lib/campaign-promo.ts. */}
         <CampaignPopup />
+        {/* Click pe telefon/WhatsApp/email, oriunde în site. */}
+        <SiteTracking />
         <Analytics />
         {/* Core Web Vitals măsurate la vizitatorii reali (RUM), nu în laborator. */}
         <SpeedInsights />

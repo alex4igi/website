@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { newEventId } from "@/lib/track";
+import { loadConsent } from "@/lib/consent";
 import {
   ArrowRight,
   Calendar,
@@ -177,10 +179,14 @@ export default function BackToDanceSchoolLanding() {
         form.marketingOptIn ? "Acceptă comunicări viitoare (nu doar despre ZPD)." : null,
       ].filter(Boolean);
       const interestNote = notes.length ? notes.join(" ") : null;
+      // Același ID îl primește Meta din browser (pagina de mulțumire) și de pe server (CAPI).
+      const eventId = newEventId();
       const response = await fetch(LEAD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          event_id: eventId,
+          marketing_consent: loadConsent()?.categories.marketing ?? false,
           nume: form.name.trim(),
           telefon: phone,
           email: form.email.trim() || null,
@@ -205,6 +211,7 @@ export default function BackToDanceSchoolLanding() {
           LEAD_FLAG_KEY,
           JSON.stringify({
             ts: Date.now(),
+            event_id: eventId,
             grupa_varsta: form.ageGroup,
             locatia: form.location || ANY_LOCATION_VALUE,
             interes: form.interests.join(INTEREST_SEPARATOR) || null,
