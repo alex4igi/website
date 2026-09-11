@@ -36,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
     .filter((v) => v > 0)
   const minMonthly = monthlyPrices.length ? Math.min(...monthlyPrices) : 0
   const title = `Prețuri & Calendar — Cursuri Dans | Quasar Dance Iași`
-  const description = `Calendar academic și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică acrobatică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună, taxă rezervare ${pricing.reservationFee} lei.`
+  const description = `Calendar academic și prețuri pentru cursurile Quasar Dance din Iași: Street Dance, KPOP Dance, Gimnastică acrobatică și Zumba. Tarife de la ${minMonthly.toLocaleString('ro-RO')} lei/lună${pricing.reservationFee > 0 ? `, taxă rezervare ${pricing.reservationFee} lei` : ''}.`
 
   return {
     title,
@@ -103,9 +103,11 @@ export default async function ProgramSiPreturiPage() {
               <InfoPill icon={Sparkles}>
                 Preț lunar transparent
               </InfoPill>
-              <InfoPill icon={ShieldCheck}>
-                Taxă rezervare: <strong>{pricing.reservationFee} lei</strong>
-              </InfoPill>
+              {pricing.reservationFee > 0 && (
+                <InfoPill icon={ShieldCheck}>
+                  Taxă rezervare: <strong>{pricing.reservationFee} lei</strong>
+                </InfoPill>
+              )}
             </div>
 
             {/* Anchor jump */}
@@ -167,7 +169,10 @@ export default async function ProgramSiPreturiPage() {
               {
                 num: '02',
                 title: 'Rezervi loc',
-                desc: `Plătești taxa de rezervare de ${pricing.reservationFee} lei și locul tău în grupă e blocat.`,
+                desc:
+                  pricing.reservationFee > 0
+                    ? `Plătești taxa de rezervare de ${pricing.reservationFee} lei și locul tău în grupă e blocat.`
+                    : 'Completezi formularul și te contactăm în 24 de ore ca să stabilim prima ședință și grupa potrivită.',
               },
               {
                 num: '03',

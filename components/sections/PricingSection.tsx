@@ -19,6 +19,11 @@ function formatPrice(lei: number) {
 export default async function PricingSection() {
   const data = await fetchPricing()
   const sortedPlans = [...data.plans].sort((a, b) => a.displayOrder - b.displayOrder)
+  // Rândurile vechi din baza de date n-au câmpul `notes`.
+  const notes = (data.notes ?? '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
 
   return (
     <section id="preturi" className="bg-white py-20 md:py-28">
@@ -33,8 +38,13 @@ export default async function PricingSection() {
             Oferta educațională
           </h2>
           <p className="text-[#6b6b6b] mt-4 max-w-2xl">
-            Prețuri transparente, ca să compari ușor. Taxă rezervare loc în grupă:{' '}
-            <strong className="text-[#231f20]">{formatPrice(data.reservationFee)} lei</strong>.
+            Prețuri transparente, ca să compari ușor.
+            {data.reservationFee > 0 && (
+              <>
+                {' '}Taxă rezervare loc în grupă:{' '}
+                <strong className="text-[#231f20]">{formatPrice(data.reservationFee)} lei</strong>.
+              </>
+            )}
           </p>
         </div>
 
@@ -101,6 +111,26 @@ export default async function PricingSection() {
         {sortedPlans.length === 0 && (
           <div className="text-center py-12 text-[#6b6b6b]">
             Planurile vor fi disponibile în curând.
+          </div>
+        )}
+
+        {/* Reduceri — text scris de admin, câte o regulă pe rând */}
+        {notes.length > 0 && (
+          <div className="mt-8 rounded-2xl bg-[#f5f5f5] p-6 md:p-8">
+            <h3
+              className="text-[#231f20] text-xl font-extrabold mb-4"
+              style={{ fontFamily: 'var(--font-display)' }}
+            >
+              Reduceri
+            </h3>
+            <ul className="flex flex-col gap-2.5">
+              {notes.map((line, i) => (
+                <li key={i} className="flex gap-3 text-sm text-[#231f20] leading-relaxed">
+                  <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#231f20] flex-shrink-0" aria-hidden="true" />
+                  <span>{line}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>

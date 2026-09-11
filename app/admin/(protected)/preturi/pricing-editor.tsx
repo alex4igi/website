@@ -164,7 +164,23 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
               onChange={(e) => update({ reservationFee: Number(e.target.value) || 0 })}
               className="admin-input"
             />
+            <span className="text-[11px] text-[#6b6b6b]">
+              0 = taxa nu apare pe site.
+            </span>
           </Field>
+          <div className="md:col-span-2">
+            <Field label="Reduceri (câte una pe rând)">
+              <textarea
+                rows={4}
+                value={data.notes ?? ''}
+                onChange={(e) => update({ notes: e.target.value })}
+                className="admin-input"
+              />
+              <span className="text-[11px] text-[#6b6b6b]">
+                Apar sub carduri, în blocul „Reduceri”. Gol = blocul nu apare.
+              </span>
+            </Field>
+          </div>
         </div>
       </section>
 

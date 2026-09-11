@@ -33,7 +33,10 @@ export const pricingDataSchema = z.object({
   // Anul școlar nu se mai afișează public — păstrat opțional pentru compat.
   academicYearLabel: z.string().default(''),
   earlyBirdDeadline: z.string(),
+  // 0 = taxa nu se afișează nicăieri pe site.
   reservationFee: z.number().int().nonnegative(),
+  // Blocul „Reduceri” de sub carduri, câte o regulă pe rând. Gol = blocul nu apare.
+  notes: z.string().default(''),
   plans: z.array(pricingPlanSchema),
 })
 

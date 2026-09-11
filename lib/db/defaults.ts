@@ -10,6 +10,7 @@ export const defaultPricingData: PricingData = {
   academicYearLabel: 'sept 2026 – iunie 2027',
   earlyBirdDeadline: '2026-06-01',
   reservationFee: 50,
+  notes: '',
   plans: [
     {
       id: 'tiny-junior-35',
