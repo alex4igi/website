@@ -114,14 +114,14 @@ export default async function PricingSection() {
           </div>
         )}
 
-        {/* Reduceri — text scris de admin, câte o regulă pe rând */}
+        {/* Bine de știut — regulile abonamentelor, scrise de admin câte una pe rând */}
         {notes.length > 0 && (
           <div className="mt-8 rounded-2xl bg-[#f5f5f5] p-6 md:p-8">
             <h3
               className="text-[#231f20] text-xl font-extrabold mb-4"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              Reduceri
+              Bine de știut
             </h3>
             <ul className="flex flex-col gap-2.5">
               {notes.map((line, i) => (

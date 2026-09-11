@@ -169,7 +169,7 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
             </span>
           </Field>
           <div className="md:col-span-2">
-            <Field label="Reduceri (câte una pe rând)">
+            <Field label="Bine de știut (câte o regulă pe rând)">
               <textarea
                 rows={4}
                 value={data.notes ?? ''}
@@ -177,7 +177,7 @@ export default function PricingEditor({ initialData }: { initialData: PricingDat
                 className="admin-input"
               />
               <span className="text-[11px] text-[#6b6b6b]">
-                Apar sub carduri, în blocul „Reduceri”. Gol = blocul nu apare.
+                Apar sub carduri, în blocul „Bine de știut”. Gol = blocul nu apare.
               </span>
             </Field>
           </div>
