@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ChevronDown, Sparkles, UserRound } from 'lucide-react'
 import { MEMBER_PORTAL_URL, MEMBER_PORTAL_LABEL } from '@/lib/portal'
@@ -31,6 +31,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -43,6 +44,12 @@ export default function Navbar() {
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  // Panoul rămâne montat și când e închis, deci ține minte unde fusese derulat. Fără
+  // resetare, cine a coborât până la „Contul meu" redeschide meniul direct la subsol.
+  useEffect(() => {
+    if (open) panelRef.current?.scrollTo({ top: 0 })
   }, [open])
 
   return (
@@ -163,37 +170,52 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Animated hamburger button */}
-          <button
-            className="md:hidden relative z-[60] flex flex-col justify-center items-center w-10 h-10 gap-0 -mr-1"
-            onClick={() => setOpen(!open)}
-            aria-label={open ? 'Închide meniu' : 'Deschide meniu'}
-            aria-expanded={open}
-          >
-            <span
-              className="block h-[2px] bg-[#f8ef21] rounded-full origin-center transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              style={{
-                width: open ? '24px' : '24px',
-                transform: open ? 'translateY(7px) rotate(45deg)' : 'translateY(-5px)',
-              }}
-            />
-            <span
-              className="block h-[2px] bg-white rounded-full transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              style={{
-                width: open ? '0px' : '18px',
-                marginLeft: open ? '0' : '-3px',
-                opacity: open ? 0 : 1,
-              }}
-            />
-            <span
-              className="block h-[2px] bg-[#f8ef21] rounded-full origin-center transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
-              style={{
-                width: open ? '24px' : '14px',
-                marginLeft: open ? '0' : '-5px',
-                transform: open ? 'translateY(-5px) rotate(-45deg)' : 'translateY(5px)',
-              }}
-            />
-          </button>
+          {/* Bara de pe mobil: contul, apoi hamburgerul. „Contul meu" stă afară din
+              meniu pentru că membrii care intră doar ca să-și plătească abonamentul nu
+              au de ce să-l mai deschidă. Cât e meniul deschis iconița rămâne sub
+              overlay (z-55), deci dispare — acolo preia linkul din lista de jos. */}
+          <div className="md:hidden relative z-[60] flex items-center gap-0.5">
+            <a
+              href={MEMBER_PORTAL_URL}
+              className="flex items-center justify-center w-10 h-10 text-white/70 hover:text-[#f8ef21] transition-colors duration-200"
+              aria-label={MEMBER_PORTAL_LABEL}
+              title={MEMBER_PORTAL_LABEL}
+            >
+              <UserRound size={20} aria-hidden="true" />
+            </a>
+
+            {/* Animated hamburger button */}
+            <button
+              className="flex flex-col justify-center items-center w-10 h-10 gap-0 -mr-1"
+              onClick={() => setOpen(!open)}
+              aria-label={open ? 'Închide meniu' : 'Deschide meniu'}
+              aria-expanded={open}
+            >
+              <span
+                className="block h-[2px] bg-[#f8ef21] rounded-full origin-center transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{
+                  width: open ? '24px' : '24px',
+                  transform: open ? 'translateY(7px) rotate(45deg)' : 'translateY(-5px)',
+                }}
+              />
+              <span
+                className="block h-[2px] bg-white rounded-full transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{
+                  width: open ? '0px' : '18px',
+                  marginLeft: open ? '0' : '-3px',
+                  opacity: open ? 0 : 1,
+                }}
+              />
+              <span
+                className="block h-[2px] bg-[#f8ef21] rounded-full origin-center transition-all duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                style={{
+                  width: open ? '24px' : '14px',
+                  marginLeft: open ? '0' : '-5px',
+                  transform: open ? 'translateY(-5px) rotate(-45deg)' : 'translateY(5px)',
+                }}
+              />
+            </button>
+          </div>
         </nav>
       </header>
 
@@ -226,42 +248,46 @@ export default function Navbar() {
           }}
         />
 
-        {/* Nav content */}
+        {/* Close button */}
+        <button
+          className="absolute top-4 right-6 z-[60] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#f8ef21] transition-all duration-200 group"
+          onClick={() => setOpen(false)}
+          aria-label="Închide meniu"
+          style={{
+            opacity: open ? 1 : 0,
+            transform: open ? 'scale(1)' : 'scale(0.8)',
+            transition: 'opacity 0.3s ease 0.3s, transform 0.3s ease 0.3s',
+          }}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            className="text-white group-hover:text-[#231f20] transition-colors duration-200"
+          >
+            <path
+              d="M15 5L5 15M5 5L15 15"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        {/* Nav content — panoul derulează pe telefoanele scunde. Meniul cere ~670px;
+            sub atât, fără scroll, se pierdeau tăiate sub marginea de jos exact
+            CTA-urile: „Înscrie-te acum" și „Contul meu". */}
         <div
-          className="absolute inset-0 flex flex-col justify-between px-7 pt-28 pb-10"
+          ref={panelRef}
+          className="absolute inset-0 flex flex-col justify-between gap-3 overflow-y-auto overscroll-contain px-7 pt-16"
           style={{
             opacity: open ? 1 : 0,
             transition: 'opacity 0.3s ease 0.2s',
+            paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
           }}
         >
-          {/* Close button */}
-          <button
-            className="absolute top-6 right-6 z-[60] w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#f8ef21] transition-all duration-200 group"
-            onClick={() => setOpen(false)}
-            aria-label="Închide meniu"
-            style={{
-              opacity: open ? 1 : 0,
-              transform: open ? 'scale(1)' : 'scale(0.8)',
-              transition: 'opacity 0.3s ease 0.3s, transform 0.3s ease 0.3s',
-            }}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="text-white group-hover:text-[#231f20] transition-colors duration-200"
-            >
-              <path
-                d="M15 5L5 15M5 5L15 15"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-
           {/* Nav items */}
           <ul className="flex flex-col gap-1">
             {navLinks.map((link, i) => (
@@ -275,7 +301,7 @@ export default function Navbar() {
               >
                 <Link
                   href={link.href}
-                  className={`group flex items-baseline gap-4 py-4 hover:border-[#f8ef21]/40 transition-colors duration-200 ${link.children ? '' : 'border-b border-white/10'}`}
+                  className={`group flex items-baseline gap-4 py-2.5 hover:border-[#f8ef21]/40 transition-colors duration-200 ${link.children ? '' : 'border-b border-white/10'}`}
                   style={{ fontFamily: 'var(--font-display)' }}
                   onClick={() => setOpen(false)}
                 >
@@ -289,13 +315,13 @@ export default function Navbar() {
 
                 {/* Sub-links (Cursuri) */}
                 {link.children && (
-                  <div className="flex flex-col pl-9 pb-3 border-b border-white/10">
+                  <div className="flex flex-col pl-9 pb-2 border-b border-white/10">
                     {link.children.map((c) => (
                       <Link
                         key={c.href + c.label}
                         href={c.href}
                         onClick={() => setOpen(false)}
-                        className="text-white/55 hover:text-[#f8ef21] text-base font-semibold py-1.5 transition-colors duration-200"
+                        className="text-white/55 hover:text-[#f8ef21] text-base font-semibold py-1 transition-colors duration-200"
                         style={{ fontFamily: 'var(--font-display)' }}
                       >
                         {c.label}
@@ -309,7 +335,7 @@ export default function Navbar() {
 
           {/* Bottom CTAs */}
           <div
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-2.5 shrink-0"
             style={{
               transform: open ? 'translateY(0)' : 'translateY(24px)',
               opacity: open ? 1 : 0,
@@ -319,7 +345,7 @@ export default function Navbar() {
             {promo && (
               <Link
                 href={promoHref('meniu')}
-                className="flex items-center justify-center gap-2 text-center border border-[#f8ef21]/40 bg-[#f8ef21]/10 text-[#f8ef21] text-sm font-bold py-3.5 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-colors duration-200"
+                className="flex items-center justify-center gap-2 text-center border border-[#f8ef21]/40 bg-[#f8ef21]/10 text-[#f8ef21] text-sm font-bold py-3 rounded-full hover:bg-[#f8ef21] hover:text-[#231f20] transition-colors duration-200"
                 style={{ fontFamily: 'var(--font-display)' }}
                 onClick={() => {
                   trackPromo('btds_promo_click', 'meniu')
@@ -332,7 +358,7 @@ export default function Navbar() {
             )}
             <Link
               href="/quiz"
-              className="block text-center border border-white/20 text-white text-sm font-bold py-3.5 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-colors duration-200"
+              className="block text-center border border-white/20 text-white text-sm font-bold py-3 rounded-full hover:border-[#f8ef21] hover:text-[#f8ef21] transition-colors duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
               onClick={() => setOpen(false)}
             >
@@ -340,7 +366,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/#inscriere"
-              className="block text-center bg-[#f8ef21] text-[#231f20] text-sm font-black py-3.5 rounded-full hover:bg-white transition-colors duration-200"
+              className="block text-center bg-[#f8ef21] text-[#231f20] text-sm font-black py-3 rounded-full hover:bg-white transition-colors duration-200"
               style={{ fontFamily: 'var(--font-display)' }}
               onClick={() => setOpen(false)}
             >
