@@ -4,7 +4,9 @@ import { sendEmail } from '@/lib/email'
 import { inscriereConfirmationEmail } from '@/lib/email-templates'
 import { metaCapiEnabled, readCookie, sendLeadToMeta } from '@/lib/meta-capi'
 
-// Endpoint-ul public al CRM-ului Quasar Dance (Qapp).
+// Endpoint-ul CRM-ului Quasar Dance (Qapp). NU mai e public: acceptă doar apeluri
+// server-server, cu secretul de mai jos. Dacă `INTAKE_SECRET` lipsește, apelul pleacă
+// fără header și va fi refuzat cu 403 de îndată ce CRM-ul pune obligativitatea.
 const CRM_ENDPOINT =
   'https://cbftxkwvoboqahzsldcp.supabase.co/functions/v1/intake-website-lead'
 
@@ -83,8 +85,9 @@ export async function POST(req: Request) {
   }
 
   // Anti-spam: honeypot completat → ne prefacem că am reușit, fără să facem nimic.
+  // Răspunsul e IDENTIC cu cel de succes; orice diferență i-ar spune botului că e prins.
   if (body.company) {
-    return NextResponse.json({ created: false, reason: 'ignored' })
+    return NextResponse.json({ ok: true })
   }
 
   const nume = (body.nume || '').trim()
@@ -114,6 +117,9 @@ export async function POST(req: Request) {
   const campanie =
     campanieCeruta && ALLOWED_CAMPAIGNS.includes(campanieCeruta) ? campanieCeruta : DEFAULT_CAMPAIGN
 
+  const clientIp =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip')
+
   const emailInput = body.email?.trim()
   const email = emailInput && isValidEmail(emailInput) ? emailInput : null
 
@@ -124,7 +130,13 @@ export async function POST(req: Request) {
   try {
     const crmRes = await fetch(CRM_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.INTAKE_SECRET ? { 'x-intake-secret': process.env.INTAKE_SECRET } : {}),
+        // IP-ul vizitatorului, nu al serverului: CRM-ul îl folosește ca cheie de plafonare
+        // și îl crede DOAR pentru că apelul vine cu secretul de mai sus.
+        ...(clientIp ? { 'x-client-ip': clientIp } : {}),
+      },
       body: JSON.stringify({
         nume,
         telefon,
@@ -142,10 +154,14 @@ export async function POST(req: Request) {
     crmData = await crmRes.json().catch(() => ({}))
 
     if (!crmRes.ok) {
-      return NextResponse.json(
-        { error: crmData && 'error' in crmData ? (crmData as { error: string }).error : 'Nu am putut trimite cererea.' },
-        { status: crmRes.status },
-      )
+      // Mesajele de validare (400) sunt despre ce a scris omul în formular și îl ajută.
+      // Orice altceva (403/5xx) e despre noi — omul primește un text generic.
+      const detaliu =
+        crmRes.status === 400 && crmData && 'error' in crmData
+          ? (crmData as { error: string }).error
+          : 'Nu am putut trimite cererea.'
+      if (crmRes.status !== 400) console.error(`[inscriere] CRM ${crmRes.status}:`, crmData)
+      return NextResponse.json({ error: detaliu }, { status: crmRes.status === 400 ? 400 : 502 })
     }
   } catch {
     return NextResponse.json(
@@ -165,12 +181,13 @@ export async function POST(req: Request) {
           phone: telefon,
           email,
           fullName: nume,
-          clientIp: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip'),
+          clientIp,
           userAgent: req.headers.get('user-agent'),
           fbp: readCookie(req.headers.get('cookie'), '_fbp'),
           fbc: readCookie(req.headers.get('cookie'), '_fbc'),
           sourceUrl: req.headers.get('referer'),
           contentName: campanie === DEFAULT_CAMPAIGN ? 'homepage' : campanie,
+          leadNew: crmData.created ?? true,
         })
       : null
 
@@ -204,10 +221,10 @@ export async function POST(req: Request) {
     if (!meta.ok) console.error(`[inscriere] META CAPI EȘUAT — lead ${crmData.leadId ?? '(fără id)'}:`, meta.reason)
   }
 
-  return NextResponse.json({
-    created: crmData.created ?? true,
-    leadId: crmData.leadId,
-    emailSent,
-    metaSent,
-  })
+  // Răspuns neutru: `created`/`leadId` ar fi spus oricui dacă un telefon e deja în CRM.
+  // Ce era nevoie de ele (evenimentul `lead_new`) se trimite acum de pe server, prin CAPI.
+  if (emailSent === false || metaSent === false) {
+    console.warn(`[inscriere] lead ${crmData.leadId ?? '(fără id)'}: email=${emailSent} meta=${metaSent}`)
+  }
+  return NextResponse.json({ ok: true })
 }

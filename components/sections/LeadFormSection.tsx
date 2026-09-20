@@ -79,22 +79,20 @@ export default function LeadFormSection() {
       const data = await res.json().catch(() => ({}))
 
       if (res.ok) {
-        // created: true (lead nou) sau false (telefon deja existent) — ambele OK.
         setSubmitted(true)
-        // `reason: 'ignored'` = honeypot-ul a prins un bot; API-ul răspunde 200 ca botul
-        // să nu afle, dar nu e un lead și nu-l trimitem la Meta/GA4.
-        if (data?.reason !== 'ignored') {
-          trackLead({
-            source: 'homepage',
-            lead_new: data?.created !== false,
-            interes: form.interest || null,
-            grupa_varsta: form.ageGroup || null,
-            locatia: form.location || null,
-            utm_source: params?.get('utm_source') || null,
-            utm_medium: params?.get('utm_medium') || null,
-            utm_campaign: params?.get('utm_campaign') || null,
-          }, eventId)
-        }
+        // Serverul nu mai spune dacă telefonul era deja în CRM (ar fi o scurgere), deci
+        // `lead_new` pleacă acum doar prin Meta CAPI, de pe server.
+        trackLead({
+          source: 'homepage',
+          interes: form.interest || null,
+          grupa_varsta: form.ageGroup || null,
+          locatia: form.location || null,
+          utm_source: params?.get('utm_source') || null,
+          utm_medium: params?.get('utm_medium') || null,
+          utm_campaign: params?.get('utm_campaign') || null,
+        }, eventId)
+      } else if (res.status === 429) {
+        setError('Prea multe încercări. Reîncearcă peste un minut sau sună-ne la 0730 534 172.')
       } else {
         setError(data?.error || 'A apărut o eroare. Te rugăm să încerci din nou.')
       }

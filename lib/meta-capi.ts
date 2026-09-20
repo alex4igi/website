@@ -69,6 +69,8 @@ export type MetaLead = {
   sourceUrl?: string | null
   /** Ce ajunge în `content_name`, ca în browser: sursa/campania. */
   contentName: string
+  /** Lead nou vs. telefon deja în CRM. Stă aici fiindcă browserul nu mai află răspunsul. */
+  leadNew?: boolean | null
 }
 
 export type MetaResult = { ok: boolean; reason?: string; eventsReceived?: number }
@@ -100,7 +102,10 @@ export function buildLeadPayload(lead: MetaLead) {
         action_source: 'website',
         ...(lead.sourceUrl ? { event_source_url: lead.sourceUrl } : {}),
         user_data: userData,
-        custom_data: { content_name: lead.contentName },
+        custom_data: {
+          content_name: lead.contentName,
+          ...(typeof lead.leadNew === 'boolean' ? { lead_new: lead.leadNew } : {}),
+        },
       },
     ],
     ...(TEST_EVENT_CODE ? { test_event_code: TEST_EVENT_CODE } : {}),

@@ -202,7 +202,11 @@ export default function BackToDanceSchoolLanding() {
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        setError(data?.error || "A apărut o eroare. Te rugăm să încerci din nou.");
+        setError(
+          response.status === 429
+            ? "Prea multe încercări. Reîncearcă peste un minut sau sună-ne la 0730 534 172."
+            : data?.error || "A apărut o eroare. Te rugăm să încerci din nou.",
+        );
         setSending(false);
         return;
       }
