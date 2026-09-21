@@ -246,6 +246,28 @@ export default function PoliticaConfidentialitatePage() {
             </a>
           </p>
 
+          <h3>Protecția formularelor</h3>
+          <p>
+            Formularul de înscriere și pagina de autentificare a administratorilor folosesc Cloudflare
+            Turnstile, un serviciu al Cloudflare, Inc., ca să deosebească persoanele reale de programele
+            automate care trimit cereri false. Când completați formularul, Turnstile prelucrează adresa
+            IP, informații tehnice despre conexiune și browser (inclusiv User-Agent) și adresa paginii
+            de pe care trimiteți formularul.
+          </p>
+          <p>
+            Prelucrarea este strict necesară pentru securitatea formularelor și se face în baza
+            interesului nostru legitim de a ne proteja serviciile împotriva abuzului (art. 6 alin. (1)
+            lit. f) din GDPR). Cloudflare folosește aceste date și în nume propriu, pentru a-și
+            îmbunătăți detecția programelor automate. Detalii:{' '}
+            <a
+              href="https://www.cloudflare.com/turnstile-privacy-policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://www.cloudflare.com/turnstile-privacy-policy/
+            </a>
+          </p>
+
           <h2>Link-uri către alte site-uri web</h2>
           <p>
             Serviciile noastre pot conține link-uri către alte site-uri care nu sunt operate de noi.
