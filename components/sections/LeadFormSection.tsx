@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { newEventId, trackLead } from '@/lib/track'
 import { loadConsent } from '@/lib/consent'
 import { CheckCircle } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import { normalizePhoneRO } from '@/lib/validation'
 import { locationOptions } from '@/lib/locations'
+import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from '@/components/TurnstileWidget'
 
 const ageGroups = ['Tiny (4–6)', 'Junior (7–10)', 'Varsity (11–14)', 'Teens (15–19)', 'Students (20–25)', 'Adulți (>25)']
 const interestTypes = ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică', 'Zumba (Adulți)', 'Nu știu încă']
@@ -15,6 +16,9 @@ export default function LeadFormSection() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const turnstileRef = useRef<TurnstileHandle>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [turnstileEroare, setTurnstileEroare] = useState(false)
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -63,6 +67,7 @@ export default function LeadFormSection() {
         body: JSON.stringify({
           event_id: eventId,
           marketing_consent: loadConsent()?.categories.marketing ?? false,
+          turnstile_token: turnstileToken,
           nume: form.name.trim(),
           telefon: phone,
           email: form.email.trim() || null,
@@ -93,11 +98,15 @@ export default function LeadFormSection() {
         }, eventId)
       } else if (res.status === 429) {
         setError('Prea multe încercări. Reîncearcă peste un minut sau sună-ne la 0730 534 172.')
+        turnstileRef.current?.reset()
       } else {
         setError(data?.error || 'A apărut o eroare. Te rugăm să încerci din nou.')
+        // Tokenul s-a consumat la verificare; fără unul nou, reîncercarea ar fi respinsă.
+        turnstileRef.current?.reset()
       }
     } catch {
       setError('Nu am putut trimite cererea. Verifică conexiunea și încearcă din nou.')
+      turnstileRef.current?.reset()
     } finally {
       setLoading(false)
     }
@@ -332,6 +341,17 @@ export default function LeadFormSection() {
                   />
                 </div>
 
+                <TurnstileWidget
+                  ref={turnstileRef}
+                  onToken={setTurnstileToken}
+                  onError={() => setTurnstileEroare(true)}
+                />
+                {turnstileEroare && !turnstileToken && (
+                  <p role="alert" className="text-sm font-medium text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                    Nu am putut încărca verificarea anti-robot. Reîncarcă pagina sau sună-ne la 0730 534 172.
+                  </p>
+                )}
+
                 {error && (
                   <p
                     role="alert"
@@ -343,7 +363,10 @@ export default function LeadFormSection() {
 
                 <button
                   type="submit"
-                  disabled={loading || !form.name || !form.phone || !form.ageGroup || !form.interest}
+                  disabled={
+                    loading || !form.name || !form.phone || !form.ageGroup || !form.interest ||
+                    (turnstileActivClient && !turnstileToken)
+                  }
                   className="mt-2 w-full bg-[#231f20] text-white font-bold text-base py-4 rounded-xl hover:bg-[#3a3637] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
                   style={{ fontFamily: 'var(--font-display)' }}
                 >

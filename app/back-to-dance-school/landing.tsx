@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { newEventId } from "@/lib/track";
 import { loadConsent } from "@/lib/consent";
+import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from "@/components/TurnstileWidget";
 import {
   ArrowRight,
   Calendar,
@@ -86,6 +87,9 @@ export default function BackToDanceSchoolLanding() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileHandle>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileEroare, setTurnstileEroare] = useState(false);
   const [showStickyCta, setShowStickyCta] = useState(false);
 
   const nicolinaOnlyPicked = form.interests.filter((value) => NICOLINA_ONLY_STYLES.includes(value));
@@ -187,6 +191,7 @@ export default function BackToDanceSchoolLanding() {
         body: JSON.stringify({
           event_id: eventId,
           marketing_consent: loadConsent()?.categories.marketing ?? false,
+          turnstile_token: turnstileToken,
           nume: form.name.trim(),
           telefon: phone,
           email: form.email.trim() || null,
@@ -207,6 +212,8 @@ export default function BackToDanceSchoolLanding() {
             ? "Prea multe încercări. Reîncearcă peste un minut sau sună-ne la 0730 534 172."
             : data?.error || "A apărut o eroare. Te rugăm să încerci din nou.",
         );
+        // Tokenul s-a consumat la verificare; fără unul nou, reîncercarea ar fi respinsă.
+        turnstileRef.current?.reset();
         setSending(false);
         return;
       }
@@ -228,6 +235,7 @@ export default function BackToDanceSchoolLanding() {
       router.push(THANK_YOU_PATH);
     } catch {
       setError("Nu am putut trimite cererea. Verifică conexiunea și încearcă din nou.");
+      turnstileRef.current?.reset();
       setSending(false);
     }
   }
@@ -1110,6 +1118,17 @@ export default function BackToDanceSchoolLanding() {
               />
             </div>
 
+            <TurnstileWidget
+              ref={turnstileRef}
+              onToken={setTurnstileToken}
+              onError={() => setTurnstileEroare(true)}
+            />
+            {turnstileEroare && !turnstileToken ? (
+              <p role="alert" className="rounded-xl bg-[#231f20] px-4 py-3 text-sm font-semibold text-[#f8ef21]">
+                Nu am putut încărca verificarea anti-robot. Reîncarcă pagina sau sună-ne la 0730 534 172.
+              </p>
+            ) : null}
+
             {error ? (
               <p role="alert" className="rounded-xl bg-[#231f20] px-4 py-3 text-sm font-semibold text-[#f8ef21]">
                 {error}
@@ -1118,7 +1137,7 @@ export default function BackToDanceSchoolLanding() {
 
             <button
               type="submit"
-              disabled={sending}
+              disabled={sending || (turnstileActivClient && !turnstileToken)}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#231f20] px-8 py-4 text-base font-bold text-white transition-colors hover:bg-[#f8ef21] hover:text-[#231f20] disabled:cursor-not-allowed disabled:opacity-60"
               style={display}
             >

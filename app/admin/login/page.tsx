@@ -1,8 +1,9 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Loader2, Lock } from 'lucide-react'
+import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from '@/components/TurnstileWidget'
 
 export default function AdminLoginPage() {
   return (
@@ -44,6 +45,9 @@ function LoginForm() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const turnstileRef = useRef<TurnstileHandle>(null)
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
+  const [turnstileEroare, setTurnstileEroare] = useState(false)
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -53,16 +57,26 @@ function LoginForm() {
       const res = await fetch('/api/admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ password, turnstile_token: turnstileToken }),
       })
       if (!res.ok) {
-        setError('Parolă incorectă.')
+        const data = await res.json().catch(() => ({}))
+        setError(
+          data?.error === 'turnstile'
+            ? 'Verificarea anti-robot a expirat. Încearcă din nou.'
+            : data?.error === 'turnstile_indisponibil'
+              ? 'Verificarea anti-robot nu răspunde acum. Încearcă peste un minut.'
+              : 'Parolă incorectă.',
+        )
+        // Tokenul e de unică folosință: fără unul nou, a doua încercare ar fi respinsă.
+        turnstileRef.current?.reset()
         setLoading(false)
         return
       }
       router.replace(next)
     } catch {
       setError('Eroare de rețea.')
+      turnstileRef.current?.reset()
       setLoading(false)
     }
   }
@@ -89,6 +103,17 @@ function LoginForm() {
           />
         </div>
 
+        <TurnstileWidget
+          ref={turnstileRef}
+          onToken={setTurnstileToken}
+          onError={() => setTurnstileEroare(true)}
+        />
+        {turnstileEroare && !turnstileToken && (
+          <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            Nu am putut încărca verificarea anti-robot. Reîncarcă pagina.
+          </div>
+        )}
+
         {error && (
           <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
             {error}
@@ -97,7 +122,7 @@ function LoginForm() {
 
         <button
           type="submit"
-          disabled={loading || !password}
+          disabled={loading || !password || (turnstileActivClient && !turnstileToken)}
           className="w-full bg-[#231f20] text-white font-bold text-sm py-3 rounded-xl hover:bg-[#3a3637] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
           style={{ fontFamily: 'var(--font-display)' }}
         >

@@ -3,6 +3,7 @@ import { normalizePhoneRO, isValidEmail } from '@/lib/validation'
 import { sendEmail } from '@/lib/email'
 import { inscriereConfirmationEmail } from '@/lib/email-templates'
 import { metaCapiEnabled, readCookie, sendLeadToMeta } from '@/lib/meta-capi'
+import { turnstileActiv, verificaTurnstile } from '@/lib/turnstile'
 
 // Endpoint-ul CRM-ului Quasar Dance (Qapp). NU mai e public: acceptă doar apeluri
 // server-server, cu secretul de mai jos. Dacă `INTAKE_SECRET` lipsește, apelul pleacă
@@ -71,6 +72,8 @@ type Body = {
   event_id?: string
   /** `true` doar dacă persoana a acceptat cookie-urile de marketing. Fără el nu trimitem nimic la Meta. */
   marketing_consent?: boolean
+  /** Tokenul Cloudflare Turnstile. Cerut doar când cheile sunt configurate. */
+  turnstile_token?: string
 }
 
 /** Formatul acceptat pentru event_id: UUID sau ce produce `newEventId()` din lib/track.ts. */
@@ -88,6 +91,20 @@ export async function POST(req: Request) {
   // Răspunsul e IDENTIC cu cel de succes; orice diferență i-ar spune botului că e prins.
   if (body.company) {
     return NextResponse.json({ ok: true })
+  }
+
+  const clientIp =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip')
+
+  if (turnstileActiv) {
+    const verdict = await verificaTurnstile(body.turnstile_token, clientIp)
+    if (verdict === 'respins') {
+      return NextResponse.json({ error: 'Nu am putut confirma că nu ești robot. Reîncarcă pagina și încearcă din nou, sau sună-ne la 0730 534 172.', field: 'turnstile' }, { status: 400 })
+    }
+    // Fail-open DOAR când Cloudflare nu răspunde: un lead pierdut costă mai mult decât
+    // un bot care trece. Poarta nu rămâne deschisă — în spate stă plafonul CRM-ului
+    // (5 înscrieri / 10 minute pe vizitator).
+    if (verdict === 'indisponibil') console.warn('[inscriere] Turnstile indisponibil — fail-open')
   }
 
   const nume = (body.nume || '').trim()
@@ -116,9 +133,6 @@ export async function POST(req: Request) {
   }
   const campanie =
     campanieCeruta && ALLOWED_CAMPAIGNS.includes(campanieCeruta) ? campanieCeruta : DEFAULT_CAMPAIGN
-
-  const clientIp =
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip')
 
   const emailInput = body.email?.trim()
   const email = emailInput && isValidEmail(emailInput) ? emailInput : null
