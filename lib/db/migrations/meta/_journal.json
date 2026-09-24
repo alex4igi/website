@@ -15,6 +15,13 @@
       "when": 1780409178329,
       "tag": "0001_furry_kat_farrell",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790269400936,
+      "tag": "0002_open_ultimo",
+      "breakpoints": true
     }
   ]
 }
