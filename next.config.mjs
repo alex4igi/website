@@ -20,6 +20,21 @@ const nextConfig = {
   // și `images.remotePatterns`.
   // `permanent: false` (307) intenționat: sunt linkuri de campanie. Un 308 ar rămâne
   // în cache-ul browserelor la nesfârșit și n-am mai putea redirecta altundeva la anul.
+  // Antete de securitate de bază (audit 2026-09-20). Fără CSP deocamdată: site-ul încarcă
+  // GTM/GA/Meta Pixel/theMarketer și un CSP strict ar trebui calibrat pe fiecare.
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        ],
+      },
+    ]
+  },
   async redirects() {
     return [
       { source: '/btds', destination: btds('qr'), permanent: false },
