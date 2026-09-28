@@ -44,7 +44,7 @@ export default async function RecomandariPage() {
 
   return (
     <main>
-      <Navbar />
+      <Navbar solid />
 
       {/* Hero — pentru invitat */}
       <section className="bg-[#f8ef21] pt-32 pb-16 md:pt-40 md:pb-24">

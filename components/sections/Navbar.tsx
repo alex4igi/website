@@ -24,7 +24,9 @@ const navLinks: NavLink[] = [
   { href: '/contact', label: 'Contact', num: '05' },
 ]
 
-export default function Navbar() {
+// `solid`: bara e neagră de la început, pentru paginile care n-au sus o imagine
+// închisă la culoare (pe fundal deschis textul alb al meniului nu se vede).
+export default function Navbar({ solid = false }: { solid?: boolean } = {}) {
   // Linkul campaniei apare doar în fereastra din lib/campaign-promo.ts; în rest meniul
   // rămâne exact cum e, fără link mort către o campanie încheiată.
   const promo = useCampaignPromo()
@@ -56,7 +58,7 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
+          scrolled || solid
             ? 'bg-[#231f20]/95 backdrop-blur-md shadow-xl py-3'
             : 'bg-transparent py-4'
         }`}
