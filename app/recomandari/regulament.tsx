@@ -3,18 +3,18 @@
 import { useRef } from 'react'
 import { X } from 'lucide-react'
 
-type Props = { termen: string; lei: number; className?: string; eticheta?: string }
+type Props = { termen: string; className?: string; eticheta?: string }
 
 // Regulamentul campaniei stă ascuns: invitatul vine pentru ora gratuită, nu pentru
 // condițiile creditului familiei care l-a invitat.
-export default function RegulamentRecomandari({ termen, lei, className, eticheta = 'Regulamentul campaniei' }: Props) {
+export default function RegulamentRecomandari({ termen, className, eticheta = 'Regulamentul campaniei' }: Props) {
   const ref = useRef<HTMLDialogElement>(null)
 
   const puncte: { t: string; d: string }[] = [
     { t: 'Ora gratuită', d: 'Prima oră de curs e gratuită, cu programare confirmată de recepție.' },
     { t: 'Cine poate fi invitat', d: 'Oricine nu e înscris la Quasar în sezonul acesta, inclusiv foștii cursanți care revin. Poți alege orice grupă, nu neapărat pe cea a colegului care te-a invitat.' },
     { t: 'Prima lună', d: 'Dacă te înscrii, prima lună se plătește întreagă, chiar dacă începi la mijlocul lunii; diferența se scade din luna următoare. Exemplu: începi pe 15 octombrie, plătești 280 lei în octombrie și 98 lei în noiembrie.' },
-    { t: 'Pentru familia care te-a invitat', d: `După ce te înscrii și achiți integral prima lună, familia colegului care te-a invitat primește ${lei} lei credit Quasar, pe care îl poate folosi la abonament, OPEN class, ședințe, workshopuri și concursuri (nu la merch, bilete la spectacol sau închirieri). Creditul nu se transformă în bani.` },
+    { t: 'Pentru familia care te-a invitat', d: `După ce te înscrii și achiți integral prima lună, familia colegului care te-a invitat primește un credit Quasar, pe care îl poate folosi la abonament, OPEN class, ședințe, workshopuri și concursuri (nu la merch, bilete la spectacol sau închirieri). Creditul nu se transformă în bani.` },
     { t: 'Cine te-a invitat', d: 'Spune-ne numele colegului când ceri ora gratuită (în formular, la telefon sau la recepție). Recepția confirmă invitația înainte de ora gratuită; în cazurile neclare decide managerul locației.' },
     { t: 'Termen', d: `Ora gratuită, înscrierea și plata primei luni trebuie făcute până pe ${termen}, înainte de vacanța de toamnă.` },
   ]

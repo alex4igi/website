@@ -33,7 +33,6 @@ export default async function RecomandariPage() {
   if (!campanie) redirect('/#inscriere')
 
   const termen = formatDataRo(campanie.data_limita)
-  const lei = Math.round(Number(campanie.recompensa_lei))
 
   const beneficii = [
     'Prima oră complet gratuită',
@@ -73,7 +72,7 @@ export default async function RecomandariPage() {
           </a>
           <div className="mt-4 text-sm text-[#231f20]/70">
             Valabil până pe {termen} ·{' '}
-            <RegulamentRecomandari termen={termen} lei={lei} />
+            <RegulamentRecomandari termen={termen} />
           </div>
         </div>
       </section>
@@ -123,7 +122,7 @@ export default async function RecomandariPage() {
             </div>
             <div className="text-white/50 text-sm mt-8">
               Valabil până pe {termen} ·{' '}
-              <RegulamentRecomandari termen={termen} lei={lei} className="underline underline-offset-4 text-white/70" />
+              <RegulamentRecomandari termen={termen} className="underline underline-offset-4 text-white/70" />
             </div>
           </div>
         }
