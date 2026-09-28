@@ -44,6 +44,7 @@ const DEFAULT_CAMPAIGN = 'Website – Înscriere'
 const ALLOWED_CAMPAIGNS = [
   DEFAULT_CAMPAIGN,
   'ZPD 2026', // Back to Dance School — Săptămâna Porților Deschise, 7–11 sept. 2026
+  'Recomandări toamna 2026', // pagina /recomandari — același text în lib/recomandari.ts
 ]
 
 // Plafoane pentru textele libere: CRM-ul le stochează ca atare, iar endpoint-ul e public.
@@ -64,6 +65,8 @@ type Body = {
   locatia?: string
   mesaj?: string
   campanie?: string
+  /** „Cine te-a invitat?" — campania de recomandări. CRM-ul îl ignoră după termen. */
+  invitat_de?: string
   utm_source?: string
   utm_medium?: string
   utm_campaign?: string
@@ -124,6 +127,7 @@ export async function POST(req: Request) {
   const locatia = trimTo(body.locatia, MAX_SHORT)
   const grupaLabel = trimTo(body.grupa_varsta, MAX_SHORT)
   const mesaj = trimTo(body.mesaj, MAX_MESAJ)
+  const invitatDe = trimTo(body.invitat_de, MAX_SHORT)
 
   // O campanie necunoscută nu blochează lead-ul — l-am pierde degeaba. Cade pe cea
   // implicită, iar linia din log spune de ce lead-ul n-a ajuns sub campania așteptată.
@@ -160,6 +164,7 @@ export async function POST(req: Request) {
         locatia,
         mesaj,
         campanie,
+        invitat_de: invitatDe,
         utm_source: body.utm_source || null,
         utm_medium: body.utm_medium || null,
         utm_campaign: body.utm_campaign || null,

@@ -18,6 +18,7 @@ import LocationsSection from '@/components/sections/LocationsSection'
 import QuizCtaSection from '@/components/sections/QuizCtaSection'
 import LeadFormSection from '@/components/sections/LeadFormSection'
 import Footer from '@/components/sections/Footer'
+import { getCampanieRecomandare } from '@/lib/recomandari'
 
 // Homepage-ul citește prețurile și calendarul din DB (PricingSection,
 // SchedulePreviewSection). Pagina se prerandează și se reîmprospătează singură la
@@ -42,7 +43,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const recomandare = await getCampanieRecomandare()
   return (
     <main>
       {/* Sticky nav — sits above everything */}
@@ -97,7 +99,7 @@ export default function HomePage() {
       <QuizCtaSection />
 
       {/* 14. Lead capture form — demo session */}
-      <LeadFormSection />
+      <LeadFormSection invitat={recomandare ? 'optional' : null} />
 
       {/* 15. Footer */}
       <Footer />

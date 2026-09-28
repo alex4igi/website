@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import { newEventId, trackLead } from '@/lib/track'
 import { loadConsent } from '@/lib/consent'
 import { CheckCircle } from 'lucide-react'
@@ -12,7 +12,25 @@ import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from '@/c
 const ageGroups = ['Tiny (4–6)', 'Junior (7–10)', 'Varsity (11–14)', 'Teens (15–19)', 'Students (20–25)', 'Adulți (>25)']
 const interestTypes = ['Street Dance', 'KPOP Dance', 'Gimnastică acrobatică', 'Zumba (Adulți)', 'Nu știu încă']
 
-export default function LeadFormSection() {
+type Props = {
+  /** Câmpul „Cine te-a invitat?": apare doar cât campania de recomandări e activă (CRM). */
+  invitat?: 'optional' | 'obligatoriu' | null
+  campanie?: string
+  trackSource?: string
+  /** Coloana din stânga (textul de lângă formular), dacă pagina are altul. */
+  stanga?: ReactNode
+  titluFormular?: string
+  textButon?: string
+}
+
+export default function LeadFormSection({
+  invitat = null,
+  campanie,
+  trackSource = 'homepage',
+  stanga,
+  titluFormular = 'Trimite-ne un mesaj',
+  textButon = 'Programează ședința demo',
+}: Props = {}) {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -26,6 +44,7 @@ export default function LeadFormSection() {
     ageGroup: '',
     interest: '',
     location: '',
+    invitatDe: '',
     // Honeypot anti-spam: câmp ascuns vizual, completat doar de boți.
     company: '',
   })
@@ -52,6 +71,11 @@ export default function LeadFormSection() {
       return
     }
 
+    if (invitat === 'obligatoriu' && !form.invitatDe.trim()) {
+      setError('Spune-ne cine te-a invitat — așa ajunge creditul la familia potrivită.')
+      return
+    }
+
     setLoading(true)
     try {
       // Captură UTM din URL (opțional, pentru tracking ROI).
@@ -74,6 +98,8 @@ export default function LeadFormSection() {
           interes: form.interest || null,
           grupa_varsta: form.ageGroup || null,
           locatia: form.location || null,
+          invitat_de: invitat ? form.invitatDe.trim() || null : null,
+          campanie: campanie ?? null,
           utm_source: params?.get('utm_source') || null,
           utm_medium: params?.get('utm_medium') || null,
           utm_campaign: params?.get('utm_campaign') || null,
@@ -88,7 +114,7 @@ export default function LeadFormSection() {
         // Serverul nu mai spune dacă telefonul era deja în CRM (ar fi o scurgere), deci
         // `lead_new` pleacă acum doar prin Meta CAPI, de pe server.
         trackLead({
-          source: 'homepage',
+          source: trackSource,
           interes: form.interest || null,
           grupa_varsta: form.ageGroup || null,
           locatia: form.location || null,
@@ -117,6 +143,7 @@ export default function LeadFormSection() {
       <div className="max-w-7xl mx-auto px-5 md:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Left: copy */}
+          {stanga ?? (
           <div className="md:pt-4">
             <div className="mb-6"><SprayLabel>Ședință demo gratuită</SprayLabel></div>
             <h2
@@ -156,6 +183,7 @@ export default function LeadFormSection() {
               ))}
             </div>
           </div>
+          )}
 
           {/* Right: form */}
           <div className="bg-white rounded-3xl p-8 md:p-10">
@@ -182,7 +210,7 @@ export default function LeadFormSection() {
                     className="text-[#231f20] text-xl font-extrabold mb-1"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
-                    Trimite-ne un mesaj
+                    {titluFormular}
                   </h3>
                   <p className="text-[#6b6b6b] text-sm">Completează datele de mai jos.</p>
                 </div>
@@ -328,6 +356,31 @@ export default function LeadFormSection() {
                   </div>
                 </div>
 
+                {invitat && (
+                  <div className="flex flex-col gap-1.5">
+                    <label
+                      htmlFor="lead-invitat"
+                      className="text-xs font-bold text-[#231f20] uppercase tracking-wider"
+                      style={{ fontFamily: 'var(--font-display)' }}
+                    >
+                      {invitat === 'obligatoriu' ? 'Cine te-a invitat? *' : 'Te-a invitat cineva? (opțional)'}
+                    </label>
+                    <input
+                      id="lead-invitat"
+                      type="text"
+                      required={invitat === 'obligatoriu'}
+                      maxLength={200}
+                      placeholder="Numele colegului de la Quasar"
+                      value={form.invitatDe}
+                      onChange={(e) => handleChange('invitatDe', e.target.value)}
+                      className="border border-[#e5e5e5] rounded-xl px-4 py-3 text-sm text-[#231f20] placeholder-[#6b6b6b]/50 focus:outline-none focus:border-[#231f20] focus:ring-1 focus:ring-[#231f20] transition-all"
+                    />
+                    <span className="text-[11px] text-[#6b6b6b]">
+                      Scrie numele colegului, cum apare pe bilet. Așa ajunge creditul la familia potrivită.
+                    </span>
+                  </div>
+                )}
+
                 {/* Honeypot anti-spam — ascuns pentru utilizatori, capcană pentru boți */}
                 <div className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
                   <label htmlFor="lead-company">Companie</label>
@@ -365,6 +418,7 @@ export default function LeadFormSection() {
                   type="submit"
                   disabled={
                     loading || !form.name || !form.phone || !form.ageGroup || !form.interest ||
+                    (invitat === 'obligatoriu' && !form.invitatDe.trim()) ||
                     (turnstileActivClient && !turnstileToken)
                   }
                   className="mt-2 w-full bg-[#231f20] text-white font-bold text-base py-4 rounded-xl hover:bg-[#3a3637] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2"
@@ -376,7 +430,7 @@ export default function LeadFormSection() {
                       Se trimite...
                     </>
                   ) : (
-                    'Programează ședința demo'
+                    textButon
                   )}
                 </button>
 
