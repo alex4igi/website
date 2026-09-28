@@ -44,7 +44,7 @@ const DEFAULT_CAMPAIGN = 'Website – Înscriere'
 const ALLOWED_CAMPAIGNS = [
   DEFAULT_CAMPAIGN,
   'ZPD 2026', // Back to Dance School — Săptămâna Porților Deschise, 7–11 sept. 2026
-  'Recomandări toamna 2026', // pagina /recomandari — același text în lib/recomandari.ts
+  'DANCE WITH ME', // campania de recomandări, pagina /dance-with-me — același text în lib/recomandari.ts
 ]
 
 // Plafoane pentru textele libere: CRM-ul le stochează ca atare, iar endpoint-ul e public.

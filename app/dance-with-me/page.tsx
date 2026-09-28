@@ -20,15 +20,15 @@ import { CAMPANIE_RECOMANDARI, formatDataRo, getCampanieRecomandare } from '@/li
 export const revalidate = 300
 
 export const metadata: Metadata = {
-  title: 'Ai fost invitat la Quasar — prima oră e gratuită | Quasar Dance Iași',
+  title: 'DANCE WITH ME — un prieten te-a invitat la dans, prima oră e gratuită | Quasar Dance Iași',
   description:
     'Un prieten te-a invitat la dans. Prima oră e gratuită: Street Dance, KPOP, gimnastică acrobatică, grupe pe vârste, la Ștefan cel Mare, Nicolina și Quasar for Kids.',
-  alternates: { canonical: '/recomandari' },
+  alternates: { canonical: '/dance-with-me' },
   robots: { index: false, follow: true },
 }
 
 
-export default async function RecomandariPage() {
+export default async function DanceWithMePage() {
   const campanie = await getCampanieRecomandare()
   if (!campanie) redirect('/#inscriere')
 
@@ -49,7 +49,7 @@ export default async function RecomandariPage() {
       <section className="bg-[#f8ef21] pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="max-w-5xl mx-auto px-5 md:px-8">
           <div className="mb-6">
-            <SprayLabel>Ai primit o invitație</SprayLabel>
+            <SprayLabel>DANCE WITH ME</SprayLabel>
           </div>
           <h1
             className="text-[#231f20] text-4xl md:text-6xl font-extrabold leading-[1.05] text-balance mb-6"

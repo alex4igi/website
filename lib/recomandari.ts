@@ -1,11 +1,11 @@
-// Campania de recomandări din CRM (qapp). CRM-ul e sursa unică pentru termen și sumă:
-// la începutul primei vacanțe campania se închide singură — pagina /recomandari face
+// Campania de recomandări „DANCE WITH ME" din CRM (qapp). CRM-ul e sursa unică pentru termen și sumă:
+// la începutul primei vacanțe campania se închide singură — pagina /dance-with-me face
 // redirect, iar câmpul „Cine te-a invitat?" dispare din formulare, fără redeploy.
 const CRM_ENDPOINT =
   'https://cbftxkwvoboqahzsldcp.supabase.co/functions/v1/intake-website-lead'
 
 // Trebuie să fie identic cu numele din `ALLOWED_CAMPAIGNS` (app/api/inscriere/route.ts).
-export const CAMPANIE_RECOMANDARI = 'Recomandări toamna 2026'
+export const CAMPANIE_RECOMANDARI = 'DANCE WITH ME'
 
 export type CampanieRecomandare = {
   activa: true

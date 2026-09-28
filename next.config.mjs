@@ -116,6 +116,8 @@ const nextConfig = {
       { source: '/btds', destination: btds('qr'), permanent: false },
       { source: '/btds-s', destination: btds('qr-stefan'), permanent: false },
       { source: '/btds-n', destination: btds('qr-nicolina'), permanent: false },
+      // Campania de recomandări s-a numit întâi „/recomandari" — linkurile vechi merg mai departe.
+      { source: '/recomandari', destination: '/dance-with-me', permanent: false },
     ]
   },
 }

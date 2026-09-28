@@ -38,7 +38,7 @@ export default function RegulamentRecomandari({ termen, className, eticheta = 'R
         <div className="p-6 md:p-8">
           <div className="flex items-start justify-between gap-4 mb-5">
             <h2 className="text-[#231f20] text-2xl font-extrabold" style={{ fontFamily: 'var(--font-display)' }}>
-              Regulamentul campaniei de recomandări
+              Regulamentul campaniei DANCE WITH ME
             </h2>
             <button
               type="button"
