@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { normalizePhoneRO, isValidEmail } from '@/lib/validation'
 import { sendEmail } from '@/lib/email'
-import { inscriereConfirmationEmail } from '@/lib/email-templates'
+import { inscriereConfirmationEmail, preinscriereConfirmationEmail } from '@/lib/email-templates'
 import { metaCapiEnabled, readCookie, sendLeadToMeta } from '@/lib/meta-capi'
 import { turnstileActiv, verificaTurnstile } from '@/lib/turnstile'
 
@@ -45,6 +45,7 @@ const ALLOWED_CAMPAIGNS = [
   DEFAULT_CAMPAIGN,
   'ZPD 2026', // Back to Dance School — Săptămâna Porților Deschise, 7–11 sept. 2026
   'DANCE WITH ME', // campania de recomandări, pagina /dance-with-me — același text în lib/recomandari.ts
+  'Valea Lupului 2026', // preînscrieri pentru locația nouă, pagina /valea-lupului — app/valea-lupului/campaign.ts
 ]
 
 // Plafoane pentru textele libere: CRM-ul le stochează ca atare, iar endpoint-ul e public.
@@ -70,6 +71,13 @@ type Body = {
   utm_source?: string
   utm_medium?: string
   utm_campaign?: string
+  /** Lotul de flyere / varianta de reclamă (QR `/vl/<lot>`). */
+  utm_content?: string
+  /**
+   * Preînscrierea de campanie (Valea Lupului): contactul + participanții cu activitățile
+   * și orele lor. O validează CRM-ul (`_shared/preinscriere.ts`); aici doar trece mai departe.
+   */
+  preinscriere?: unknown
   company?: string // honeypot
   /** ID-ul cu care browserul a trimis Lead la Meta Pixel; îl refolosim la CAPI pentru deduplicare. */
   event_id?: string
@@ -168,6 +176,8 @@ export async function POST(req: Request) {
         utm_source: body.utm_source || null,
         utm_medium: body.utm_medium || null,
         utm_campaign: body.utm_campaign || null,
+        utm_content: trimTo(body.utm_content, MAX_SHORT),
+        preinscriere: body.preinscriere ?? undefined,
       }),
     })
     crmData = await crmRes.json().catch(() => ({}))
@@ -216,12 +226,14 @@ export async function POST(req: Request) {
   let emailSent: boolean | null = null
   if (email) {
     try {
-      const { subject, html } = inscriereConfirmationEmail({
-        name: nume,
-        interest: interes,
-        ageGroup: grupaLabel,
-        location: locatia,
-      })
+      const { subject, html } = body.preinscriere
+        ? preinscriereConfirmationEmail({ name: nume, location: locatia })
+        : inscriereConfirmationEmail({
+            name: nume,
+            interest: interes,
+            ageGroup: grupaLabel,
+            location: locatia,
+          })
       await sendEmail({ to: email, subject, html })
       emailSent = true
     } catch (err) {

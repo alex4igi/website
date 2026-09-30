@@ -5,6 +5,11 @@
 // module (~20 mm minim pe hârtie), pe când cel scurt încape în 29×29 (~12 mm).
 // Sufixele -s / -n separă flyerul fiecărei locații, păstrând o singură sursă în rapoarte.
 const CAMPAIGN_LP = '/back-to-dance-school'
+// QR-urile campaniei Valea Lupului: /vl/<lot> (ex. /vl/sv-3b) poartă lotul de flyere în
+// utm_content, ca în qapp să se vadă ce clasă / ce canal a adus preînscrierea.
+const vl = (content) =>
+  `/valea-lupului?utm_source=flyer&utm_medium=print&utm_campaign=valea_lupului_deschidere${content ? `&utm_content=${content}` : ''}`
+
 const btds = (medium) =>
   `${CAMPAIGN_LP}?utm_source=flyer&utm_medium=${medium}&utm_campaign=btds-2026`
 
@@ -118,6 +123,8 @@ const nextConfig = {
       { source: '/btds-n', destination: btds('qr-nicolina'), permanent: false },
       // Campania de recomandări s-a numit întâi „/recomandari" — linkurile vechi merg mai departe.
       { source: '/recomandari', destination: '/dance-with-me', permanent: false },
+      { source: '/vl', destination: vl(''), permanent: false },
+      { source: '/vl/:lot([a-z0-9-]{1,40})', destination: vl(':lot'), permanent: false },
     ]
   },
 }
