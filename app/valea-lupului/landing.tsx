@@ -478,7 +478,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
               {[
                 "Preînscrierea e gratuită și nu te obligă la nimic",
                 "Poți înscrie mai mulți copii din aceeași familie",
-                "Prima oră la sală este gratuită",
+                "Prima oră este GRATUITĂ",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3">
                   <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#f8ef21]" aria-hidden="true">
