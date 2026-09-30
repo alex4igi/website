@@ -149,7 +149,7 @@ export default function PreinscrierePopup() {
         </p>
         {/* Pe telefon doar titlul și butonul: cardul nu are voie să acopere pagina. */}
         <p className="mt-2 hidden text-xs leading-relaxed text-white/65 sm:block">
-          Dans, gimnastică, K-pop și Zumba la Școala Verde, în parteneriat cu {SCOALA_PARTENERA}. Spune-ne ce
+          Dans, gimnastică și K-pop pentru copii, la Școala Verde, în parteneriat cu {SCOALA_PARTENERA}. Spune-ne ce
           vi s-ar potrivi — preînscrierea nu te obligă la nimic.
         </p>
         <Link

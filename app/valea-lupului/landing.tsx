@@ -38,7 +38,6 @@ const WHATSAPP_ASK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 const MAX_PARTICIPANTI = 5;
 
 type Participant = {
-  tip: "copil" | "adult";
   nume: string;
   varsta: string;
   /** null = nu a răspuns (întrebarea e opțională). */
@@ -47,7 +46,7 @@ type Participant = {
   grila: string[];
 };
 
-const copilNou = (): Participant => ({ tip: "copil", nume: "", varsta: "", elev: null, stiluri: [], grila: [] });
+const copilNou = (): Participant => ({ nume: "", varsta: "", elev: null, stiluri: [], grila: [] });
 
 type FormState = {
   name: string;
@@ -158,19 +157,19 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
     for (const [i, p] of form.participanti.entries()) {
       const cine = form.participanti.length > 1 ? ` (${i + 1})` : "";
       if (p.nume.trim().length < 2) {
-        setError(p.tip === "copil" ? `Scrie numele copilului${cine}.` : `Scrie numele participantului${cine}.`);
+        setError(`Scrie numele copilului${cine}.`);
         return;
       }
-      if (p.tip === "copil" && !p.varsta) {
+      if (!p.varsta) {
         setError(`Alege vârsta copilului${cine}, ca să știm în ce grupă s-ar potrivi.`);
         return;
       }
       if (!p.stiluri.length) {
-        setError(`Alege cel puțin o activitate pentru ${p.nume.trim() || `participantul${cine}`}.`);
+        setError(`Alege cel puțin o activitate pentru ${p.nume.trim() || `copilul${cine}`}.`);
         return;
       }
       if (!p.grila.length) {
-        setError(`Bifează cel puțin un interval în care ${p.nume.trim() || "participantul"} ar putea veni.`);
+        setError(`Bifează cel puțin un interval în care ${p.nume.trim() || "copilul"} ar putea veni.`);
         return;
       }
     }
@@ -204,7 +203,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
             acord_text_versiune: ACORD_VERSIUNE,
             observatii: form.observatii.trim() || null,
             participanti: form.participanti.map((p) => ({
-              participant: p.tip,
+              participant: "copil",
               nume: p.nume.trim(),
               varsta: p.varsta ? Number(p.varsta) : null,
               elev_scoala_partenera: p.elev,
@@ -310,7 +309,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
               <span className="block text-[#f8ef21]">în Valea Lupului.</span>
             </h1>
             <p className="qd-up mt-5 max-w-xl text-base leading-relaxed text-white/75 md:text-lg" style={{ animationDelay: "240ms" }}>
-              Dans, gimnastică, K-pop și Zumba — aproape de casă, după școală sau în weekend, la Școala Verde, în
+              Dans, gimnastică și K-pop pentru copii — aproape de casă, după școală sau în weekend, la Școala Verde, în
               parteneriat cu {SCOALA_PARTENERA}. Construim programul noii locații după ce ne spun familiile:{" "}
               <strong className="font-semibold text-white">ce activități, ce vârste și ce ore vi s-ar potrivi.</strong>
             </p>
@@ -396,9 +395,9 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
         <div className="mx-auto max-w-6xl">
           <SectionLabel>Ce aducem în Valea Lupului</SectionLabel>
           <h2 className="mt-4 max-w-2xl text-3xl leading-tight font-extrabold text-balance text-[#231f20] md:text-5xl" style={display}>
-            Patru activități. Voi ne spuneți care.
+            Trei activități. Voi ne spuneți care.
           </h2>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {ACTIVITATI.map((a) => (
               <div key={a.value} className="group flex flex-col gap-4 rounded-2xl bg-white p-7 transition-colors hover:bg-[#231f20]">
                 <span
@@ -478,7 +477,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
             <ul className="mt-8 flex flex-col gap-4">
               {[
                 "Preînscrierea e gratuită și nu te obligă la nimic",
-                "Poți înscrie mai mulți copii — și pe tine, la Zumba",
+                "Poți înscrie mai mulți copii din aceeași familie",
                 "Prima oră la sală este gratuită",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3">
@@ -512,26 +511,10 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
             {form.participanti.map((p, i) => (
               <fieldset key={i} className="flex flex-col gap-5 rounded-2xl border border-[#e5e5e5] p-4 md:p-5">
                 <legend className="px-2 text-sm font-black tracking-wide text-[#231f20] uppercase" style={display}>
-                  {form.participanti.length > 1 ? `Participant ${i + 1}` : "Pentru cine e"}
+                  {form.participanti.length > 1 ? `Copilul ${i + 1}` : "Copilul"}
                 </legend>
-                <div className="flex flex-wrap items-center gap-2">
-                  {(["copil", "adult"] as const).map((tip) => (
-                    <button
-                      key={tip}
-                      type="button"
-                      aria-pressed={p.tip === tip}
-                      onClick={() =>
-                        updateP(i, tip === "adult"
-                          ? { tip, varsta: "", elev: null, stiluri: ["Zumba"] }
-                          : { tip, stiluri: p.stiluri })
-                      }
-                      className={pill(p.tip === tip)}
-                      style={display}
-                    >
-                      {tip === "copil" ? "Copil" : "Pentru mine (Zumba)"}
-                    </button>
-                  ))}
-                  {form.participanti.length > 1 ? (
+                {form.participanti.length > 1 ? (
+                <div className="-mt-2 flex justify-end">
                     <button
                       type="button"
                       onClick={() => update({ participanti: form.participanti.filter((_, j) => j !== i) })}
@@ -539,19 +522,18 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                     >
                       <X className="h-3.5 w-3.5" aria-hidden="true" /> Scoate
                     </button>
-                  ) : null}
                 </div>
+                ) : null}
 
                 <div className="grid gap-4 sm:grid-cols-[1fr_auto]">
                   <div className="flex flex-col gap-1.5">
                     <label htmlFor={`vl-p${i}-nume`} className="text-sm font-bold text-[#231f20]" style={display}>
-                      {p.tip === "copil" ? "Numele copilului" : "Numele participantului"} <span className="text-[#6b6b6b]">*</span>
+                      Numele copilului <span className="text-[#6b6b6b]">*</span>
                     </label>
                     <input id={`vl-p${i}-nume`} type="text" value={p.nume}
                       onChange={(e) => updateP(i, { nume: e.target.value })}
-                      placeholder={p.tip === "copil" ? "Ex: Ana Popescu" : "Ex: Maria Popescu"} className={inputClass} />
+                      placeholder="Ex: Ana Popescu" className={inputClass} />
                   </div>
-                  {p.tip === "copil" ? (
                     <div className="flex flex-col gap-1.5">
                       <label htmlFor={`vl-p${i}-varsta`} className="text-sm font-bold text-[#231f20]" style={display}>
                         Vârsta <span className="text-[#6b6b6b]">*</span>
@@ -562,10 +544,8 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                         {VARSTE_COPII.map((v) => <option key={v} value={v}>{v} ani</option>)}
                       </select>
                     </div>
-                  ) : null}
                 </div>
 
-                {p.tip === "copil" ? (
                   <PillRow label={`Învață la ${SCOALA_PARTENERA}?`} optional>
                     {[{ v: true, l: "Da" }, { v: false, l: "Nu" }].map((o) => (
                       <button key={o.l} type="button" aria-pressed={p.elev === o.v}
@@ -575,9 +555,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                       </button>
                     ))}
                   </PillRow>
-                ) : null}
 
-                {p.tip === "copil" ? (
                   <PillRow label="Ce l-ar interesa" note="— poți alege mai multe">
                     {ACTIVITATI.map((a) => {
                       const on = p.stiluri.includes(a.value);
@@ -591,7 +569,6 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                       );
                     })}
                   </PillRow>
-                ) : null}
 
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -602,7 +579,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                     {i > 0 && form.participanti[0].grila.length ? (
                       <button type="button" onClick={() => updateP(i, { grila: [...form.participanti[0].grila] })}
                         className="text-xs font-semibold text-[#231f20] underline">
-                        La fel ca participantul 1
+                        La fel ca primul copil
                       </button>
                     ) : null}
                   </div>
@@ -659,7 +636,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                 className="inline-flex items-center gap-2 self-start rounded-full border border-dashed border-[#231f20]/40 px-5 py-2.5 text-sm font-bold text-[#231f20] hover:border-[#231f20]"
                 style={display}
               >
-                <Plus className="h-4 w-4" aria-hidden="true" /> Mai adaug pe cineva
+                <Plus className="h-4 w-4" aria-hidden="true" /> Mai adaug un copil
               </button>
             ) : null}
 
@@ -747,7 +724,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
               { q: "Unde se țin?", a: `La Școala Verde, în Valea Lupului, în parteneriat cu ${SCOALA_PARTENERA}. Detaliile de acces le primești odată cu programul.` },
               { q: `Trebuie să fie copilul elev la ${SCOALA_PARTENERA}?`, a: "Nu. Cursurile sunt deschise tuturor copiilor din zonă." },
               { q: "Preînscrierea mă obligă la ceva?", a: "Nu. E doar o exprimare a interesului, ca să știm ce grupe să deschidem. Prima oră la sală este gratuită, iar după ea hotărâți dacă rămâneți." },
-              { q: "Pot înscrie doi copii sau pe mine?", a: "Da. Adaugi fiecare participant în formular, cu vârsta și orele lui. Zumba este pentru toate vârstele, deci și pentru părinți." },
+              { q: "Pot înscrie doi copii?", a: "Da. Apasă „Mai adaug un copil” și completezi vârsta, activitățile și orele fiecăruia." },
               { q: "De ce întrebați de ore și zile?", a: "Ca să punem grupele când vă convine vouă — în timpul săptămânii după școală sau în weekend dimineața. Bifează toate intervalele în care ați putea ajunge — cu cât mai multe, cu atât e mai ușor să găsim o grupă potrivită." },
             ].map((item) => (
               <details key={item.q} className="qd-faq group rounded-2xl bg-[#f5f5f5] px-6 py-5">

@@ -41,35 +41,28 @@ export const PHONE_MAIN = "0730 534 172";
 export const PHONE_MAIN_TEL = "+40730534172";
 export const WHATSAPP_NUMBER = "40730534172";
 
-/** Valorile trimise în `stiluri` — vocabularul închis din QApp (`cursuri.stil`). */
+/**
+ * Valorile trimise în `stiluri` — vocabularul închis din QApp (`cursuri.stil`).
+ * Deocamdată doar pentru copii: dans, gimnastică, K-pop (Zumba scoasă, Alex 30.09.2026).
+ */
 export const ACTIVITATI = [
   {
     value: "Street Dance",
     name: "Dans",
     detail: "Street Dance · Hip-Hop",
     blurb: "Ritm, coordonare și primele coregrafii învățate în grup. Stilul cu care Quasar a început, în 1981.",
-    adulti: false,
   },
   {
     value: "Gimnastica",
     name: "Gimnastică",
     detail: "acrobatică",
     blurb: "Roata, stând în mâini și primele elemente acrobatice, învățate pas cu pas, în siguranță.",
-    adulti: false,
   },
   {
     value: "K-Pop",
     name: "K-pop",
     detail: "coregrafii K-pop",
     blurb: "Coregrafiile trupelor preferate, energie multă și o gașcă în care copiii se regăsesc imediat.",
-    adulti: false,
-  },
-  {
-    value: "Zumba",
-    name: "Zumba",
-    detail: "pentru toate vârstele",
-    blurb: "Mișcare pe muzică, fără pași complicați — pentru copii și pentru părinți deopotrivă.",
-    adulti: true,
   },
 ] as const;
 

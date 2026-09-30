@@ -4,9 +4,9 @@ import ValeaLupuluiLanding from "./landing";
 import { LP_PATH, QAPP_CAMPAIGN, SITE_URL } from "./campaign";
 import { getStarePreinscriere } from "@/lib/preinscrieri";
 
-const title = "Quasar Dance vine în Valea Lupului — dans, gimnastică, K-pop și Zumba | Quasar Dance";
+const title = "Quasar Dance vine în Valea Lupului — dans, gimnastică și K-pop pentru copii | Quasar Dance";
 const description =
-  "Din noiembrie, Quasar Dance deschide cursuri la Școala Verde din Valea Lupului, în parteneriat cu Școala „Profesor Mihai Dumitriu”: dans, gimnastică, K-pop și Zumba. Spune-ne ce vi s-ar potrivi.";
+  "Din noiembrie, Quasar Dance deschide cursuri la Școala Verde din Valea Lupului, în parteneriat cu Școala „Profesor Mihai Dumitriu”: dans, gimnastică și K-pop pentru copii. Spune-ne ce vi s-ar potrivi.";
 
 // Starea campaniei (nepornită / activă / închisă) o decide Alex din qapp; pagina o
 // recitește cel mult o dată pe minut.

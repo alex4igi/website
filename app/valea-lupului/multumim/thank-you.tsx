@@ -11,7 +11,7 @@ const display = {
 };
 
 const SHARE_URL = `${SITE_URL}${LP_PATH}?utm_source=whatsapp&utm_medium=share&utm_campaign=${CAMPAIGN_ID}`;
-const SHARE_TEXT = `Quasar Dance deschide cursuri de dans, gimnastică, K-pop și Zumba în Valea Lupului, la Școala Verde (în parteneriat cu Școala „Profesor Mihai Dumitriu”), din noiembrie. Programul îl fac după preferințele familiilor — completează și voi: ${SHARE_URL}`;
+const SHARE_TEXT = `Quasar Dance deschide cursuri de dans, gimnastică și K-pop pentru copii în Valea Lupului, la Școala Verde (în parteneriat cu Școala „Profesor Mihai Dumitriu”), din noiembrie. Programul îl fac după preferințele familiilor — completează și voi: ${SHARE_URL}`;
 const WHATSAPP_SHARE = `https://wa.me/?text=${encodeURIComponent(SHARE_TEXT)}`;
 
 type LeadFlag = {
