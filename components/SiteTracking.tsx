@@ -2,6 +2,50 @@
 
 import { useEffect } from 'react'
 import { contactMethodForHref, trackContact } from '@/lib/track'
+import { attributionForWaClick, captureAttribution, newWaCode } from '@/lib/attribution'
+
+// Numărul nostru de WhatsApp. Linkurile de „trimite prietenilor" (wa.me/?text=) nu-l au
+// și nu primesc cod.
+const WA_NUMBER = '40730534172'
+
+/**
+ * Pune un cod nou în mesajul precompletat („… (ref Q-7K3MP)") și salvează click-ul cu
+ * atribuirea lui (/api/wa-click → CRM). Recepția lipește mesajul în fișa leadului și
+ * CRM-ul află de unde a venit omul. `data-wa-base` ține linkul original, ca un al doilea
+ * click să nu adauge încă un cod peste primul.
+ */
+function tagWhatsAppLink(anchor: HTMLAnchorElement): string | null {
+  const base = anchor.dataset.waBase ?? anchor.href
+  let url: URL
+  try {
+    url = new URL(base)
+  } catch {
+    return null
+  }
+  const phone = url.hostname === 'wa.me' ? url.pathname.replace(/\//g, '') : url.searchParams.get('phone')
+  if (phone !== WA_NUMBER) return null
+
+  const code = newWaCode()
+  const text = url.searchParams.get('text')
+  url.searchParams.set('text', `${text ? `${text} ` : ''}(ref Q-${code})`)
+  // URLSearchParams scrie spațiile ca „+", pe care WhatsApp le poate lăsa ca atare în mesaj.
+  url.search = url.search.replace(/\+/g, '%20')
+  anchor.dataset.waBase = base
+  // Schimbat în faza de capture, înainte de navigare: browserul deschide linkul nou.
+  anchor.href = url.toString()
+
+  const payload = JSON.stringify({ cod: code, pagina: window.location.pathname, ...attributionForWaClick() })
+  try {
+    // sendBeacon supraviețuiește plecării de pe pagină (pe mobil WhatsApp preia ecranul).
+    const sent = navigator.sendBeacon?.('/api/wa-click', new Blob([payload], { type: 'application/json' }))
+    if (!sent) {
+      void fetch('/api/wa-click', { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true })
+    }
+  } catch {
+    /* fără atribuire pentru click-ul ăsta — mesajul pleacă oricum */
+  }
+  return code
+}
 
 /**
  * Trackingul automat al site-ului, montat o singură dată din layout. Face ce făcea
@@ -17,12 +61,15 @@ import { contactMethodForHref, trackContact } from '@/lib/track'
  */
 export default function SiteTracking() {
   useEffect(() => {
+    captureAttribution()
     const onClick = (e: MouseEvent) => {
       const anchor = (e.target as Element | null)?.closest?.('a[href]')
       if (!(anchor instanceof HTMLAnchorElement)) return
       const method = contactMethodForHref(anchor.getAttribute('href') ?? '')
       if (!method) return
+      const waRef = method === 'whatsapp' ? tagWhatsAppLink(anchor) : null
       trackContact(method, {
+        ...(waRef ? { wa_ref: waRef } : {}),
         page: window.location.pathname,
         // Textul linkului spune de unde s-a apăsat („Sună”, „Scrie-ne pe WhatsApp”, numărul).
         label: (anchor.getAttribute('aria-label') || anchor.textContent || '').trim().slice(0, 80),
