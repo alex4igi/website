@@ -310,8 +310,8 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
             </h1>
             <p className="qd-up mt-5 max-w-xl text-base leading-relaxed text-white/75 md:text-lg" style={{ animationDelay: "240ms" }}>
               Dans, gimnastică și K-pop pentru copii — aproape de casă, după școală sau în weekend, la Școala Verde, în
-              parteneriat cu {SCOALA_PARTENERA}. Construim programul noii locații după ce ne spun familiile:{" "}
-              <strong className="font-semibold text-white">ce activități, ce vârste și ce ore vi s-ar potrivi.</strong>
+              parteneriat cu {SCOALA_PARTENERA}.{" "}
+              <strong className="font-semibold text-white">Spune-ne ce îți dorești și când — noi venim cu soluțiile.</strong>
             </p>
             {arataFormular ? (
               <>
