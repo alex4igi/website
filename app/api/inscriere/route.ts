@@ -73,6 +73,8 @@ type Body = {
   utm_campaign?: string
   /** Lotul de flyere / varianta de reclamă (QR `/vl/<lot>`). */
   utm_content?: string
+  /** Click-ul Google Ads (doar cu consimțământ de marketing): CRM-ul raportează înscrierea înapoi. */
+  gclid?: string
   /**
    * Preînscrierea de campanie (Valea Lupului): contactul + participanții cu activitățile
    * și orele lor. O validează CRM-ul (`_shared/preinscriere.ts`); aici doar trece mai departe.
@@ -177,6 +179,7 @@ export async function POST(req: Request) {
         utm_medium: body.utm_medium || null,
         utm_campaign: body.utm_campaign || null,
         utm_content: trimTo(body.utm_content, MAX_SHORT),
+        gclid: trimTo(body.gclid, MAX_SHORT),
         preinscriere: body.preinscriere ?? undefined,
       }),
     })

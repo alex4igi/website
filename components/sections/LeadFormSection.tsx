@@ -5,6 +5,7 @@ import { newEventId, trackLead } from '@/lib/track'
 import { marcheazaInscriere } from '@/lib/campanii-vizite'
 import { CAMPANIE_RECOMANDARI } from '@/lib/recomandari'
 import { loadConsent } from '@/lib/consent'
+import { gclidForLead } from '@/lib/attribution'
 import { CheckCircle } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 import { normalizePhoneRO } from '@/lib/validation'
@@ -105,6 +106,7 @@ export default function LeadFormSection({
           utm_source: params?.get('utm_source') || null,
           utm_medium: params?.get('utm_medium') || null,
           utm_campaign: params?.get('utm_campaign') || null,
+          gclid: gclidForLead(),
           company: form.company,
         }),
       })

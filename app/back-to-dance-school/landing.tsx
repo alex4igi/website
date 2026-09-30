@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { newEventId } from "@/lib/track";
 import { loadConsent } from "@/lib/consent";
+import { gclidForLead } from "@/lib/attribution";
 import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from "@/components/TurnstileWidget";
 import {
   ArrowRight,
@@ -202,6 +203,7 @@ export default function BackToDanceSchoolLanding() {
           mesaj: interestNote,
           campanie: QAPP_CAMPAIGN,
           ...utm,
+          gclid: gclidForLead(),
           company: form.company,
         }),
       });

@@ -105,6 +105,14 @@ export function attributionForWaClick(): Omit<Attribution, 'landing'> & { landin
   return { ...a, gclid: marketing ? a.gclid : null }
 }
 
+/**
+ * gclid-ul pentru un formular de înscriere: CRM-ul îl trimite înapoi în Google Ads când
+ * leadul devine elev (conversie offline). Tot doar cu consimțământ de marketing.
+ */
+export function gclidForLead(): string | null {
+  return attributionForWaClick().gclid
+}
+
 // Fără 0/O, 1/I/L: codul se poate citi și dicta.
 const ALFABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
 

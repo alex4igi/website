@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { newEventId } from "@/lib/track";
 import { loadConsent } from "@/lib/consent";
+import { gclidForLead } from "@/lib/attribution";
 import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from "@/components/TurnstileWidget";
 import { ArrowRight, Check, ChevronDown, Eye, Loader2, MapPin, MessageCircle, Phone, Plus, X } from "lucide-react";
 import type { StarePreinscriere } from "@/lib/preinscrieri";
@@ -197,6 +198,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
           locatia: QAPP_LOCATIE,
           campanie: QAPP_CAMPAIGN,
           ...utm,
+          gclid: gclidForLead(),
           company: form.company,
           preinscriere: {
             trimitere_id: trimitereId,
