@@ -2,14 +2,16 @@
 
 import { useEffect } from 'react'
 import { contactMethodForHref, trackContact } from '@/lib/track'
-import { attributionForWaClick, captureAttribution, newWaCode } from '@/lib/attribution'
+import { attributionForWaClick, captureAttribution, invisibleWaCode, newWaCode } from '@/lib/attribution'
 
 // Numărul nostru de WhatsApp. Linkurile de „trimite prietenilor" (wa.me/?text=) nu-l au
 // și nu primesc cod.
 const WA_NUMBER = '40730534172'
 
+const DEFAULT_TEXT = 'Bună! Aș dori mai multe detalii despre cursurile Quasar Dance.'
+
 /**
- * Pune un cod nou în mesajul precompletat („… (ref Q-7K3MP)") și salvează click-ul cu
+ * Pune un cod nou, INVIZIBIL, în mesajul precompletat și salvează click-ul cu
  * atribuirea lui (/api/wa-click → CRM). Recepția lipește mesajul în fișa leadului și
  * CRM-ul află de unde a venit omul. `data-wa-base` ține linkul original, ca un al doilea
  * click să nu adauge încă un cod peste primul.
@@ -26,8 +28,11 @@ function tagWhatsAppLink(anchor: HTMLAnchorElement): string | null {
   if (phone !== WA_NUMBER) return null
 
   const code = newWaCode()
-  const text = url.searchParams.get('text')
-  url.searchParams.set('text', `${text ? `${text} ` : ''}(ref Q-${code})`)
+  // După primul „!" (sau primul cuvânt), nu la final: unele aplicații taie ce e la capăt,
+  // iar începutul mesajului e partea pe care omul o șterge cel mai rar.
+  const text = url.searchParams.get('text') || DEFAULT_TEXT
+  const cut = text.indexOf('!') >= 0 ? text.indexOf('!') + 1 : Math.max(text.indexOf(' '), 0) || text.length
+  url.searchParams.set('text', text.slice(0, cut) + invisibleWaCode(code) + text.slice(cut))
   // URLSearchParams scrie spațiile ca „+", pe care WhatsApp le poate lăsa ca atare în mesaj.
   url.search = url.search.replace(/\+/g, '%20')
   anchor.dataset.waBase = base

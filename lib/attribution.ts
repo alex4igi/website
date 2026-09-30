@@ -108,9 +108,24 @@ export function attributionForWaClick(): Omit<Attribution, 'landing'> & { landin
 // Fără 0/O, 1/I/L: codul se poate citi și dicta.
 const ALFABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
 
-/** Codul pus în mesajul de WhatsApp: 5 caractere, afișat „Q-XXXXX". */
+/** Codul pus în mesajul de WhatsApp: 5 caractere din ALFABET. */
 export function newWaCode(): string {
   const bytes = new Uint8Array(5)
   crypto.getRandomValues(bytes)
   return Array.from(bytes, (b) => ALFABET[b % ALFABET.length]).join('')
+}
+
+/**
+ * Codul, scris cu caractere de lățime zero: nu se vede în mesaj, dar trece prin WhatsApp
+ * și prin copy-paste. Fiecare caracter al codului = poziția lui în ALFABET (0–30), scrisă
+ * în baza 4 pe 3 cifre → 15 caractere invizibile. Decodarea e în CRM
+ * (`leaga_click_whatsapp`, qapp v2) — alfabetul și ordinea cifrelor trebuie să rămână identice.
+ */
+const INVIZIBILE = ['\u200B', '\u200C', '\u200D', '\u2060']
+
+export function invisibleWaCode(code: string): string {
+  return Array.from(code, (c) => {
+    const i = ALFABET.indexOf(c)
+    return INVIZIBILE[i >> 4] + INVIZIBILE[(i >> 2) & 3] + INVIZIBILE[i & 3]
+  }).join('')
 }
