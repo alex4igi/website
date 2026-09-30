@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { MapPin, Phone, Mail, Instagram, Facebook } from 'lucide-react'
 import CookieSettingsLink from '@/components/CookieSettingsLink'
 import CampaignFooterLink from '@/components/CampaignFooterLink'
+import CampaniiFooterLinks from '@/components/CampaniiFooterLinks'
 import { MEMBER_PORTAL_URL, MEMBER_PORTAL_LEGAL_LABEL } from '@/lib/portal'
 
 // TikTok nu există în lucide-react — icon custom cu aceeași interfață (size).
@@ -129,9 +130,10 @@ export default function Footer() {
                 {col.title}
               </h4>
               <ul className="flex flex-col gap-2.5">
-                {/* Campania stă în capul coloanei de cursuri, cât timp e în fereastra
-                    din lib/campaign-promo.ts. În rest coloana arată neschimbată. */}
+                {/* Campaniile stau în capul coloanei de cursuri, cât timp sunt deschise
+                    (lib/campaign-promo.ts, respectiv CRM-ul). În rest coloana arată neschimbată. */}
                 {col.title === 'Cursuri' && <CampaignFooterLink />}
+                {col.title === 'Cursuri' && <CampaniiFooterLinks />}
                 {col.links.map((link) => (
                   <li key={link.label}>
                     <a
