@@ -8,7 +8,7 @@ import GoogleTagManager, { GTMNoScript } from '@/components/GoogleTagManager'
 import MetaPixel from '@/components/MetaPixel'
 import CookieConsent from '@/components/CookieConsent'
 import CampaignPopup from '@/components/CampaignPopup'
-import PreinscrierePopup from '@/components/PreinscrierePopup'
+import CampaniiCard from '@/components/CampaniiCard'
 import SiteTracking from '@/components/SiteTracking'
 import './globals.css'
 
@@ -74,8 +74,8 @@ export default function RootLayout({
         <CookieConsent />
         {/* Se deschide singur doar în fereastra din lib/campaign-promo.ts. */}
         <CampaignPopup />
-        {/* Cardul lateral Valea Lupului: doar cât campania e pornită din qapp. */}
-        <PreinscrierePopup />
+        {/* Cardul lateral al campaniilor pornite din qapp (DANCE WITH ME, Valea Lupului). */}
+        <CampaniiCard />
         {/* Click pe telefon/WhatsApp/email, oriunde în site. */}
         <SiteTracking />
         <Analytics />

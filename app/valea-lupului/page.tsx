@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import ValeaLupuluiLanding from "./landing";
+import MarcheazaVizita from "@/components/MarcheazaVizita";
 import { LP_PATH, QAPP_CAMPAIGN, SITE_URL } from "./campaign";
 import { getStarePreinscriere } from "@/lib/preinscrieri";
 
@@ -36,5 +37,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   // CRM-ul indisponibil = tratăm ca nepornită: pagina nu promite un formular pe care nu-l primim.
   const stare = (await getStarePreinscriere(QAPP_CAMPAIGN)) ?? "nepornita";
-  return <ValeaLupuluiLanding stare={stare} />;
+  return (
+    <>
+      <MarcheazaVizita campanie="valea_lupului" />
+      <ValeaLupuluiLanding stare={stare} />
+    </>
+  );
 }

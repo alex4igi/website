@@ -2,6 +2,8 @@
 
 import { useRef, useState, type ReactNode } from 'react'
 import { newEventId, trackLead } from '@/lib/track'
+import { marcheazaInscriere } from '@/lib/campanii-vizite'
+import { CAMPANIE_RECOMANDARI } from '@/lib/recomandari'
 import { loadConsent } from '@/lib/consent'
 import { CheckCircle } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
@@ -111,6 +113,10 @@ export default function LeadFormSection({
 
       if (res.ok) {
         setSubmitted(true)
+        // S-a înscris prin recomandare (pe landing sau cu „Cine te-a invitat?" completat
+        // în alt formular): cardul DANCE WITH ME nu-l mai cheamă înapoi.
+        if (campanie === CAMPANIE_RECOMANDARI || (invitat && form.invitatDe.trim()))
+          marcheazaInscriere('dance_with_me')
         // Serverul nu mai spune dacă telefonul era deja în CRM (ar fi o scurgere), deci
         // `lead_new` pleacă acum doar prin Meta CAPI, de pe server.
         trackLead({

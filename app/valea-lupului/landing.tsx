@@ -7,6 +7,7 @@ import { loadConsent } from "@/lib/consent";
 import { TurnstileWidget, turnstileActivClient, type TurnstileHandle } from "@/components/TurnstileWidget";
 import { ArrowRight, Check, ChevronDown, Eye, Loader2, MapPin, MessageCircle, Phone, Plus, X } from "lucide-react";
 import type { StarePreinscriere } from "@/lib/preinscrieri";
+import { marcheazaInscriere } from "@/lib/campanii-vizite";
 
 import {
   ACORD_VERSIUNE,
@@ -142,6 +143,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
     setError(null);
 
     if (form.company) {
+      marcheazaInscriere("valea_lupului");
       router.push(THANK_YOU_PATH);
       return;
     }
@@ -232,6 +234,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
       } catch {
         /* sessionStorage blocat — cererea e trimisă, doar evenimentul de conversie se pierde */
       }
+      marcheazaInscriere("valea_lupului");
       router.push(THANK_YOU_PATH);
     } catch {
       setError("Nu am putut trimite cererea. Verifică conexiunea și încearcă din nou.");

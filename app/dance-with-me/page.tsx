@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import Navbar from '@/components/sections/Navbar'
 import LeadFormSection from '@/components/sections/LeadFormSection'
+import MarcheazaVizita from '@/components/MarcheazaVizita'
 import LocationsSection from '@/components/sections/LocationsSection'
 import PathsSection from '@/components/sections/PathsSection'
 import WhyParentsSection from '@/components/sections/WhyParentsSection'
@@ -43,6 +44,7 @@ export default async function DanceWithMePage() {
 
   return (
     <main>
+      <MarcheazaVizita campanie="dance_with_me" />
       <Navbar solid />
 
       {/* Hero — pentru invitat */}

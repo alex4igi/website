@@ -14,6 +14,7 @@ export async function GET() {
   ])
   return NextResponse.json({
     dance_with_me: recomandare !== null,
+    dance_with_me_pana: recomandare?.data_limita ?? null,
     valea_lupului: valeaLupului ?? 'nepornita',
   })
 }
