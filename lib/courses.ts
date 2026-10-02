@@ -83,7 +83,7 @@ export interface CourseConfig {
 }
 
 const brandStats = [
-  { v: '600+', l: 'membri activi' },
+  { v: '700+', l: 'membri activi' },
   { v: '200+', l: 'trofee & premii' },
   { v: '40+', l: 'ani de experiență' },
 ]

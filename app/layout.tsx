@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   title: 'Quasar Dance | Școală de Dans în Iași din 1981',
   description:
-    'Quasar Dance — cea mai longevivă comunitate de dans din Iași. Cursuri de street dance, gimnastică, KPOP pentru copii, studenți și adulți. 600+ membri activi, 200+ trofee, 3 locații.',
+    'Quasar Dance — cea mai longevivă comunitate de dans din Iași. Cursuri de street dance, gimnastică, KPOP pentru copii, studenți și adulți. 700+ membri activi, 200+ trofee, 3 locații.',
   keywords: [
     'scoala de dans Iasi',
     'cursuri dans copii Iasi',

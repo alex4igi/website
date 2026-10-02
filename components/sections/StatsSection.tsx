@@ -5,7 +5,7 @@ import { useInView } from '@/hooks/use-in-view'
 
 const stats = [
   { raw: 11000, display: '11.000+', label: 'tineri introduși la dans', desc: 'De-a lungul istoriei Quasar' },
-  { raw: 600,   display: '600+',    label: 'membri activi',            desc: 'În cele 3 locații Quasar' },
+  { raw: 700,   display: '700+',    label: 'membri activi',            desc: 'În cele 3 locații Quasar' },
   { raw: 200,   display: '200+',    label: 'trofee & premii',          desc: 'Național și internațional' },
   { raw: 50,    display: '50+',     label: 'spectacole Quasar',        desc: 'Pe scene mari din Iași' },
 ]

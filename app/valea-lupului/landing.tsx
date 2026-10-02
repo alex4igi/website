@@ -297,7 +297,8 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
           <div className="absolute inset-0 bg-gradient-to-b from-[#231f20]/94 via-[#231f20]/62 to-[#231f20]/45 md:bg-gradient-to-br md:from-[#231f20] md:via-[#231f20]/72 md:to-[#231f20]/32" />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#231f20] to-transparent" />
         </div>
-        <div className="relative mx-auto max-w-6xl">
+        {/* Sub 1280px coloana stângă e prea îngustă pentru cele două butoane, deci stivuim. */}
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 xl:grid-cols-[1.05fr_0.95fr] xl:gap-14">
           <div className="qd-hero-text max-w-2xl">
             <div
               className="qd-up inline-flex flex-wrap items-center gap-2 rounded-full border border-[#f8ef21]/30 bg-[#f8ef21]/10 px-4 py-2 text-xs font-black tracking-[0.14em] text-[#f8ef21] uppercase"
@@ -368,6 +369,27 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
               </div>
             )}
           </div>
+
+          {/* Aceleași cifre ca pe Back to Dance School: pe ecrane late ocupă coloana din dreapta,
+              ca hero-ul să nu rămână pe jumătate gol. */}
+          <dl className="qd-up grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-2 xl:gap-4" style={{ animationDelay: "460ms" }}>
+            {[
+              { value: "1981", label: "anul în care am început" },
+              { value: "11.000+", label: "copii au dansat la Quasar" },
+              { value: "700+", label: "membri activi acum" },
+              { value: "3", label: "activități pentru copii" },
+            ].map((stat) => (
+              <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 md:p-5 xl:p-6">
+                <dt className="sr-only">{stat.label}</dt>
+                <dd>
+                  <span className="block text-2xl leading-none font-extrabold text-[#f8ef21] md:text-3xl xl:text-4xl" style={display}>
+                    {stat.value}
+                  </span>
+                  <span className="mt-2 block text-xs leading-snug text-white/55">{stat.label}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 

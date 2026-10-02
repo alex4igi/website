@@ -365,7 +365,7 @@ export default function BackToDanceSchoolLanding() {
             {[
               { value: "1981", label: "anul în care am început" },
               { value: "11.000+", label: "copii au dansat la Quasar" },
-              { value: "600+", label: "membri activi acum" },
+              { value: "700+", label: "membri activi acum" },
               { value: "2", label: "locații în campanie" },
             ].map((stat) => (
               <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 md:p-5 xl:p-6">
@@ -544,7 +544,7 @@ export default function BackToDanceSchoolLanding() {
             {[
               { value: "45", suffix: " ani", label: "de școală de dans, neîntrerupt" },
               { value: "11.000+", suffix: "", label: "tineri introduși la dans" },
-              { value: "600+", suffix: "", label: "membri activi în acest moment" },
+              { value: "700+", suffix: "", label: "membri activi în acest moment" },
               { value: "zeci", suffix: "", label: "de trofee naționale și internaționale" },
             ].map((stat) => (
               <div key={stat.label} className="rounded-2xl bg-[#231f20] p-5 md:p-7">

@@ -6,7 +6,7 @@ const items = [
   'Tiny · Junior · Varsity',
   'Teens · Students · Adulți',
   'Iași · Din 1981',
-  '600+ Membri',
+  '700+ Membri',
   'Spectacole · Concursuri',
 ]
 

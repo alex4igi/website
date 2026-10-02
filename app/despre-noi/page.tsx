@@ -30,7 +30,7 @@ const instructors = instructorsData
 // Impact stats
 const impactStats = [
   { value: '11.000+', label: 'Tineri introduși la dans', icon: Users },
-  { value: '600+', label: 'Membri activi', icon: Heart },
+  { value: '700+', label: 'Membri activi', icon: Heart },
   { value: '11', label: 'Instructori dedicați', icon: Star },
   { value: '3', label: 'Puncte de lucru în Iași', icon: MapPin },
 ]
@@ -110,7 +110,7 @@ export default function DespreNoiPage() {
               <span className="text-[#f8ef21]">din 1981.</span>
             </h1>
             <p className={`text-white/70 text-lg md:text-xl leading-relaxed max-w-2xl reveal ${heroInView ? 'in-view' : ''}`} style={{ transitionDelay: '100ms' }}>
-              Suntem o comunitate de peste 600 de membri activi și o echipă de 11 instructori dedicați,
+              Suntem o comunitate de peste 700 de membri activi și o echipă de 11 instructori dedicați,
               uniți de o singură filozofie: <span className="text-white font-semibold">„Music is number 1”</span>.
               La Quasar nu predăm doar pași de dans — creștem încrederea și caracterul fiecărui tânăr care ne trece pragul.
             </p>
@@ -485,7 +485,7 @@ export default function DespreNoiPage() {
             Gata să începi?
           </h2>
           <p className="text-[#231f20]/70 text-lg mb-8">
-            Alătură-te celor peste 600 de membri care dansează la Quasar. Primul pas începe aici.
+            Alătură-te celor peste 700 de membri care dansează la Quasar. Primul pas începe aici.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

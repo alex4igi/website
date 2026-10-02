@@ -5,7 +5,7 @@ import { ChevronDown } from 'lucide-react'
 import SprayLabel from '@/components/ui/spray-label'
 
 const trustBadges = [
-  { value: '600+', label: 'membri activi' },
+  { value: '700+', label: 'membri activi' },
   { value: '11.000+', label: 'participanți' },
   { value: 'din 1981', label: 'experiență' },
   { value: '3', label: 'locații în Iași' },
