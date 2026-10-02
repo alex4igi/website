@@ -377,7 +377,7 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
               { value: "1981", label: "anul în care am început" },
               { value: "11.000+", label: "copii au dansat la Quasar" },
               { value: "700+", label: "membri activi acum" },
-              { value: "3", label: "activități pentru copii" },
+              { value: "200+", label: "trofee & premii" },
             ].map((stat) => (
               <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 md:p-5 xl:p-6">
                 <dt className="sr-only">{stat.label}</dt>
