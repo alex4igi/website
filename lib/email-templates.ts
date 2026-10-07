@@ -1,6 +1,8 @@
 // Template-uri HTML pentru emailuri tranzacționale Quasar Dance.
 // Stil email-safe (tabele + inline styles), branding Quasar (negru #231f20 / galben #f8ef21).
 
+import { PERIOADA_CONTACT } from '@/app/valea-lupului/campaign'
+
 const DARK = '#231f20'
 const YELLOW = '#f8ef21'
 const SITE_URL = 'https://quasardance.ro'
@@ -129,7 +131,7 @@ export function inscriereConfirmationEmail({ name, interest, ageGroup, location 
 }
 
 // ─── 2. Confirmare preînscriere (locație nouă) → către vizitator ───────────
-// Fără termen de răspuns și fără „loc rezervat": programul locației nu există încă.
+// Fără „loc rezervat": programul locației nu există încă. Promite apelul din vacanță (Alex, 07.10.2026).
 export function preinscriereConfirmationEmail({ name, location }: { name: string; location?: string | null }) {
   const loc = location ? esc(location) : 'noua locație'
   const bodyHtml = `
@@ -137,11 +139,12 @@ export function preinscriereConfirmationEmail({ name, location }: { name: string
       Salut${name ? ` ${esc(name)}` : ''},
     </p>
     <p style="margin:0 0 16px 0;color:#444;font-size:15px;line-height:1.6;">
-      Am primit preînscrierea pentru <strong>${loc}</strong>. Din răspunsurile familiilor stabilim grupele și orarul;
-      te contactăm pentru detalii și îți comunicăm programul când este confirmat.
+      Am primit preînscrierea pentru <strong>${loc}</strong> și am înregistrat preferințele voastre. În vacanța de
+      toamnă, <strong>${PERIOADA_CONTACT}</strong>, vă sunăm ca să stabilim împreună <strong>ora demonstrativă gratuită</strong>
+      și programul de după ea.
     </p>
     <p style="margin:0 0 24px 0;color:#444;font-size:15px;line-height:1.6;">
-      Prima oră la sală este gratuită. Dacă ai întrebări până atunci, ne poți suna la
+      Dacă aveți întrebări până atunci, ne puteți suna la
       <a href="tel:+40730534172" style="color:${DARK};font-weight:600;">${CONTACT_PHONE}</a>.
     </p>
     <a href="${SITE_URL}/valea-lupului" style="display:inline-block;background-color:${YELLOW};color:${DARK};font-size:15px;font-weight:700;text-decoration:none;padding:12px 28px;border-radius:999px;">Vezi pagina locației</a>
@@ -149,7 +152,7 @@ export function preinscriereConfirmationEmail({ name, location }: { name: string
   return {
     subject: `Am primit preînscrierea — Quasar Dance ${location ?? ''}`.trim(),
     html: baseLayout({
-      preheader: 'Îți comunicăm programul când este confirmat.',
+      preheader: `Vă sunăm în ${PERIOADA_CONTACT} pentru ora gratuită și program.`,
       heading: 'Preînscrierea ta a fost înregistrată',
       bodyHtml,
     }),
