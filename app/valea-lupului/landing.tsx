@@ -31,14 +31,14 @@ import {
   normalizeRoMobile,
   resolveUtm,
 } from "./campaign";
+import { WA_TEXT_STANDARD } from "@/lib/whatsapp";
 
 const display = {
   fontFamily: 'var(--font-display, "Sora", ui-sans-serif, system-ui, sans-serif)',
 };
 
-const WHATSAPP_ASK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-  "Bună! Am văzut că Quasar Dance vine în Valea Lupului și aș vrea detalii.",
-)}`;
+// Textul standard; cine vine din QR-ul flyerului primește altul, pus la click de SiteTracking.
+const WHATSAPP_ASK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WA_TEXT_STANDARD)}`;
 
 const MAX_PARTICIPANTI = 5;
 

@@ -3,18 +3,14 @@
 import { useEffect } from 'react'
 import { contactMethodForHref, trackContact } from '@/lib/track'
 import { attributionForWaClick, captureAttribution, invisibleWaCode, newWaCode } from '@/lib/attribution'
-
-// Numărul nostru de WhatsApp. Linkurile de „trimite prietenilor" (wa.me/?text=) nu-l au
-// și nu primesc cod.
-const WA_NUMBER = '40730534172'
-
-const DEFAULT_TEXT = 'Bună! Aș dori mai multe detalii despre cursurile Quasar Dance.'
+import { VL_FLYER_UTM, WA_NUMBER, WA_TEXT_FLYER_VL, WA_TEXT_STANDARD } from '@/lib/whatsapp'
 
 /**
  * Pune un cod nou, INVIZIBIL, în mesajul precompletat și salvează click-ul cu
  * atribuirea lui (/api/wa-click → CRM). Recepția lipește mesajul în fișa leadului și
  * CRM-ul află de unde a venit omul. `data-wa-base` ține linkul original, ca un al doilea
- * click să nu adauge încă un cod peste primul.
+ * click să nu adauge încă un cod peste primul. Linkurile de „trimite prietenilor"
+ * (wa.me/?text=) n-au numărul nostru și nu primesc cod.
  */
 function tagWhatsAppLink(anchor: HTMLAnchorElement): string | null {
   const base = anchor.dataset.waBase ?? anchor.href
@@ -28,9 +24,12 @@ function tagWhatsAppLink(anchor: HTMLAnchorElement): string | null {
   if (phone !== WA_NUMBER) return null
 
   const code = newWaCode()
+  const attribution = attributionForWaClick()
+  const fromVlFlyer =
+    attribution.utm_source === VL_FLYER_UTM.source && attribution.utm_campaign === VL_FLYER_UTM.campaign
   // După primul „!" (sau primul cuvânt), nu la final: unele aplicații taie ce e la capăt,
   // iar începutul mesajului e partea pe care omul o șterge cel mai rar.
-  const text = url.searchParams.get('text') || DEFAULT_TEXT
+  const text = fromVlFlyer ? WA_TEXT_FLYER_VL : url.searchParams.get('text') || WA_TEXT_STANDARD
   const cut = text.indexOf('!') >= 0 ? text.indexOf('!') + 1 : Math.max(text.indexOf(' '), 0) || text.length
   url.searchParams.set('text', text.slice(0, cut) + invisibleWaCode(code) + text.slice(cut))
   // URLSearchParams scrie spațiile ca „+", pe care WhatsApp le poate lăsa ca atare în mesaj.
@@ -39,7 +38,7 @@ function tagWhatsAppLink(anchor: HTMLAnchorElement): string | null {
   // Schimbat în faza de capture, înainte de navigare: browserul deschide linkul nou.
   anchor.href = url.toString()
 
-  const payload = JSON.stringify({ cod: code, pagina: window.location.pathname, ...attributionForWaClick() })
+  const payload = JSON.stringify({ cod: code, pagina: window.location.pathname, ...attribution })
   try {
     // sendBeacon supraviețuiește plecării de pe pagină (pe mobil WhatsApp preia ecranul).
     const sent = navigator.sendBeacon?.('/api/wa-click', new Blob([payload], { type: 'application/json' }))

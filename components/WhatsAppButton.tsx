@@ -1,8 +1,7 @@
 import { FaWhatsapp } from 'react-icons/fa'
+import { WA_NUMBER, WA_TEXT_STANDARD } from '@/lib/whatsapp'
 
-const WHATSAPP_NUMBER = '40730534172' // 0730 534 172 în format internațional
-const PREFILL = 'Bună! Aș dori mai multe detalii despre cursurile Quasar Dance.'
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(PREFILL)}`
+const WHATSAPP_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_TEXT_STANDARD)}`
 
 export default function WhatsAppButton() {
   return (
