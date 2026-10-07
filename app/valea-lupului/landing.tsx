@@ -17,7 +17,10 @@ import {
   LEAD_ENDPOINT,
   LEAD_FLAG_KEY,
   PHONE_MAIN,
+  PERIOADA_CONTACT,
   PHONE_MAIN_TEL,
+  PRETURI_ANCHOR,
+  PRETURI_ORIENTATIVE,
   QAPP_CAMPAIGN,
   QAPP_LOCATIE,
   SCOALA_PARTENERA,
@@ -274,15 +277,24 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
               className="h-8 w-auto md:h-9"
             />
           </a>
-          <a
-            href={`tel:${PHONE_MAIN_TEL}`}
-            className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#f8ef21] hover:text-[#231f20]"
-            style={display}
-          >
-            <Phone className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">{PHONE_MAIN}</span>
-            <span className="sm:hidden">Sună</span>
-          </a>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href={`#${PRETURI_ANCHOR}`}
+              className="rounded-full px-3 py-2 text-sm font-bold text-white transition-colors hover:text-[#f8ef21]"
+              style={display}
+            >
+              Prețuri
+            </a>
+            <a
+              href={`tel:${PHONE_MAIN_TEL}`}
+              className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#f8ef21] hover:text-[#231f20]"
+              style={display}
+            >
+              <Phone className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">{PHONE_MAIN}</span>
+              <span className="sm:hidden">Sună</span>
+            </a>
+          </div>
         </div>
       </header>
 
@@ -343,7 +355,8 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
                 </a>
               </div>
               <p className="qd-up mt-5 text-sm text-white/65" style={{ animationDelay: "420ms" }}>
-                Prima oră este gratuită. Preînscrierea nu te obligă la nimic.
+                Te sunăm în vacanța de toamnă, {PERIOADA_CONTACT}, pentru orar și ședința demonstrativă gratuită. Preînscrierea nu te
+                obligă la nimic.
               </p>
               </>
             ) : (
@@ -464,8 +477,8 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
           <ol className="mt-12 grid gap-5 md:grid-cols-3">
             {[
               { n: "01", title: "Completezi formularul", text: "Ne spui pentru cine e, ce activități v-ar interesa și în ce zile și intervale ați putea ajunge." },
-              { n: "02", title: "Facem grupele", text: "Din răspunsuri stabilim grupele și orarul. Te sunăm să verificăm împreună că programul vi se potrivește." },
-              { n: "03", title: "Prima oră, gratuit", text: "Când orarul e gata, te invităm la o oră demonstrativă gratuită. Abia apoi hotărâți dacă rămâneți." },
+              { n: "02", title: "Te sunăm în vacanță", text: `Din răspunsuri facem grupele. În vacanța de toamnă, ${PERIOADA_CONTACT}, te sunăm să stabilim împreună orarul și ședința demonstrativă gratuită.` },
+              { n: "03", title: "Prima oră, gratuit", text: "Copilul vine la ședința demonstrativă gratuită. Abia apoi hotărâți dacă rămâneți." },
             ].map((step) => (
               <li key={step.n} className="relative flex flex-col gap-3 overflow-hidden rounded-2xl bg-[#f5f5f5] p-7">
                 <span
@@ -484,6 +497,56 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
         </div>
       </section>
 
+      {/* ————— Prețuri orientative ————— */}
+      <section id={PRETURI_ANCHOR} className="scroll-mt-4 bg-[#f5f5f5] px-5 py-16 md:px-8 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <SectionLabel>Prețuri orientative</SectionLabel>
+          <h2 className="mt-4 max-w-2xl text-3xl leading-tight font-extrabold text-balance text-[#231f20] md:text-5xl" style={display}>
+            Cât costă.
+          </h2>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#6b6b6b]">
+            Dacă grupele se țin o dată sau de două ori pe săptămână stabilim după preînscrieri, așa că îți arătăm ambele
+            variante. Prețul final îl confirmăm odată cu orarul.
+          </p>
+          <div className="mt-10 grid max-w-3xl gap-5 sm:grid-cols-2">
+            {PRETURI_ORIENTATIVE.map((p) => (
+              <div key={p.frecventa} className="flex flex-col gap-4 rounded-2xl bg-white p-7">
+                <span
+                  className="self-start rounded-full bg-[#231f20] px-3 py-1 text-[11px] font-black tracking-wide text-[#f8ef21] uppercase"
+                  style={display}
+                >
+                  {p.frecventa}
+                </span>
+                <p className="flex items-baseline gap-2 text-[#231f20]" style={display}>
+                  <span className="text-5xl leading-none font-extrabold">{p.lei}</span>
+                  <span className="text-base font-bold">lei / lună</span>
+                </p>
+                <p className="text-sm leading-relaxed text-[#6b6b6b]">Orientativ, pentru {p.detaliu}.</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <p className="flex items-center gap-3 text-sm font-semibold text-[#231f20]">
+              <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#f8ef21]" aria-hidden="true">
+                <Check className="h-3.5 w-3.5 text-[#231f20]" strokeWidth={3} />
+              </span>
+              Prima oră este gratuită.
+            </p>
+            {arataFormular ? (
+              <button
+                type="button"
+                onClick={() => scrollToForm()}
+                className="inline-flex items-center justify-center gap-2 self-start rounded-full bg-[#231f20] px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-[#f8ef21] hover:text-[#231f20] sm:ml-auto"
+                style={display}
+              >
+                Mă preînscriu
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
       {/* ————— Formular (doar cât campania e pornită, sau în previzualizare) ————— */}
       {arataFormular ? (
       <section id="preinscriere" ref={formRef} className="scroll-mt-4 bg-[#231f20] px-5 py-16 md:px-8 md:py-24">
@@ -499,7 +562,8 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
             </h2>
             <p className="mt-5 text-base leading-relaxed text-white/65">
               Cu răspunsurile voastre construim programul noii locații. Orele bifate sunt preferințe, nu un orar
-              publicat — te contactăm când grupele sunt stabilite.
+              publicat. În vacanța de toamnă, {PERIOADA_CONTACT}, te sunăm să stabilim împreună orarul și ședința demonstrativă
+              gratuită.
             </p>
             <ul className="mt-8 flex flex-col gap-4">
               {[
@@ -747,7 +811,19 @@ export default function ValeaLupuluiLanding({ stare }: { stare: StarePreinscrier
           </h2>
           <div className="mt-10 flex flex-col gap-3">
             {[
-              { q: "Când încep cursurile?", a: "Din noiembrie. Data exactă și orarul le anunțăm după ce stabilim grupele din preînscrieri — te contactăm noi." },
+              {
+                q: "Cât costă?",
+                a: (
+                  <>
+                    Orientativ, {PRETURI_ORIENTATIVE.map((p) => `${p.lei} lei / lună pentru ${p.detaliu}`).join(" și ")}.
+                    Prețul final îl confirmăm odată cu orarul, iar prima oră este gratuită.{" "}
+                    <a href={`#${PRETURI_ANCHOR}`} className="font-semibold text-[#231f20] underline">
+                      Vezi prețurile orientative
+                    </a>
+                  </>
+                ),
+              },
+              { q: "Când încep cursurile?", a: `Din noiembrie. Acum strângem preînscrierile, iar în vacanța de toamnă, ${PERIOADA_CONTACT}, sunăm fiecare familie ca să stabilim împreună orarul și ședința demonstrativă gratuită.` },
               { q: "Unde se țin?", a: `La Școala Verde, în Valea Lupului, în parteneriat cu ${SCOALA_PARTENERA}. Detaliile de acces le primești odată cu programul.` },
               { q: `Trebuie să fie copilul elev la ${SCOALA_PARTENERA}?`, a: "Nu. Cursurile sunt deschise tuturor copiilor din zonă." },
               { q: "Preînscrierea mă obligă la ceva?", a: "Nu. E doar o exprimare a interesului, ca să știm ce grupe să deschidem. Prima oră la sală este gratuită, iar după ea hotărâți dacă rămâneți." },

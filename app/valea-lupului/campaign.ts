@@ -67,6 +67,24 @@ export const ACTIVITATI = [
 ] as const;
 
 /**
+ * Prețuri ORIENTATIVE (Alex, 07.10.2026): orarul nu e stabilit, deci arătăm ambele frecvențe.
+ * Fixate aici, nu citite din /program-si-preturi: o schimbare de preț la studiourile existente
+ * nu se mută automat și pe locația nouă.
+ */
+export const PRETURI_ORIENTATIVE = [
+  { frecventa: "1× / săptămână", detaliu: "o ședință pe săptămână", lei: 180 },
+  { frecventa: "2× / săptămână", detaliu: "două ședințe pe săptămână", lei: 270 },
+] as const;
+
+export const PRETURI_ANCHOR = "preturi";
+
+/**
+ * Până atunci strângem preînscrieri (sondaj); în vacanța de toamnă sunăm familiile ca să stabilim
+ * orarul și ședințele demonstrative gratuite (Alex, 07.10.2026).
+ */
+export const PERIOADA_CONTACT = "26–30 octombrie";
+
+/**
  * Când ar putea veni: după școală în timpul săptămânii, dimineața în weekend (Alex, 30.09.2026).
  * Cheile (`Lu 13-15`, `Sa 10-12`…) trebuie să fie identice cu lista din QApp
  * (CHECK-ul din `preinscrieri_campanie` și `_shared/preinscriere.ts`).

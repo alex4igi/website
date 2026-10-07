@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, MessageCircle, Phone } from "lucide-react";
 
 import { GOOGLE_ADS_CONVERSION } from "@/lib/track";
-import { CAMPAIGN_ID, LEAD_FLAG_KEY, LP_PATH, PHONE_MAIN, PHONE_MAIN_TEL, SITE_URL } from "../campaign";
+import { CAMPAIGN_ID, LEAD_FLAG_KEY, LP_PATH, PERIOADA_CONTACT, PHONE_MAIN, PHONE_MAIN_TEL, SITE_URL } from "../campaign";
 
 const display = {
   fontFamily: 'var(--font-display, "Sora", ui-sans-serif, system-ui, sans-serif)',
@@ -92,15 +92,15 @@ export default function ThankYou() {
 
         <p className="mt-5 text-lg leading-relaxed text-white/70">
           {confirmed
-            ? "Am primit cererea pentru Valea Lupului. Te contactăm pentru detalii și îți comunicăm programul când este confirmat."
-            : "Dacă ai completat formularul, te contactăm când programul este confirmat. Dacă ai ajuns aici din greșeală, întoarce-te la pagina Valea Lupului."}
+            ? `Am primit cererea pentru Valea Lupului. În vacanța de toamnă, ${PERIOADA_CONTACT}, te sunăm să stabilim împreună orarul și ședința demonstrativă gratuită.`
+            : `Dacă ai completat formularul, te sunăm în vacanța de toamnă, ${PERIOADA_CONTACT}. Dacă ai ajuns aici din greșeală, întoarce-te la pagina Valea Lupului.`}
         </p>
 
         <ol className="mt-10 flex flex-col gap-4">
           {[
             { n: "01", text: "Adunăm preferințele familiilor și stabilim grupele și orarul noii locații." },
-            { n: "02", text: `Te sunăm de la ${PHONE_MAIN} ca să verificăm împreună că programul vi se potrivește.` },
-            { n: "03", text: "Vă invităm la prima oră, gratuit. Abia după ea hotărâți dacă rămâneți." },
+            { n: "02", text: `În vacanța de toamnă, ${PERIOADA_CONTACT}, te sunăm de la ${PHONE_MAIN} să stabilim împreună orarul și ședința demonstrativă gratuită.` },
+            { n: "03", text: "Copilul vine la ședința demonstrativă gratuită. Abia după ea hotărâți dacă rămâneți." },
           ].map((step) => (
             <li key={step.n} className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.04] px-5 py-4">
               <span className="text-sm font-black text-[#f8ef21]" style={display} aria-hidden="true">
